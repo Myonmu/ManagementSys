@@ -17,7 +17,7 @@ public class EnseignantDAO extends UserDAO{
 		ArrayList<Enseignant> result=new ArrayList<>();
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM Enseignant INNER JOIN userprofile ON profile_number=userprofile.id");
+			ps=con.prepareStatement("SELECT * FROM enseignant");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				result.add(new Enseignant(rs.getString("username"), rs.getString("password"),

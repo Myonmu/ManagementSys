@@ -10,6 +10,9 @@ public class ManagementMain {
 		testDAO.add(test);
 		Enseignant test1=new Enseignant("1111","1111","LOVECRAFT","H.P.","00000000");
 		testDAO.add(test1);
+		for(Enseignant i:testDAO.readAll()) {
+			i.printAll();
+		}
 
 	}
 
