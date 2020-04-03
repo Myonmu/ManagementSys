@@ -8,6 +8,8 @@ public class ManagementMain {
 		Enseignant test=new Enseignant("0000","0000","PATRIKOV","SIMON","00000000");
 		EnseignantDAO testDAO=new EnseignantDAO();
 		testDAO.add(test);
+		Enseignant test1=new Enseignant("1111","1111","LOVECRAFT","H.P.","00000000");
+		testDAO.add(test1);
 
 	}
 

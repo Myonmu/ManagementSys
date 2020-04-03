@@ -53,13 +53,12 @@ public class EnseignantDAO extends UserDAO{
 		int rVal = 0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO Enseignant (id,username, password, nom, prenom, tel) VALUES (?,?,?,?,?,?) ");
-			ps.setInt(1,1);
-			ps.setString(2,newEns.getUsername());
-			ps.setString(3, newEns.getPassword());
-			ps.setString(4, newEns.getNom());
-			ps.setString(5, newEns.getPrenom());
-			ps.setString(6, newEns.getTel());
+			ps=con.prepareStatement("INSERT INTO Enseignant (id,username, password, nom, prenom, tel) VALUES (enseignant_id.NEXTVAL,?,?,?,?,?) ");
+			ps.setString(1,newEns.getUsername());
+			ps.setString(2, newEns.getPassword());
+			ps.setString(3, newEns.getNom());
+			ps.setString(4, newEns.getPrenom());
+			ps.setString(5, newEns.getTel());
 			rVal=ps.executeUpdate();
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
