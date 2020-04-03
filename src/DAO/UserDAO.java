@@ -40,9 +40,31 @@ public class UserDAO extends ConnectDAO{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
 		}
 		}
 		return access;
 		
 	}
-}
+	/*public boolean usernameViolationCheck() {
+		Connection con=DriverManager.getConnection(URL, LOGIN, PASS);
+		
+	}
+	*/
+	}

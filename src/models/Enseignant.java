@@ -5,7 +5,7 @@ public class Enseignant extends User{
 	public String tel;
 	
 	
-	public Enseignant(String nom, String prenom, String tel, String username, String password) {
+	public Enseignant(String username, String password,String nom, String prenom, String tel) {
 		super(username, password,nom,prenom);
 		this.tel=tel;
 	}
