@@ -20,7 +20,7 @@ public class EnseignantDAO extends UserDAO{
 			ps=con.prepareStatement("SELECT * FROM enseignant");
 			rs=ps.executeQuery();
 			while(rs.next()) {
-				result.add(new Enseignant(rs.getString("username"), rs.getString("password"),
+				result.add(new Enseignant(rs.getInt("id"),rs.getString("username"), rs.getString("password"),
 						rs.getString("nom"),rs.getString("prenom"), rs.getString("tel")));
 			}
 			} catch (SQLException e) {
@@ -83,5 +83,75 @@ public class EnseignantDAO extends UserDAO{
 		}
 		return rVal;
 	}
+	public int modify(Enseignant target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int rVal=0;
+		try {
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			ps=con.prepareStatement("UPDATE enseignant SET nom=?, prenom=?, username=?,password=?, tel=? WHERE id=?");
+			ps.setString(1, target.getNom());
+			ps.setString(2, target.getPrenom());
+			ps.setString(3, target.getUsername());
+			ps.setString(4, target.getPassword());
+			ps.setString(5, target.getTel());
+			ps.setInt(6, target.getID());
+			rVal=ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+		}
+		return rVal;
+	}
 	
+	public int delete(Enseignant target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int rVal = 0;
+		try {
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+		    ps=con.prepareStatement("DELETE FROM enseignant WHERE id=?");
+		    ps.setInt(1, target.getID());
+		    rVal=ps.executeUpdate();
+		    
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+		}
+		return rVal;
+	}
 	}

@@ -1,7 +1,7 @@
 package models;
 
 public class Etudiant extends User{
-	public String email;
+	private String email;
 	
 	public Etudiant(String username, String password, String nom, String prenom,String email) {
 		super(username,password,nom,prenom);

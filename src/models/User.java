@@ -1,19 +1,20 @@
 package models;
 public class User {
+	protected int id;
 	protected String username;
 	protected String password;
 	protected String nom;
 	protected String prenom;
-	protected int access;
 	/**
 	 * Create an empty user.
 	 */
 	public User() {
+		this.id=0;
 		this.username="";
 		this.password="";
 		this.nom="";
 		this.prenom="";
-		this.access=0;
+
 	}
 	/**
 	 * Create a user by username and password
@@ -22,11 +23,19 @@ public class User {
 	 */
 	public User(String username, String password,String nom,String prenom)
 	{
+		this.id=0;
 		this.username=username;
 		this.password=password;
 		this.nom=nom;
 		this.prenom=prenom;
-		this.access=0;
+	}
+	public User(int ID,String username, String password,String nom,String prenom)
+	{
+		this.id=ID;
+		this.username=username;
+		this.password=password;
+		this.nom=nom;
+		this.prenom=prenom;
 	}
 	
 	/**
@@ -43,6 +52,12 @@ public class User {
 		this.password=randPassword;
 	}
 	
+	public int getID() {
+		return this.id;
+	}
+	public void setID(int ID) {
+		this.id=ID;
+	}
 	public String getUsername() {
 		return this.username;
 		}
@@ -75,7 +90,7 @@ public class User {
 	}
 	
 	public void printAll() {
-		System.out.println("NOM:"+this.nom+"  PRENOM:"+this.prenom);
+		System.out.println("ID="+this.id+"  NOM:"+this.nom+"  PRENOM:"+this.prenom);
 		System.out.println("USERNAME:"+this.username+"  PASSWORD:"+this.password);
 	}
 	}

@@ -2,11 +2,15 @@ package models;
 
 public class Enseignant extends User{
 
-	public String tel;
+	private String tel;
 	
 	
 	public Enseignant(String username, String password,String nom, String prenom, String tel) {
 		super(username, password,nom,prenom);
+		this.tel=tel;
+	}
+	public Enseignant(int ID,String username, String password,String nom, String prenom, String tel) {
+		super(ID,username, password,nom,prenom);
 		this.tel=tel;
 	}
 	
