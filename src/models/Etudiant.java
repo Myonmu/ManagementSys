@@ -7,6 +7,10 @@ public class Etudiant extends User{
 		super(username,password,nom,prenom);
 		this.email=email;
 	}
+	public Etudiant(int ID,String username, String password, String nom, String prenom,String email) {
+		super(ID,username,password,nom,prenom);
+		this.email=email;
+	}
 	public String getEmail() {
 		return this.email;
 	}

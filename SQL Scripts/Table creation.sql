@@ -4,7 +4,7 @@ DROP TABLE enseignant;
 --Creating ENSEIGNANT
 CREATE SEQUENCE enseignant_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE enseignant(
-id NUMBER(2), 
+id_ens NUMBER(2), 
 username VARCHAR2(16) UNIQUE,
 password VARCHAR2(16),
 nom VARCHAR2(30),
@@ -21,7 +21,7 @@ DROP TABLE etudiant;
 --Creating ETUDIANT
 CREATE SEQUENCE etudiant_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE etudiant(
-id NUMBER(2),
+id_etu NUMBER(2),
 username VARCHAR2(16) UNIQUE,
 password VARCHAR2(16),
 nom VARCHAR2(30),
@@ -38,7 +38,7 @@ DROP TABLE groupe;
 --Creating GROUPE
 CREATE SEQUENCE groupe_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE groupe(
-id NUMBER(2),
+id_gr NUMBER(2),
 num NUMBER(2) UNIQUE,
 cap NUMBER(2),
 CONSTRAINT pk_groupe PRIMARY KEY(id),

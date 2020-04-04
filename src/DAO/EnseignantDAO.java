@@ -20,7 +20,7 @@ public class EnseignantDAO extends UserDAO{
 			ps=con.prepareStatement("SELECT * FROM enseignant");
 			rs=ps.executeQuery();
 			while(rs.next()) {
-				result.add(new Enseignant(rs.getInt("id"),rs.getString("username"), rs.getString("password"),
+				result.add(new Enseignant(rs.getInt("id_ens"),rs.getString("username"), rs.getString("password"),
 						rs.getString("nom"),rs.getString("prenom"), rs.getString("tel")));
 			}
 			} catch (SQLException e) {
@@ -43,6 +43,14 @@ public class EnseignantDAO extends UserDAO{
 					e.printStackTrace();
 				}
 				}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		return result;
 		
@@ -53,7 +61,7 @@ public class EnseignantDAO extends UserDAO{
 		int rVal = 0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO Enseignant (id,username, password, nom, prenom, tel) VALUES (enseignant_id.NEXTVAL,?,?,?,?,?) ");
+			ps=con.prepareStatement("INSERT INTO Enseignant (id_ens,username, password, nom, prenom, tel) VALUES (enseignant_id.NEXTVAL,?,?,?,?,?) ");
 			ps.setString(1,newEns.getUsername());
 			ps.setString(2, newEns.getPassword());
 			ps.setString(3, newEns.getNom());
@@ -89,7 +97,7 @@ public class EnseignantDAO extends UserDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE enseignant SET nom=?, prenom=?, username=?,password=?, tel=? WHERE id=?");
+			ps=con.prepareStatement("UPDATE enseignant SET nom=?, prenom=?, username=?,password=?, tel=? WHERE id_ens=?");
 			ps.setString(1, target.getNom());
 			ps.setString(2, target.getPrenom());
 			ps.setString(3, target.getUsername());
@@ -127,7 +135,7 @@ public class EnseignantDAO extends UserDAO{
 		int rVal = 0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-		    ps=con.prepareStatement("DELETE FROM enseignant WHERE id=?");
+		    ps=con.prepareStatement("DELETE FROM enseignant WHERE id_ens=?");
 		    ps.setInt(1, target.getID());
 		    rVal=ps.executeUpdate();
 		    
