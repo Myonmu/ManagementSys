@@ -28,7 +28,7 @@ prenom VARCHAR2(30),
 email VARCHAR2(50),
 groupNum NUMBER(2),
 CONSTRAINT pk_etudiant PRIMARY KEY(id_etu)
-CONSTRAINT fk_etu_gr FOREIGN KEY (groupNum) REFERENCES groupe(id) ON DELETE SET NULL
+CONSTRAINT fk_etu_gr FOREIGN KEY (groupNum) REFERENCES groupe(id_gr) ON DELETE SET NULL
 );
 
 --Cleaning existing data(GROUPE)
