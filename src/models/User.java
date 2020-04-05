@@ -1,5 +1,5 @@
 package models;
-public class User {
+public abstract class User {
 	protected int id;
 	protected String username;
 	protected String password;

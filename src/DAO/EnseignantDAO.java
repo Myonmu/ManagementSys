@@ -15,6 +15,7 @@ public class EnseignantDAO extends UserDAO{
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		ArrayList<Enseignant> result=new ArrayList<>();
+		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT * FROM enseignant");
@@ -56,6 +57,7 @@ public class EnseignantDAO extends UserDAO{
 		
 	}
 	public int add(Enseignant newEns) {
+		if(!this.usernameViolationCheck(newEns)) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int rVal = 0;
@@ -90,6 +92,11 @@ public class EnseignantDAO extends UserDAO{
 				}
 		}
 		return rVal;
+		}
+		else {
+			System.out.println("Username violation detected");
+			return -1;
+		}
 	}
 	public int modify(Enseignant target) {
 		Connection con=null;

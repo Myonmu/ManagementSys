@@ -3,6 +3,8 @@ import java.sql.*;
 import models.User;
 
 public class UserDAO extends ConnectDAO{
+	public final String[] searchField= {"Manager","Enseignant","Etudiant"};
+	public final int maxAttempt=3;
 	public UserDAO() {
 		super();
 	}
@@ -21,8 +23,7 @@ public class UserDAO extends ConnectDAO{
 		ResultSet rs=null;
 		int access=0;
 		int attempt=0;
-		String[] searchField= {"Manager","Enseignant","Etudiant"};
-		while (attempt<3) {
+		while (attempt<maxAttempt) {
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
 			ps=con.prepareStatement("SELECT password FROM ? WHERE username = ?");	
@@ -31,7 +32,7 @@ public class UserDAO extends ConnectDAO{
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				access=rs.getString(1)==anonymous.getPassword()?attempt+1:0;
-				attempt=3;
+				attempt=maxAttempt;
 			}
 			else {
 				attempt++;
@@ -62,9 +63,58 @@ public class UserDAO extends ConnectDAO{
 		return access;
 		
 	}
-	/*public boolean usernameViolationCheck() {
-		Connection con=DriverManager.getConnection(URL, LOGIN, PASS);
+	public boolean usernameViolationCheck(User newUser) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		boolean rVal=false;
+		try {
+			String[] searchField= {"Manager","Enseignant","Etudiant"};
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			int searchIndex=0;
+			while(searchIndex<maxAttempt) {
+				ps=con.prepareStatement("SELECT username FROM ? WHERE username=?");
+				ps.setString(1, searchField[searchIndex]);
+				ps.setString(2, newUser.getUsername());
+				rs=ps.executeQuery();
+				if(rs.next()) {
+					rVal=true;
+					searchIndex=maxAttempt;
+				}
+				else {
+					searchIndex++;
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		
+		return rVal;
 	}
-	*/
 	}

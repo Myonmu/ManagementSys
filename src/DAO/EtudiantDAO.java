@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import models.Etudiant;
 import models.Groupe;
 
-public class EtudiantDAO extends ConnectDAO{
+public class EtudiantDAO extends UserDAO{
 	public EtudiantDAO() {
 		super();
 	}
@@ -61,6 +61,7 @@ public class EtudiantDAO extends ConnectDAO{
 		
 	}
 	public int add(Etudiant newEtu) {
+		if(!this.usernameViolationCheck(newEtu)) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int rVal = 0;
@@ -95,6 +96,11 @@ public class EtudiantDAO extends ConnectDAO{
 				}
 		}
 		return rVal;
+		}
+		else {
+			System.out.println("Username violation detected");
+			return -1;
+		}
 	}
 	public int modify(Etudiant target) {
 		Connection con=null;
