@@ -45,8 +45,8 @@ public class User {
 		String randUsername="";
 		String randPassword="";
 		for(int i=0;i<8;i++) {
-			randUsername=randUsername+Integer.toString((int) Math.pow(10, i)*(int)Math.random()*9);
-			randPassword=randPassword+String.valueOf('A'+(int)Math.random()*25);
+			randUsername=randUsername+Integer.toString((int)(Math.random()*9));
+			randPassword=randPassword+Character.toString((char)('A'+Math.random()*25));
 		}
 		this.username=randUsername;
 		this.password=randPassword;
