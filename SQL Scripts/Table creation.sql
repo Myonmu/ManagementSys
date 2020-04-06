@@ -27,7 +27,7 @@ nom VARCHAR2(30),
 prenom VARCHAR2(30),
 email VARCHAR2(50),
 groupNum NUMBER(2),
-CONSTRAINT pk_etudiant PRIMARY KEY(id_etu)
+CONSTRAINT pk_etudiant PRIMARY KEY(id_etu),
 CONSTRAINT fk_etu_gr FOREIGN KEY (groupNum) REFERENCES groupe(id_gr) ON DELETE SET NULL
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE groupe(
 id_gr NUMBER(2),
 num NUMBER(2) UNIQUE,
 cap NUMBER(2),
-CONSTRAINT pk_groupe PRIMARY KEY(id_gr),
+CONSTRAINT pk_groupe PRIMARY KEY(id_gr)
 );
 
 

@@ -3,8 +3,8 @@ import java.sql.*;
 import models.User;
 
 public class UserDAO extends ConnectDAO{
-	public final String[] searchField= {"Manager","Enseignant","Etudiant"};
-	public final int maxAttempt=3;
+	static final String[] SEARCHFIELD= {"gestionnaire","enseignant","etudiant"};
+	static final int maxAttempt=3;
 	public UserDAO() {
 		super();
 	}
@@ -26,20 +26,30 @@ public class UserDAO extends ConnectDAO{
 		while (attempt<maxAttempt) {
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("SELECT password FROM ? WHERE username = ?");	
-			ps.setString(1, searchField[attempt]);
-			ps.setString(2, anonymous.getUsername());
+			ps=con.prepareStatement("SELECT password FROM "+SEARCHFIELD[attempt]+" WHERE username = ?");	
+			ps.setString(1, anonymous.getUsername());
 			rs=ps.executeQuery();
 			if(rs.next()) {
-				access=rs.getString(1)==anonymous.getPassword()?attempt+1:0;
-				attempt=maxAttempt;
+				if(rs.getString(1).contentEquals(anonymous.getPassword()))
+				{
+					System.out.println("login successful");
+					access=attempt+1;
+					attempt=maxAttempt;
+				}
+				else{
+					access=0;
+					attempt=maxAttempt;
+					System.out.println("login unsuccessful");
+				}
 			}
 			else {
 				attempt++;
+				System.out.println(attempt +" "+ access + "next search");
 			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Pb spotted");
 			e.printStackTrace();
 		}finally {
 			if(con!=null) {
@@ -58,6 +68,14 @@ public class UserDAO extends ConnectDAO{
 					e.printStackTrace();
 				}
 				}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		}
 		return access;
@@ -69,13 +87,11 @@ public class UserDAO extends ConnectDAO{
 		ResultSet rs=null;
 		boolean rVal=false;
 		try {
-			String[] searchField= {"Manager","Enseignant","Etudiant"};
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
 			int searchIndex=0;
 			while(searchIndex<maxAttempt) {
-				ps=con.prepareStatement("SELECT username FROM ? WHERE username=?");
-				ps.setString(1, searchField[searchIndex]);
-				ps.setString(2, newUser.getUsername());
+				ps=con.prepareStatement("SELECT username FROM "+SEARCHFIELD[searchIndex]+" WHERE username = ?");
+				ps.setString(1, newUser.getUsername());
 				rs=ps.executeQuery();
 				if(rs.next()) {
 					rVal=true;
