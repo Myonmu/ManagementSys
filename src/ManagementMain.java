@@ -1,7 +1,9 @@
 import DAO.EnseignantDAO;
 import DAO.EtudiantDAO;
+import DAO.GroupeDAO;
 import models.Enseignant;
 import models.Etudiant;
+import models.Groupe;
 
 public class ManagementMain {
 
@@ -20,7 +22,8 @@ public class ManagementMain {
 		EtudiantDAO etuDAO=new EtudiantDAO();
 		etuDAO.add(etu1);
 		System.out.println(etuDAO.login(etu1));
-		
+		GroupeDAO grDAO=new GroupeDAO();
+		Groupe testGr=new Groupe(0, 0, 0);
 
 	}
 

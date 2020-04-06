@@ -99,7 +99,7 @@ public class EtudiantDAO extends UserDAO{
 		return rVal;
 		}
 		else {
-			System.out.println("Username violation detected");
+			System.out.println("Username violation detected, aborted.");
 			return -1;
 		}
 	}

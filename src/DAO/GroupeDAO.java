@@ -117,5 +117,140 @@ public class GroupeDAO extends ConnectDAO {
 		}
 		return list;
 	}
-	
+	public int add(Groupe newGr) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int rVal=0;
+		try {
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			ps=con.prepareStatement("INSERT INTO groupe (id_gr,num,cap) VALUES (id_groupe.NEXTVAL,?,?)");
+			ps.setInt(1, newGr.getNum());
+			ps.setInt(2, newGr.getCap());
+			rVal=ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return rVal;
+		
+	}
+	public int modify(Groupe target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int rVal=0;
+		try {
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			ps=con.prepareStatement("UPDATE groupe SET num=?, cap=? WHERE id_gr=?");
+			ps.setInt(1, target.getNum());
+			ps.setInt(2, target.getCap());
+			ps.setInt(3, target.getID());
+			rVal=ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return rVal;
+	}
+	public int delete(Groupe target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int rVal=0;
+		try {
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			ps=con.prepareStatement("DELETE FROM groupe WHERE id_gr=?");
+			ps.setInt(1, target.getID());
+			rVal=ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return rVal;
+	}
+    public int assign(Groupe target) {
+    	Connection con=null;
+		PreparedStatement ps=null;
+		int rVal=0;
+		for(int i=0;i<target.getListEtu().size();i++) {
+		try {
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			ps=con.prepareStatement("UPDATE etudiant SET groupNum=? WHERE id_etu=?");
+			ps.setInt(1, target.getID());
+			ps.setInt(2,target.getListEtu().get(i).getID());
+			rVal+=ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		}
+		return rVal;
+    }
+
 }
