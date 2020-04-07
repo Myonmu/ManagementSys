@@ -1,6 +1,6 @@
 
 package models;
-public abstract class User {
+public class User {
 	protected int id;
 	protected String username;
 	protected String password;
@@ -16,6 +16,13 @@ public abstract class User {
 		this.nom="";
 		this.prenom="";
 
+	}
+	public User(String username,String password) {
+		this.id=0;
+		this.nom="";
+		this.prenom="";
+		this.username=username;
+		this.password=password;
 	}
 	/**
 	 * Create a user by username and password

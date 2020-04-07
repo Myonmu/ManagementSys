@@ -1,54 +1,39 @@
 package DAO;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-import models.Etudiant;
-import models.Groupe;
+import models.Cours;
+import models.Enseignant;
 
-public class GroupeDAO extends ConnectDAO {
+public class CoursDAO extends ConnectDAO{
 
-	public GroupeDAO() {
+	public CoursDAO() {
 		super();
 	}
 	/**
-	 * This function reads info of a group, with all students listed.
-	 * @param num 
-	 * The group number
-	 * @return Group
-	 * A group object with list of students filled
+	 * Create a course without indicating who teaches it.
+	 * @param target
+	 * @return
 	 */
-	public Groupe readInfo(int num) {
-		Groupe target=new Groupe(0,0);
+	public int add(Cours target) {
 		Connection con=null;
 		PreparedStatement ps=null;
-		ResultSet rs=null;
+		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("SELECT * FROM groupe INNER JOIN etudiant ON etudiant.groupNum=groupe.num WHERE groupe.num=?");
-		    ps.setInt(1,num);
-		    rs=ps.executeQuery();
-		    rs.next();
-		    target.setID(rs.getInt("id_gr"));
-		    target.setCap(rs.getInt("cap"));
-		    target.setNum(rs.getInt("num"));
-		    rs.previous();
-		    while(rs.next()) {
-		    	target.addEtu(new Etudiant(rs.getInt("id_etu"),rs.getString("username"),rs.getString("password"),
-		    			rs.getString("nom"),rs.getString("prenom"),rs.getString("email")));
-		    }
-			
+			ps=con.prepareStatement("INSERT INTO cours (id_cours,nom_cours,masse) VALUES (id_cours.NEXTVAL,?,?)");
+			ps.setString(1, target.getNom());
+			ps.setInt(2, target.getMasse());
+			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			if(rs!=null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 			if(ps!=null) {
 				try {
 					ps.close();
@@ -66,25 +51,86 @@ public class GroupeDAO extends ConnectDAO {
 				}
 			}
 		}
-		return target;
+		return rVal;
 	}
-	/**
-	 * This function reads the list of groups
-	 * @return ListOfGroup
-	 * Group objects in this list have empty student lists.
-	 */
-	public ArrayList<Groupe> readGrList(){
-		ArrayList<Groupe> list=new ArrayList<>();
+	public int modify(Cours target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int rVal=0;
+		try {
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			ps=con.prepareStatement("UPDATE cours SET nom=?, masse=? WHERE id_cours=?");
+			ps.setString(1, target.getNom());
+			ps.setInt(2, target.getMasse());
+			ps.setInt(3, target.getID());
+			rVal=ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return rVal;
+	}
+	public int delete(Cours target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int rVal=0;
+		try {
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			ps=con.prepareStatement("DELETE FROM cours WHERE id_cours=?");
+			ps.setInt(1, target.getID());
+			rVal=ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return rVal;
+	}
+	public ArrayList<Cours> readAll(){
+		ArrayList<Cours> list=new ArrayList<>();
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM groupe");
+			ps=con.prepareStatement("SELECT * FROM cours");
 			rs=ps.executeQuery();
 			while(rs.next()) {
-				list.add(new Groupe(rs.getInt("id_gr"), rs.getInt("num"), rs.getInt("cap")));
+				list.add(new Cours(rs.getInt("id_cours"), rs.getString("nom_cours"), rs.getInt("masse")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -117,20 +163,34 @@ public class GroupeDAO extends ConnectDAO {
 		}
 		return list;
 	}
-	public int add(Groupe newGr) {
+	public Cours readInfo(String nom) {
 		Connection con=null;
 		PreparedStatement ps=null;
-		int rVal=0;
+		ResultSet rs=null;
+		Cours rCours=null;
 		try {
-			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO groupe (id_gr,num,cap) VALUES (id_groupe.NEXTVAL,?,?)");
-			ps.setInt(1, newGr.getNum());
-			ps.setInt(2, newGr.getCap());
-			rVal=ps.executeUpdate();
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM cours INNER JOIN enseignant ON ens_par=id_ens");
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				rCours.setID(rs.getInt("id_cours"));
+				rCours.setNom(rs.getString("nom_cours"));
+				rCours.setMasse(rs.getInt("masse"));
+				rCours.setEnsPar(new Enseignant(rs.getInt("id_ens"),rs.getString("username"), rs.getString("password"),
+						rs.getString("nom"),rs.getString("prenom"), rs.getString("tel")));
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			if(ps!=null) {
 				try {
 					ps.close();
@@ -148,86 +208,18 @@ public class GroupeDAO extends ConnectDAO {
 				}
 			}
 		}
-		return rVal;
-		
+		return rCours;
 	}
-	public int modify(Groupe target) {
-		Connection con=null;
-		PreparedStatement ps=null;
-		int rVal=0;
-		try {
-			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE groupe SET num=?, cap=? WHERE id_gr=?");
-			ps.setInt(1, target.getNum());
-			ps.setInt(2, target.getCap());
-			ps.setInt(3, target.getID());
-			rVal=ps.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			if(ps!=null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			if(con!=null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return rVal;
-	}
-	public int delete(Groupe target) {
-		Connection con=null;
-		PreparedStatement ps=null;
-		int rVal=0;
-		try {
-			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("DELETE FROM groupe WHERE id_gr=?");
-			ps.setInt(1, target.getID());
-			rVal=ps.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			if(ps!=null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			if(con!=null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return rVal;
-	}
-    public int assign(Groupe target) {
+    public int ensPar(Cours cr,Enseignant ens) {
     	Connection con=null;
 		PreparedStatement ps=null;
 		int rVal=0;
-		for(int i=0;i<target.getListEtu().size();i++) {
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE etudiant SET groupNum=? WHERE id_etu=?");
-			ps.setInt(1, target.getID());
-			ps.setInt(2,target.getListEtu().get(i).getID());
-			rVal+=ps.executeUpdate();
+			ps=con.prepareStatement("UPDATE cours SET ens_par=? WHERE id_cours=?");
+			ps.setInt(1, ens.getID());
+			ps.setInt(2, cr.getID());
+			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -249,8 +241,7 @@ public class GroupeDAO extends ConnectDAO {
 				}
 			}
 		}
-		}
 		return rVal;
     }
-
+	
 }

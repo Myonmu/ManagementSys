@@ -73,7 +73,6 @@ public class EnseignantDAO extends UserDAO{
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Issue spotted");
 		}finally {
 			if(con!=null) {
 				try {
@@ -95,7 +94,7 @@ public class EnseignantDAO extends UserDAO{
 		return rVal;
 		}
 		else {
-			System.out.println("Username violation detected");
+			System.out.println("Username violation detected, aborted.");
 			return -1;
 		}
 	}
