@@ -1,3 +1,4 @@
+
 package models;
 public abstract class User {
 	protected int id;
@@ -93,4 +94,5 @@ public abstract class User {
 		System.out.println("ID="+this.id+"  NOM:"+this.nom+"  PRENOM:"+this.prenom);
 		System.out.println("USERNAME:"+this.username+"  PASSWORD:"+this.password);
 	}
+	
 	}

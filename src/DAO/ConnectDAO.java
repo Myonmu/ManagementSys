@@ -6,6 +6,7 @@ public class ConnectDAO {
 	 final static String LOGIN="BDD1";
 	 final static String PASS="BDD1";
 	 
+	 
 	 public ConnectDAO() {
 		 try {
 			Class.forName("oracle.jdbc.OracleDriver");
