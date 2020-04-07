@@ -59,7 +59,6 @@ public class Gestionaire extends JFrame {
 				g.setVisible(true);	
 				dispose();
 			}
-			
 		});
 		btnCrerUnCours.setBounds(10, 62, 140, 23);
 		contentPane.add(btnCrerUnCours);
