@@ -45,9 +45,6 @@ public class Groupe  {
 			i.printAll();
 		}
 	}
-	public ArrayList<Etudiant> getListEtu(){
-		return this.listEtu;
-	}
 	public void addEtu(Etudiant etu) {
 		this.listEtu.add(etu);
 	}
