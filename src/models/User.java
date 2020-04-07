@@ -16,6 +16,13 @@ public class User {
 		this.prenom="";
 
 	}
+	public User(String username,String password) {
+		this.id=0;
+		this.nom="";
+		this.prenom="";
+		this.username=username;
+		this.password=password;
+	}
 	/**
 	 * Create a user by username and password
 	 * @param username
