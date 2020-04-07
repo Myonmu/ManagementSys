@@ -1,11 +1,11 @@
 package DAO;
 
-
 public class ConnectDAO {
 
 	 final static String URL= "jdbc:oracle:thin:@localhost:1521:xe";
 	 final static String LOGIN="BDD1";
 	 final static String PASS="BDD1";
+	 
 	 
 	 public ConnectDAO() {
 		 try {
@@ -15,4 +15,6 @@ public class ConnectDAO {
 			System.out.println("Driver not found");
 		}		   
 	 }
+	 
+	 
 }
