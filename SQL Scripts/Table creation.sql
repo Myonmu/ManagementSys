@@ -37,7 +37,7 @@ CONSTRAINT fk_etu_gr FOREIGN KEY (groupNum) REFERENCES groupe(id_gr) ON DELETE S
 CREATE SEQUENCE cours_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE cours(
 id_cours NUMBER(2),
-nom VARCHAR(20) UNIQUE,
+nom_cours VARCHAR(20) UNIQUE,
 masse NUMBER(2),
 ens_par NUMBER(2),
 CONSTRAINT pk_cours PRIMARY KEY (id_cours),
