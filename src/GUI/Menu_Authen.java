@@ -86,38 +86,37 @@ public class Menu_Authen {
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
-			//CrÈation d'un utilisateur standard avec les valeurs des textField 
-			User user = new User(textField.getText(), textField_1.getText());
 			
-			//Appel de la mÈthode DAO pour recuperer un User
-			UserDAO dao =new UserDAO();
-			
-			//RÈsultat de la requete; 
-			int access = dao.login(user);
 			
 			//Logique de connexion
 			public void actionPerformed(ActionEvent arg0) {
+			//CrÈñçtion d'un utilisateur standard avec les valeurs des textField 
+			User user = new User(textField.getText(), textField_1.getText());
 			
+			//Appel de la mÈñ†hode DAO pour recuperer un User
+			UserDAO dao =new UserDAO();
+			
+			//RÈñüultat de la requete; 
+			int access = dao.login(user);
 				switch (access)
 				{
 				case 1:
 					Gestionaire m = new Gestionaire();
-					m.show();
 					frmAuthentification.dispose();
-					JOptionPane.showMessageDialog(frmAuthentification, "Gestionnaire ConnectÈ!");
+					JOptionPane.showMessageDialog(frmAuthentification, "Gestionnaire ConnectÔøΩ!");
 					break;
 					 
 				case 2:
 					Menu_Enseignant o = new Menu_Enseignant();
 					frmAuthentification.dispose();
-					JOptionPane.showMessageDialog(frmAuthentification, "Enseignant ConnectÈ!");
+					JOptionPane.showMessageDialog(frmAuthentification, "Enseignant ConnectÔøΩ!");
 					break;
 					
 					
 				case 3: 
 					Menu_etudiant e = new Menu_etudiant();
 					frmAuthentification.dispose();
-					JOptionPane.showMessageDialog(frmAuthentification, "Etudiant ConnectÈ!");
+					JOptionPane.showMessageDialog(frmAuthentification, "Etudiant ConnectÔøΩ!");
 					break;
 				
 				default:
