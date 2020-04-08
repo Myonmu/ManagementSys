@@ -83,5 +83,7 @@ public class Menu_Enseignant {
 		JButton btnPlanning = new JButton("Planning");
 		btnPlanning.setBounds(277, 59, 89, 23);
 		frmMenuEnseignant.getContentPane().add(btnPlanning);
+		
+		frmMenuEnseignant.show();
 	}
 }
