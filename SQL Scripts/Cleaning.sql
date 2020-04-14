@@ -10,3 +10,6 @@ DROP TABLE etudiant;
 --Cleaning existing data(Cours)
 DROP SEQUENCE cours_id;
 DROP TABLE cours;
+--Cleaning existing data(Session)
+DROP SEQUENCE session_id;
+DROP TABLE session;

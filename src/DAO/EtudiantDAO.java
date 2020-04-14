@@ -14,7 +14,11 @@ public class EtudiantDAO extends UserDAO{
 	public EtudiantDAO() {
 		super();
 	}
-	
+	/**
+	 * Read all records in the Etudiant table. 
+	 * @return list
+	 * A list of Etudiant objects
+	 */
 	public ArrayList<Etudiant> readAll(){
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -60,6 +64,13 @@ public class EtudiantDAO extends UserDAO{
 		return result;
 		
 	}
+	/**
+	 * Adds a student in the Etudiant table
+	 * @param newEtu
+	 * the Etudiant object to be added
+	 * @return
+	 * Number of lines added. -1 means the process is aborted because of username violation.
+	 */
 	public int add(Etudiant newEtu) {
 		if(!this.usernameViolationCheck(newEtu)) {
 		Connection con=null;
@@ -103,6 +114,13 @@ public class EtudiantDAO extends UserDAO{
 			return -1;
 		}
 	}
+	/**
+	 * Modifies a student in the table.
+	 * @param target
+	 * The Etudiant object up-to-date
+	 * @return
+	 * Number of lines modified
+	 */
 	public int modify(Etudiant target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -140,7 +158,13 @@ public class EtudiantDAO extends UserDAO{
 		}
 		return rVal;
 	}
-	
+	/**
+	 * Deletes a student from the list
+	 * @param target
+	 * The student to be deleted
+	 * @return
+	 * Number of lines deleted
+	 */
 	public int delete(Etudiant target) {
 		Connection con=null;
 		PreparedStatement ps=null;

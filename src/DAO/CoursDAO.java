@@ -210,6 +210,15 @@ public class CoursDAO extends ConnectDAO{
 		}
 		return rCours;
 	}
+	/**
+	 * Indicates a course is taught by a teacher
+	 * @param cr
+	 * The target cours object, taught by ens
+	 * @param ens
+	 * The target enseignant object
+	 * @return
+	 * number of lines midified.
+	 */
     public int ensPar(Cours cr,Enseignant ens) {
     	Connection con=null;
 		PreparedStatement ps=null;

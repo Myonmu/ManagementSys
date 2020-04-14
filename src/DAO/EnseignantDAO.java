@@ -9,7 +9,11 @@ public class EnseignantDAO extends UserDAO{
 	public EnseignantDAO() {
 		super();
 	}
-	
+	/**
+	 * Reads all the Enseignant profiles in the table
+	 * @return list
+	 * A list of Enseignant object
+	 */
 	public ArrayList<Enseignant> readAll(){
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -56,6 +60,13 @@ public class EnseignantDAO extends UserDAO{
 		return result;
 		
 	}
+	/**
+	 * Adds a new Enseigant to the table
+	 * @param newEns
+	 * The Enseignant object to be added
+	 * @return
+	 * Number of lines added. -1 means the process is aborted because of username violation.
+	 */
 	public int add(Enseignant newEns) {
 		if(!this.usernameViolationCheck(newEns)) {
 		Connection con=null;
@@ -98,6 +109,13 @@ public class EnseignantDAO extends UserDAO{
 			return -1;
 		}
 	}
+	/**
+	 * Modifies a Enseignant
+	 * @param target
+	 * the enseignant up-to-date
+	 * @return
+	 * Number of lines modified
+	 */
 	public int modify(Enseignant target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -135,7 +153,13 @@ public class EnseignantDAO extends UserDAO{
 		}
 		return rVal;
 	}
-	
+	/**
+	 * Delete a Enseignant
+	 * @param target
+	 * the Enseignant to be deleted
+	 * @return
+	 * Number of lines deleted
+	 */
 	public int delete(Enseignant target) {
 		Connection con=null;
 		PreparedStatement ps=null;

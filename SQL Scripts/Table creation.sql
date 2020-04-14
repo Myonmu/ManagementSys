@@ -44,7 +44,14 @@ CONSTRAINT pk_cours PRIMARY KEY (id_cours),
 CONSTRAINT fk_cours_ens FOREIGN KEY (ens_par) REFERENCES enseignant(id_ens) ON DELETE SET NULL
 );
 
-
+--Creating SESSION
+CREATE SEQUENCE session_id START WITH 1 INCREMENT BY 1;
+CREATE TABLE SESSION(
+id_session NUMBER(2),
+num_session NUMBER(2) UNIQUE,
+date_debut DATE,
+CONSTRAINT pk_session PRIMARY KEY (id_session)
+);
 
 
 

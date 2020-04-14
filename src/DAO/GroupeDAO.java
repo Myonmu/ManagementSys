@@ -217,6 +217,13 @@ public class GroupeDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * Assign multiple students (a list of students) to a group. 
+	 * @param target
+	 * Target group object, with list of students filled with target students.
+	 * @return
+	 * Number of lines modified
+	 */
     public int assign(Groupe target) {
     	Connection con=null;
 		PreparedStatement ps=null;
