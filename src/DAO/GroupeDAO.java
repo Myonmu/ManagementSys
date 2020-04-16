@@ -1,11 +1,113 @@
 package DAO;
 import java.sql.*;
 import java.util.ArrayList;
+
+import models.Enseignant;
 import models.Groupe;
 public class GroupeDAO extends ConnectDAO {
 
 	public GroupeDAO() {
 		super();
+	}
+	/**
+	 * Search the groupe table by num
+	 * @param target   the num of the target groupe
+	 * @return a groupe object satisfying the condition
+	 */
+	public Groupe searchByNum(int target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Groupe result=null;
+		
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM groupe WHERE num=?");
+			ps.setInt(1, target);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				result=new Groupe(rs.getInt(1),rs.getInt(2),rs.getInt(3));
+			}
+			} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+	/**
+	 * Search the groupe table by ID
+	 * @param target
+	 * @return a groupe object with same ID as the parameter.
+	 */
+	public Groupe searchByID(int ID) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Groupe result=null;
+		
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM groupe WHERE id_gr=?");
+			ps.setInt(1, ID);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				result=new Groupe(rs.getInt(1),rs.getInt(2),rs.getInt(3));
+			}
+			} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
 	}
 	/**
 	 * This function reads info of a group, with all students listed.

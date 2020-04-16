@@ -3,6 +3,7 @@ import java.sql.*;
 import java.text.*;
 import java.util.ArrayList;
 
+import models.Cours;
 import models.Session;
 import oracle.sql.DATE;
 
@@ -10,6 +11,101 @@ public class SessionDAO  extends ConnectDAO{
 	public SessionDAO() {
 		super();
 	}
+	public Session searchByName(String target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Session rSession=null;
+		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM cours WHERE nom_cours=?");
+			ps.setString(1, target);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				rSession.setID(rs.getInt(1));
+				rSession.setNum(rs.getInt(2));
+				rSession.setDate(df.format(rs.getDate(3)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return rSession;
+	}
+	public Session searchByID(String target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Session rSession=null;
+		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM cours WHERE id_cours=?");
+			ps.setString(1, target);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				rSession.setID(rs.getInt(1));
+				rSession.setNum(rs.getInt(2));
+				rSession.setDate(df.format(rs.getDate(3)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return rSession;
+	}
+	
 	/**
 	 * Adds a session into the database.
 	 * @param target

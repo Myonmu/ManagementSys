@@ -16,6 +16,57 @@ public class EtudiantDAO extends UserDAO{
 		super();
 	}
 	/**
+	 * Search a specific etudiant knowing the ID
+	 * @param ID
+	 * @return the target etudiant object
+	 */
+	public Etudiant searchByID(int ID){
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Etudiant result=null;
+		
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM etudiant WHERE id_ens=?");
+			ps.setInt(1, ID);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				result=new Etudiant(rs.getInt(1),rs.getString("username"), rs.getString("password"),
+						rs.getString("nom"),rs.getString("prenom"), rs.getString(6),rs.getInt(7));
+			}
+			} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+	/**
 	 * Read all records in the Etudiant table. 
 	 * @return list
 	 * A list of Etudiant objects
@@ -31,7 +82,7 @@ public class EtudiantDAO extends UserDAO{
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				result.add(new Etudiant(rs.getInt("id_etu"),rs.getString("username"), rs.getString("password"),
-						rs.getString("nom"),rs.getString("prenom"), rs.getString("email")));
+						rs.getString("nom"),rs.getString("prenom"), rs.getString("email"),rs.getInt(7)));
 			}
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -65,6 +116,63 @@ public class EtudiantDAO extends UserDAO{
 		return result;
 		
 	}
+	/**
+	 * Search in the Etudiant table knowing which group they belong to
+	 * @param groupeID
+	 * @return List of etudiant objects fitting the criteria
+	 */
+	public ArrayList<Etudiant> searchByGroupe(int groupeID){
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		ArrayList<Etudiant> result=new ArrayList<>();
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM etudiant WHERE groupNum=?");
+			ps.setInt(1, groupeID);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				result.add(new Etudiant(rs.getInt("id_etu"),rs.getString("username"), rs.getString("password"),
+						rs.getString("nom"),rs.getString("prenom"), rs.getString("email"),rs.getInt(7)));
+			}
+			} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+		
+	}
+	/**
+	 * Search the etudiant table by name
+	 * @param nom
+	 * @param prenom
+	 * @return list of etudiant objects containning nom and prenom 
+	 */
 	public ArrayList<Etudiant> searchByName(String nom, String prenom){
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -73,7 +181,7 @@ public class EtudiantDAO extends UserDAO{
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM enseignant WHERE nom LIKE '%?%' AND prenom LIKE '%?%");
+			ps=con.prepareStatement("SELECT * FROM etudiant WHERE nom LIKE '%?%' AND prenom LIKE '%?%");
 			ps.setString(1, nom);
 			ps.setString(2, prenom);
 			rs=ps.executeQuery();

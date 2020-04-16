@@ -14,11 +14,11 @@ public class Cours {
 		this.ens_par=0;
 	}
 	
-	public Cours(int id,String nom,int masse) {
+	public Cours(int id,String nom,int masse,int ens_par) {
 		this.id=id;
 		this.nom=nom;
 		this.masse=masse;
-		this.ens_par=0;
+		this.ens_par=ens_par;
 	}
 	
 	public int getID() {

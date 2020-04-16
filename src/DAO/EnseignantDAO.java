@@ -61,6 +61,12 @@ public class EnseignantDAO extends UserDAO{
 		return result;
 		
 	}
+	/**
+	 * Allows to search the enseignant table by nom and prenom
+	 * @param nom
+	 * @param prenom
+	 * @return list of enseignant containing nom and prenom 
+	 */
 	public ArrayList<Enseignant> searchByName(String nom, String prenom){
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -76,6 +82,57 @@ public class EnseignantDAO extends UserDAO{
 			while(rs.next()) {
 				result.add(new Enseignant(rs.getInt(1),rs.getString("username"), rs.getString("password"),
 						rs.getString("nom"),rs.getString("prenom"), rs.getString(6)));
+			}
+			} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+	/**
+	 * Search a specific enseignant knowing the ID
+	 * @param ID
+	 * @return the target enseignant object 
+	 */
+	public Enseignant searchByID(int ID){
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Enseignant result=null;
+		
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM enseignant WHERE id_ens=?");
+			ps.setInt(1, ID);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				result=new Enseignant(rs.getInt(1),rs.getString("username"), rs.getString("password"),
+						rs.getString("nom"),rs.getString("prenom"), rs.getString(6));
 			}
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
