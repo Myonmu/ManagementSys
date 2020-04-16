@@ -1,10 +1,14 @@
 package DAO;
 import java.sql.*;
+import java.util.ArrayList;
+
+import models.Enseignant;
 import models.User;
 
 public class UserDAO extends ConnectDAO{
 	static final String[] SEARCHFIELD= {"gestionnaire","enseignant","etudiant"};
 	static final int maxAttempt=3;
+	static String tableName="";
 	public UserDAO() {
 		super();
 	}
@@ -133,4 +137,7 @@ public class UserDAO extends ConnectDAO{
 		
 		return rVal;
 	}
+	
+	
+		
 	}

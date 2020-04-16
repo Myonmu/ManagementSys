@@ -1,10 +1,7 @@
 package DAO;
 import java.sql.*;
 import java.util.ArrayList;
-
-import models.Etudiant;
 import models.Groupe;
-
 public class GroupeDAO extends ConnectDAO {
 
 	public GroupeDAO() {
@@ -31,12 +28,6 @@ public class GroupeDAO extends ConnectDAO {
 		    target.setID(rs.getInt("id_gr"));
 		    target.setCap(rs.getInt("cap"));
 		    target.setNum(rs.getInt("num"));
-		    rs.previous();
-		    while(rs.next()) {
-		    	target.addEtu(new Etudiant(rs.getInt("id_etu"),rs.getString("username"),rs.getString("password"),
-		    			rs.getString("nom"),rs.getString("prenom"),rs.getString("email")));
-		    }
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,47 +208,6 @@ public class GroupeDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
-	/**
-	 * Assign multiple students (a list of students) to a group. 
-	 * @param target
-	 * Target group object, with list of students filled with target students.
-	 * @return
-	 * Number of lines modified
-	 */
-    public int assign(Groupe target) {
-    	Connection con=null;
-		PreparedStatement ps=null;
-		int rVal=0;
-		for(int i=0;i<target.getListEtu().size();i++) {
-		try {
-			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE etudiant SET groupNum=? WHERE id_etu=?");
-			ps.setInt(1, target.getID());
-			ps.setInt(2,target.getListEtu().get(i).getID());
-			rVal+=ps.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			if(ps!=null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			if(con!=null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		}
-		return rVal;
-    }
+	
 
 }

@@ -2,12 +2,12 @@ package models;
 
 public class Planning {
 	private int id;
-	private Session sess;
-	private Cours mat;
+	private int sess;
+	private int mat;
 	private int dow;
 	private String time;
 	private String type;
-	private Groupe gr;
-	private Enseignant ens;
+	private int gr;
+	private int ens;
 	
 }

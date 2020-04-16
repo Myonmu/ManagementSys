@@ -170,14 +170,13 @@ public class CoursDAO extends ConnectDAO{
 		Cours rCours=null;
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM cours INNER JOIN enseignant ON ens_par=id_ens");
+			ps=con.prepareStatement("SELECT * FROM cours");
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				rCours.setID(rs.getInt("id_cours"));
 				rCours.setNom(rs.getString("nom_cours"));
 				rCours.setMasse(rs.getInt("masse"));
-				rCours.setEnsPar(new Enseignant(rs.getInt("id_ens"),rs.getString("username"), rs.getString("password"),
-						rs.getString("nom"),rs.getString("prenom"), rs.getString("tel")));
+				rCours.setEnsPar(rs.getInt("ens_par"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

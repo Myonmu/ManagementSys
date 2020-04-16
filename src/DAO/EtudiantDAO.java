@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import models.Enseignant;
 import models.Etudiant;
 import models.Groupe;
 
@@ -63,6 +64,53 @@ public class EtudiantDAO extends UserDAO{
 		}
 		return result;
 		
+	}
+	public ArrayList<Etudiant> searchByName(String nom, String prenom){
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		ArrayList<Etudiant> result=new ArrayList<>();
+		
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM enseignant WHERE nom LIKE '%?%' AND prenom LIKE '%?%");
+			ps.setString(1, nom);
+			ps.setString(2, prenom);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				result.add(new Etudiant(rs.getInt(1),rs.getString("username"), rs.getString("password"),
+						rs.getString("nom"),rs.getString("prenom"), rs.getString(6),rs.getInt(7)));
+			}
+			} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
 	}
 	/**
 	 * Adds a student in the Etudiant table

@@ -5,20 +5,20 @@ public class Cours {
 	private int id;
 	private String nom;
 	private int masse;
-	private Enseignant ens_par;
+	private int ens_par;
 	
 	public Cours(String nom, int masse) {
 		this.id=0;
 		this.masse=masse;
 		this.nom=nom;
-		this.ens_par=null;
+		this.ens_par=0;
 	}
 	
 	public Cours(int id,String nom,int masse) {
 		this.id=id;
 		this.nom=nom;
 		this.masse=masse;
-		this.ens_par=null;
+		this.ens_par=0;
 	}
 	
 	public int getID() {
@@ -45,10 +45,10 @@ public class Cours {
 		this.nom=newNom;
 	}
 	
-	public Enseignant getEnsPar() {
+	public int getEnsPar() {
 		return this.ens_par;
 	}
-	public void setEnsPar(Enseignant newEns) {
+	public void setEnsPar(int newEns) {
 		this.ens_par=newEns;
 	}
 }
