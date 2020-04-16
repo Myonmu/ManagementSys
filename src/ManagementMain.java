@@ -18,7 +18,7 @@ public class ManagementMain {
 		testDAO.modify(test);
 		test.printAll();
 		testDAO.delete(test1);
-		Etudiant etu1=new Etudiant(1,"123456","0000","WEST","HERBERT","HW@MU.EDU");
+		Etudiant etu1=new Etudiant(1,"123456","0000","WEST","HERBERT","HW@MU.EDU",0);
 		EtudiantDAO etuDAO=new EtudiantDAO();
 		etuDAO.add(etu1);
 		System.out.println(etuDAO.login(etu1));
