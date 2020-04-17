@@ -25,7 +25,7 @@ public class CoursDAO extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO cours (id_cours,nom_cours,masse) VALUES (id_cours.NEXTVAL,?,?)");
+			ps=con.prepareStatement("INSERT INTO cours (id_cours,nom_cours,masse) VALUES (cours_id.NEXTVAL,?,?)");
 			ps.setString(1, target.getNom());
 			ps.setInt(2, target.getMasse());
 			rVal=ps.executeUpdate();
@@ -259,7 +259,7 @@ public class CoursDAO extends ConnectDAO{
 		}
 		return rCours;
 	}
-	public Cours searchByID(String target) {
+	public Cours searchByID(int target) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
@@ -267,7 +267,7 @@ public class CoursDAO extends ConnectDAO{
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT * FROM cours WHERE id_cours=?");
-			ps.setString(1, target);
+			ps.setInt(1, target);
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				rCours.setID(rs.getInt("id_cours"));

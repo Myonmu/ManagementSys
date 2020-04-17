@@ -53,6 +53,24 @@ date_debut DATE,
 CONSTRAINT pk_session PRIMARY KEY (id_session)
 );
 
+--Creating PLANNING
+CREATE SEQUENCE planning_id START WITH 1 INCREMENT BY 1;
+CREATE TABLE planning(
+id_planning NUMBER(3),
+sess NUMBER(2),
+mat NUMBER(2),
+dow NUMBER(1),
+horaire VARCHAR2(10),
+type_cr VARCHAR2(10),
+duree NUMBER(1),
+gr NUMBER(2),
+ens NUMBER(2),
+CONSTRAINT pk_planning PRIMARY KEY(id_planning),
+CONSTRAINT fk_pl_sess FOREIGN KEY(sess) REFERENCES session(id_session) ON DELETE CASCADE,
+CONSTRAINT fk_pl_cr FOREIGN KEY(mat) REFERENCES cours(id_cours) ON DELETE CASCADE,
+CONSTRAINT fk_pl_gr FOREIGN KEY(gr) REFERENCES groupe(id_gr) ON DELETE SET NULL,
+CONSTRAINT fk_pl_ens FOREIGN KEY(ens) REFERENCES enseignant(id_ens) ON DELETE SET NULL
+);
 
 
 
