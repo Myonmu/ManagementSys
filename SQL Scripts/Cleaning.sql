@@ -16,3 +16,6 @@ DROP TABLE session;
 --Cleaning existing data(Planning)
 DROP SEQUENCE planning_id;
 DROP TABLE planning;
+--Cleaning existing data(Type)
+DROP SEQUENCE typeAbs_id;
+DROP TABLE typeAbs;

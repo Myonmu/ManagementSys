@@ -71,6 +71,12 @@ CONSTRAINT fk_pl_cr FOREIGN KEY(mat) REFERENCES cours(id_cours) ON DELETE CASCAD
 CONSTRAINT fk_pl_gr FOREIGN KEY(gr) REFERENCES groupe(id_gr) ON DELETE SET NULL,
 CONSTRAINT fk_pl_ens FOREIGN KEY(ens) REFERENCES enseignant(id_ens) ON DELETE SET NULL
 );
-
+--Creating typeAbs
+CREATE SEQUENCE type_id START WITH 1 INCREMENT BY 1;
+CREATE TABLE typeAbs(
+id_type NUMBER(2),
+nom VARCHAR2(25),
+CONSTRAINT pk_type PRIMARY KEY (id_type)
+);
 
 
