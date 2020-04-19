@@ -216,7 +216,7 @@ public class CoursDAO extends ConnectDAO{
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		Cours rCours=null;
+		Cours rCours=new Cours(0, target, 0, 0);
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT * FROM cours WHERE nom_cours=?");
@@ -263,7 +263,7 @@ public class CoursDAO extends ConnectDAO{
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		Cours rCours=null;
+		Cours rCours=new Cours(target, null, target, target);
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT * FROM cours WHERE id_cours=?");

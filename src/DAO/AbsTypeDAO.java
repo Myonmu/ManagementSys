@@ -7,29 +7,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import models.AbsenceType;
 
-import models.Planning;
 
-public class PlanningDAO extends ConnectDAO {
-	public PlanningDAO(){
+public class AbsTypeDAO extends ConnectDAO{
+	public AbsTypeDAO() {
 		super();
 	}
-	public int add(Planning target) {
+	
+	public int add(AbsenceType target) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO planning (id_planning,sess,mat,dow,horaire,type_cr,duree,gr,ens) "
-					+ "VALUES (planning_id.NEXTVAL,?,?,?,?,?,?,?,?)");
-			ps.setInt(1, target.getSess());
-			ps.setInt(2, target.getMat());
-			ps.setInt(3, target.getDow());
-			ps.setString(4, target.getHoraire());
-			ps.setString(5, target.getType());
-			ps.setInt(6, target.getDuree());
-			ps.setInt(7, target.getGr());
-			ps.setInt(8, target.getEns());
+			ps=con.prepareStatement("INSERT INTO typeAbs (id_type,nom) "
+					+ "VALUES (type_id.NEXTVAL,?)");
+			ps.setString(1, target.getNom());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -54,22 +48,15 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
-	public int modify(Planning target) {
+	public int modify(AbsenceType target) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE planning SET sess=?,mat=?,dow=?,horaire=?,type_cr=?,duree=?,gr=?,ens=? WHERE id_planning=?");
-			ps.setInt(1, target.getSess());
-			ps.setInt(2, target.getMat());
-			ps.setInt(3, target.getDow());
-			ps.setString(4, target.getHoraire());
-			ps.setString(5, target.getType());
-			ps.setInt(6, target.getDuree());
-			ps.setInt(7, target.getGr());
-			ps.setInt(8, target.getEns());
-			ps.setInt(9, target.getID());
+			ps=con.prepareStatement("UPDATE typeAbs SET nom=? WHERE id_type=?");
+			ps.setString(1, target.getNom());
+			ps.setInt(2, target.getID());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -94,13 +81,13 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
-	public int delete(Planning target) {
+	public int delete(AbsenceType target) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("DELETE FROM planning WHERE id_planning=?");
+			ps=con.prepareStatement("DELETE FROM typeAbs WHERE id_type=?");
 			ps.setInt(1, target.getID());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
@@ -127,19 +114,18 @@ public class PlanningDAO extends ConnectDAO {
 		return rVal;
 	}
 	
-	public ArrayList<Planning> readAll(){
-		ArrayList<Planning> list=new ArrayList<>();
+	public ArrayList<AbsenceType> readAll(){
+		ArrayList<AbsenceType> list=new ArrayList<>();
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM planning");
+			ps=con.prepareStatement("SELECT * FROM typeAbs");
 			rs=ps.executeQuery();
 			while(rs.next()) {
-				list.add(new Planning(rs.getInt(1),rs.getInt(2), rs.getInt(3), rs.getInt(4),
-						rs.getString(5), rs.getString(6), rs.getInt(7),rs.getInt(8), rs.getInt(9)));
+				list.add(new AbsenceType(rs.getInt(1),rs.getString(2)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -172,26 +158,19 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return list;
 	}
-	public Planning searchByID(int target) {
+	public AbsenceType searchByID(int target) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		Planning rPlanning=new Planning(target, target, target, target, null, null, target, target, target);
+		AbsenceType rType=new AbsenceType(null);
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM cours WHERE id_cours=?");
+			ps=con.prepareStatement("SELECT * FROM typeAbs WHERE id_type=?");
 			ps.setInt(1, target);
 			rs=ps.executeQuery();
 			if(rs.next()) {
-				rPlanning.setID(rs.getInt(1));
-				rPlanning.setSess(rs.getInt(2));
-				rPlanning.setMat(rs.getInt(3));
-				rPlanning.setDow(rs.getInt(4));
-				rPlanning.setHoraire(rs.getString(5));
-				rPlanning.setType(rs.getString(6));
-				rPlanning.setDuree(rs.getInt(7));
-				rPlanning.setGr(rs.getInt(8));
-				rPlanning.setEns(rs.getInt(9));
+				rType.setID(rs.getInt(1));
+				rType.setNom(rs.getString(2));
 
 			}
 		} catch (SQLException e) {
@@ -223,6 +202,7 @@ public class PlanningDAO extends ConnectDAO {
 				}
 			}
 		}
-		return rPlanning;
+		return rType;
 	}
+
 }

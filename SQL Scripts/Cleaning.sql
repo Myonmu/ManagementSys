@@ -19,3 +19,4 @@ DROP TABLE planning;
 --Cleaning existing data(Type)
 DROP SEQUENCE typeAbs_id;
 DROP TABLE typeAbs;
+--Cleanning

@@ -3,9 +3,9 @@ import java.sql.*;
 import java.text.*;
 import java.util.ArrayList;
 
-import models.Cours;
+
 import models.Session;
-import oracle.sql.DATE;
+
 
 public class SessionDAO  extends ConnectDAO{
 	public SessionDAO() {
@@ -15,7 +15,7 @@ public class SessionDAO  extends ConnectDAO{
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		Session rSession=null;
+		Session rSession=new Session(0, 0, target);
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
@@ -62,7 +62,7 @@ public class SessionDAO  extends ConnectDAO{
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		Session rSession=null;
+		Session rSession=new Session(0, 0, target);
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);

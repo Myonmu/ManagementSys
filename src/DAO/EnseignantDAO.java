@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import models.Enseignant;
-import models.User;
+
 
 public class EnseignantDAO extends UserDAO{
 

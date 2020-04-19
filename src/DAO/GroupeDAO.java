@@ -2,7 +2,7 @@ package DAO;
 import java.sql.*;
 import java.util.ArrayList;
 
-import models.Enseignant;
+
 import models.Groupe;
 public class GroupeDAO extends ConnectDAO {
 
