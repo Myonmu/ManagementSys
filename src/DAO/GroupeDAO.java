@@ -216,7 +216,7 @@ public class GroupeDAO extends ConnectDAO {
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO groupe (id_gr,num,cap) VALUES (id_groupe.NEXTVAL,?,?)");
+			ps=con.prepareStatement("INSERT INTO groupe (id_gr,num,cap) VALUES (groupe_id.NEXTVAL,?,?)");
 			ps.setInt(1, newGr.getNum());
 			ps.setInt(2, newGr.getCap());
 			rVal=ps.executeUpdate();

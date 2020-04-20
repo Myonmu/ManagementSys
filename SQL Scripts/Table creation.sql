@@ -37,7 +37,7 @@ CONSTRAINT fk_etu_gr FOREIGN KEY (groupNum) REFERENCES groupe(id_gr) ON DELETE S
 CREATE SEQUENCE cours_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE cours(
 id_cours NUMBER(2),
-nom_cours VARCHAR(20) UNIQUE,
+nom_cours VARCHAR2(20) UNIQUE,
 masse NUMBER(2),
 ens_par NUMBER(2),
 CONSTRAINT pk_cours PRIMARY KEY (id_cours),
@@ -46,7 +46,7 @@ CONSTRAINT fk_cours_ens FOREIGN KEY (ens_par) REFERENCES enseignant(id_ens) ON D
 
 --Creating SESSION
 CREATE SEQUENCE session_id START WITH 1 INCREMENT BY 1;
-CREATE TABLE SESSION(
+CREATE TABLE session(
 id_session NUMBER(2),
 num_session NUMBER(2) UNIQUE,
 date_debut DATE,
@@ -66,7 +66,7 @@ duree NUMBER(1),
 gr NUMBER(2),
 ens NUMBER(2),
 CONSTRAINT pk_planning PRIMARY KEY(id_planning),
-CONSTRAINT fk_pl_sess FOREIGN KEY(sess) REFERENCES session(id_session) ON DELETE CASCADE,
+CONSTRAINT fk_pl_sess FOREIGN KEY(sess) REFERENCES sess(id_session) ON DELETE CASCADE,
 CONSTRAINT fk_pl_cr FOREIGN KEY(mat) REFERENCES cours(id_cours) ON DELETE CASCADE,
 CONSTRAINT fk_pl_gr FOREIGN KEY(gr) REFERENCES groupe(id_gr) ON DELETE SET NULL,
 CONSTRAINT fk_pl_ens FOREIGN KEY(ens) REFERENCES enseignant(id_ens) ON DELETE SET NULL
@@ -75,14 +75,14 @@ CONSTRAINT fk_pl_ens FOREIGN KEY(ens) REFERENCES enseignant(id_ens) ON DELETE SE
 CREATE SEQUENCE type_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE typeAbs(
 id_type NUMBER(2),
-nom VARCHAR2(25),
+nom VARCHAR2(25) UNIQUE,
 CONSTRAINT pk_type PRIMARY KEY (id_type)
 );
 --Creating Justificatif
 CREATE SEQUENCE just_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE justificatif(
 id_just NUMBER(4),
-trj VARCHAR(50),
+trj VARCHAR2(50) ,
 CONSTRAINT pk_just PRIMARY KEY(id_just)
 );
 --Creating Absence
@@ -94,7 +94,7 @@ week NUMBER(2),
 etu NUMBER(4),
 etat NUMBER(2),
 just NUMBER(4),
-comment VARCHAR(50)
+commentaire VARCHAR2(50),
 CONSTRAINT pk_abs PRIMARY KEY (id_abs),
 CONSTRAINT fk_abs_plan FOREIGN KEY (plan) REFERENCES planning(id_planning),
 CONSTRAINT fk_abs_etu FOREIGN KEY (etu) REFERENCES etudiant(id_etu),

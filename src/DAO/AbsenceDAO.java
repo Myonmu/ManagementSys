@@ -23,7 +23,7 @@ public class AbsenceDAO extends ConnectDAO {
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
 			ps=con.prepareStatement("INSERT INTO absence "
-					+ "(id_abs,plan,week,etu,etat,just,comment) VALUES "
+					+ "(id_abs,plan,week,etu,etat,just,commentaire) VALUES "
 					+ "(abs_id.NEXTVAL,?,?,?,?,?,?)");
 			ps.setInt(1, target.getPlan());
 			ps.setInt(2,target.getWeek());
@@ -61,7 +61,7 @@ public class AbsenceDAO extends ConnectDAO {
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,just=?,comment=? WHERE id_abs=?)");
+			ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,just=?,commentaire=? WHERE id_abs=?)");
 			ps.setInt(1, target.getPlan());
 			ps.setInt(2,target.getWeek());
 			ps.setInt(3, target.getEtu());
@@ -232,7 +232,7 @@ public class AbsenceDAO extends ConnectDAO {
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT date_debut,week FROM absence INNER JOIN planning ON plan=id_planning"
-					+ "INNER JOIN session ON id_session=sess WHERE id_abs=?");
+					+ "INNER JOIN sess ON id_session=sess WHERE id_abs=?");
 			ps.setInt(1, id);
 			rs=ps.executeQuery();
 			if(rs.next()) {

@@ -11,7 +11,7 @@ public class SessionDAO  extends ConnectDAO{
 	public SessionDAO() {
 		super();
 	}
-	public Session searchByName(String target) {
+	public Session searchByNum(String target) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
@@ -19,7 +19,7 @@ public class SessionDAO  extends ConnectDAO{
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM cours WHERE nom_cours=?");
+			ps=con.prepareStatement("SELECT * FROM sess WHERE num_session=?");
 			ps.setString(1, target);
 			rs=ps.executeQuery();
 			if(rs.next()) {
@@ -66,7 +66,7 @@ public class SessionDAO  extends ConnectDAO{
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM cours WHERE id_cours=?");
+			ps=con.prepareStatement("SELECT * FROM sess WHERE id_session=?");
 			ps.setString(1, target);
 			rs=ps.executeQuery();
 			if(rs.next()) {
@@ -119,7 +119,7 @@ public class SessionDAO  extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("INSERT INTO session (id_session,num_session,date_debut) VALUES (session_id.NEXTVAL,?,TODATE(?,'DD/MM/YYYY')");
+			ps=con.prepareStatement("INSERT INTO sess (id_session,num_session,date_debut) VALUES (session_id.NEXTVAL,?,TODATE(?,'DD/MM/YYYY')");
 			ps.setInt(1, target.getNum());
 			ps.setString(2, target.getDate());
 			rVal=ps.executeUpdate();
@@ -159,7 +159,7 @@ public class SessionDAO  extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("UPDATE session SET num_session=?,date_debut=TODATE(?,'DD/MM/YYYY') WHERE id_session=?");
+			ps=con.prepareStatement("UPDATE sess SET num_session=?,date_debut=TODATE(?,'DD/MM/YYYY') WHERE id_session=?");
 			ps.setInt(1, target.getNum());
 			ps.setString(2, target.getDate());
 			ps.setInt(3,target.getID());
@@ -200,7 +200,7 @@ public class SessionDAO  extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("DELETE FROM session WHERE id_session=?");
+			ps=con.prepareStatement("DELETE FROM sess WHERE id_session=?");
 			ps.setInt(1,target.getID());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
@@ -239,7 +239,7 @@ public class SessionDAO  extends ConnectDAO{
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM session");
+			ps=con.prepareStatement("SELECT * FROM sess");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Session(rs.getInt(1), rs.getInt(2),df.format(rs.getDate(3))));
