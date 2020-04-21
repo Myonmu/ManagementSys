@@ -2,9 +2,11 @@ package DAO;
 import java.sql.*;
 
 import models.User;
+import models.userID;
 
 public class UserDAO extends ConnectDAO{
-	static final String[] SEARCHFIELD= {"gestionnaire","enseignant","etudiant"};
+	static final String[] SEARCHFIELD= {"enseignant","etudiant","gestionnaire"};
+	static final String[] IDFIELD= {"id_ens","id_etu","id_gest"};
 	static final int maxAttempt=3;
 	static String tableName="";
 	public UserDAO() {
@@ -28,7 +30,7 @@ public class UserDAO extends ConnectDAO{
 		while (attempt<maxAttempt) {
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("SELECT password FROM "+SEARCHFIELD[attempt]+" WHERE username = ?");	
+			ps=con.prepareStatement("SELECT password,"+IDFIELD[attempt]+" FROM "+SEARCHFIELD[attempt]+" WHERE username = ?");	
 			ps.setString(1, anonymous.getUsername());
 			rs=ps.executeQuery();
 			if(rs.next()) {
@@ -37,6 +39,7 @@ public class UserDAO extends ConnectDAO{
 					System.out.println("login successful");
 					access=attempt+1;
 					attempt=maxAttempt;
+					userID.setUserID(rs.getInt(2));
 				}
 				else{
 					access=0;

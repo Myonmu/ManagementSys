@@ -32,6 +32,7 @@ public class ManagementMain {
 		PlanningDAO plDAO = new PlanningDAO();
 		Planning pl=new Planning(1, 1, 1, 1, "8:30", "AMPHI", 2, 1, 1);
 		plDAO.add(pl);
+		System.out.println(userID.ID);
 
 	}
 
