@@ -59,6 +59,7 @@ public class JustificatifDAO extends ConnectDAO{
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Just Mod issue");
 			e.printStackTrace();
 		}finally {
 			if(ps!=null) {
@@ -174,6 +175,52 @@ public class JustificatifDAO extends ConnectDAO{
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return rJust;
+	}
+	public Justificatif searchByTrj(String trj){
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Justificatif rJust= new Justificatif(null);
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT * FROM justificatif WHERE trj=?");
+			ps.setString(1, trj);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				rJust.setID(rs.getInt("id_just"));
+				rJust.setTrj(rs.getString("trj"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Just Search trj issue");
 			e.printStackTrace();
 		}finally {
 			if(rs!=null) {

@@ -82,7 +82,7 @@ CONSTRAINT pk_type PRIMARY KEY (id_type)
 CREATE SEQUENCE just_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE justificatif(
 id_just NUMBER(4),
-trj VARCHAR2(50) ,
+trj VARCHAR2(50) UNIQUE,
 CONSTRAINT pk_just PRIMARY KEY(id_just)
 );
 --Creating Absence
