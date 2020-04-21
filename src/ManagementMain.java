@@ -22,7 +22,16 @@ public class ManagementMain {
 		AbsenceType type1=new AbsenceType(1, "Pending...");
 		AbsTypeDAO typeDAO=new AbsTypeDAO();
 		typeDAO.add(type1);
-		
+		SessionDAO sessDAO=new SessionDAO();
+		Session s1=new Session(1, 1, "01/01/2020");
+		sessDAO.add(s1);
+		CoursDAO crDAO=new CoursDAO();
+		Cours c1= new Cours(1, "Astroastrologie", 50, 1);
+		crDAO.add(c1);
+		crDAO.ensPar(c1, test);
+		PlanningDAO plDAO = new PlanningDAO();
+		Planning pl=new Planning(1, 1, 1, 1, "8:30", "AMPHI", 2, 1, 1);
+		plDAO.add(pl);
 
 	}
 

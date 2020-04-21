@@ -119,7 +119,7 @@ public class SessionDAO  extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("INSERT INTO sess (id_session,num_session,date_debut) VALUES (session_id.NEXTVAL,?,TODATE(?,'DD/MM/YYYY')");
+			ps=con.prepareStatement("INSERT INTO sess (id_session,num_session,date_debut) VALUES (session_id.NEXTVAL,?,TO_DATE(? ,'DD/MM/YYYY'))");
 			ps.setInt(1, target.getNum());
 			ps.setString(2, target.getDate());
 			rVal=ps.executeUpdate();
@@ -159,7 +159,7 @@ public class SessionDAO  extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("UPDATE sess SET num_session=?,date_debut=TODATE(?,'DD/MM/YYYY') WHERE id_session=?");
+			ps=con.prepareStatement("UPDATE sess SET num_session=?,date_debut=TO_DATE(?,'DD/MM/YYYY') WHERE id_session=?");
 			ps.setInt(1, target.getNum());
 			ps.setString(2, target.getDate());
 			ps.setInt(3,target.getID());

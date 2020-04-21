@@ -225,4 +225,6 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rPlanning;
 	}
+	
+	
 }

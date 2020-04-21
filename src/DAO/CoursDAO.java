@@ -15,7 +15,7 @@ public class CoursDAO extends ConnectDAO{
 		super();
 	}
 	/**
-	 * Create a course without indicating who teaches it.
+	 * Create a course
 	 * @param target
 	 * @return
 	 */
@@ -25,9 +25,10 @@ public class CoursDAO extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO cours (id_cours,nom_cours,masse) VALUES (cours_id.NEXTVAL,?,?)");
+			ps=con.prepareStatement("INSERT INTO cours (id_cours,nom_cours,masse,ens_par) VALUES (cours_id.NEXTVAL,?,?,?)");
 			ps.setString(1, target.getNom());
 			ps.setInt(2, target.getMasse());
+			ps.setInt(3,target.getEnsPar());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -58,10 +59,11 @@ public class CoursDAO extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE cours SET nom=?, masse=? WHERE id_cours=?");
+			ps=con.prepareStatement("UPDATE cours SET nom=?, masse=?,ens_par=? WHERE id_cours=?");
 			ps.setString(1, target.getNom());
 			ps.setInt(2, target.getMasse());
-			ps.setInt(3, target.getID());
+			ps.setInt(3, target.getEnsPar());
+			ps.setInt(4, target.getID());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
