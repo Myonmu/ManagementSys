@@ -33,6 +33,9 @@ public class ManagementMain {
 		Planning pl=new Planning(1, 1, 1, 1, "8:30", "AMPHI", 2, 1, 1);
 		plDAO.add(pl);
 		System.out.println(userID.ID);
+		Absence absence=new Absence(1, 1, 1, 1, 1, 0, "");
+		AbsenceDAO absDAO=new AbsenceDAO();
+		absDAO.addNoJust(absence);
 
 	}
 

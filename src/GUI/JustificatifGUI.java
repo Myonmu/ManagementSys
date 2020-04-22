@@ -14,11 +14,13 @@ public class JustificatifGUI extends JFrame {
 	
 	public static String trajectory="Pas de fichier choisi.";
 	public static boolean selected=false;
+	public static int assign=0; //AbsenceType ID to assign
 	/**
 	 * Saving an image's trajectory in the database, and attach it to an absence object.
 	 * @param absID the ID of the absence object.
 	 */
 	public void deposer(int absID) {	
+		selected=false;
 		final JPanel panel=new JPanel();
 		setTitle("Deposer justificatif");
 		setSize(500,75);
@@ -104,9 +106,90 @@ public class JustificatifGUI extends JFrame {
 		
 	}
 	/**
+	 * Opens a justificatif image, than assign an absenceType to the absence.
+	 * @param absID 
+	 */
+	public void traiter(int absID) {
+		assign=0;
+		final JPanel panel=new JPanel();
+		setTitle("Justificatif");
+		setSize(500,500);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		//Retrieving target justificatif and paint it on a JLabel
+		AbsenceDAO absDAO=new AbsenceDAO();
+		JustificatifDAO justDAO=new JustificatifDAO();
+		String imgTrj=justDAO.searchByID(absDAO.searchByID(absID).getJust()).getTrj();
+		JLabel imgLabel=new JLabel();
+		ImageIcon icon=new ImageIcon();
+
+		try {
+			BufferedImage img=scale(ImageIO.read(new File(imgTrj)));
+			icon.setImage(img);
+			imgLabel.setIcon(icon);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Erreur");
+			e.printStackTrace();
+		}
+		
+		//Retrieving all absenceType and fill them into a JComboBox
+		AbsTypeDAO typeDAO=new AbsTypeDAO();
+		JComboBox<AbsenceType> cb=new JComboBox<AbsenceType>();
+		cb.setMaximumRowCount(5);
+		for(AbsenceType i:typeDAO.readAll()) {
+			cb.addItem(i);
+		}
+		//TODO DEBUG THIS!
+		//cb.setRenderer(new CustomRenderer());
+		cb.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange()==ItemEvent.SELECTED) {
+					assign=((AbsenceType) cb.getSelectedItem()).getID();
+				}
+			}
+			
+		});
+		//Comment box
+		JTextField tf=new JTextField("Pas de commentaire");
+		//Confirmation button
+		JButton confirm=new JButton("Confirmer");
+		confirm.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(assign!=0) {
+					AbsenceDAO absDAO=new AbsenceDAO();
+					Absence abs=absDAO.searchByID(absID);
+					abs.setEtat(assign);
+					abs.setComment(tf.getText());
+					absDAO.modify(abs);
+				}
+			}
+			
+		});
+		
+		//put components together
+		Box vBox=Box.createVerticalBox();
+		vBox.add(imgLabel);
+		Box vBox2=Box.createVerticalBox();
+		vBox2.add(cb);
+		vBox2.add(tf);
+		Box hBox=Box.createHorizontalBox();
+		hBox.add(vBox2);
+		hBox.add(confirm);
+		vBox.add(hBox);
+		panel.add(vBox);
+		add(panel);
+		setVisible(true);
+		
+		
+	}
+	/**
 	 * Scales an image
 	 * @param img
-	 * @return
+	 * @return scaled image with no dimension larger than 500pxls
 	 */
 	public static BufferedImage scale(Image img) {
 		int height=img.getHeight(null);
@@ -129,6 +212,22 @@ public class JustificatifGUI extends JFrame {
 	    graphics2D.drawImage(img, 0, 0, scaleWidth, scaleHeight, null);
 	    return output;
 	}
+	//TODO DEBUG THIS!
+	/**
+	 * Renderer for the combobox
+	 * @author miska
+	 */
+	class CustomRenderer extends DefaultListCellRenderer{
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			 	if(value instanceof AbsenceType) {
+			 		value=((AbsenceType)value).getNom();
+			 	}
+	            super.getListCellRendererComponent(list, value, index, cellHasFocus, cellHasFocus);
+			return null;
+		}
+		
+	}
 	
     /**
      * For testing, to be deleted
@@ -137,7 +236,8 @@ public class JustificatifGUI extends JFrame {
 	public static void main(String[] arg) {
 		//TODO Delete this after test
 		JustificatifGUI j=new JustificatifGUI();
-		j.deposer(1);
+		j.traiter(1);
 	}
+	
 
 }

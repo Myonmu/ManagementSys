@@ -24,7 +24,7 @@ public class AbsenceDAO extends ConnectDAO {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
 			ps=con.prepareStatement("INSERT INTO absence "
 					+ "(id_abs,plan,week,etu,etat,just,commentaire) VALUES "
-					+ "(abs_id.NEXTVAL,?,?,?,?,?,?)");
+					+ "(absence_id.NEXTVAL,?,?,?,?,?,?)");
 			ps.setInt(1, target.getPlan());
 			ps.setInt(2,target.getWeek());
 			ps.setInt(3, target.getEtu());
@@ -55,13 +55,51 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	public int addNoJust(Absence target) {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int rVal=0;
+		try {
+			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			ps=con.prepareStatement("INSERT INTO absence "
+					+ "(id_abs,plan,week,etu,etat,commentaire) VALUES "
+					+ "(absence_id.NEXTVAL,?,?,?,?,?)");
+			ps.setInt(1, target.getPlan());
+			ps.setInt(2,target.getWeek());
+			ps.setInt(3, target.getEtu());
+			ps.setInt(4, target.getEtat());
+			ps.setString(5, target.getComment());
+			rVal=ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return rVal;
+	}
 	public int modify(Absence target) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,just=?,commentaire=? WHERE id_abs=?)");
+			ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,just=?,commentaire=? WHERE id_abs=?");
 			ps.setInt(1, target.getPlan());
 			ps.setInt(2,target.getWeek());
 			ps.setInt(3, target.getEtu());
