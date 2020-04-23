@@ -12,9 +12,32 @@ import java.io.IOException;
 import DAO.*;
 public class JustificatifGUI extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static String trajectory="Pas de fichier choisi.";
 	public static boolean selected=false;
 	public static int assign=0; //AbsenceType ID to assign
+	
+	/**
+	 * Renderer for the combobox
+	 * @author miska
+	 */
+	class CustomRenderer extends DefaultListCellRenderer{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			 	Object translated=((AbsenceType) value).getNom();			 		
+	            super.getListCellRendererComponent(list, translated, index, cellHasFocus, cellHasFocus);
+			return this;
+		}
+	}
+	
 	/**
 	 * Saving an image's trajectory in the database, and attach it to an absence object.
 	 * @param absID the ID of the absence object.
@@ -113,7 +136,7 @@ public class JustificatifGUI extends JFrame {
 		assign=0;
 		final JPanel panel=new JPanel();
 		setTitle("Justificatif");
-		setSize(500,500);
+		setSize(800,650);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		//Retrieving target justificatif and paint it on a JLabel
@@ -136,11 +159,12 @@ public class JustificatifGUI extends JFrame {
 		AbsTypeDAO typeDAO=new AbsTypeDAO();
 		JComboBox<AbsenceType> cb=new JComboBox<AbsenceType>();
 		cb.setMaximumRowCount(5);
+		CustomRenderer rd=new CustomRenderer();
+		cb.setRenderer(rd);
 		for(AbsenceType i:typeDAO.readAll()) {
 			cb.addItem(i);
 		}
-		//TODO DEBUG THIS!
-		//cb.setRenderer(new CustomRenderer());
+		
 		cb.addItemListener(new ItemListener() {
 
 			@Override
@@ -164,7 +188,11 @@ public class JustificatifGUI extends JFrame {
 					Absence abs=absDAO.searchByID(absID);
 					abs.setEtat(assign);
 					abs.setComment(tf.getText());
-					absDAO.modify(abs);
+					if(absDAO.modify(abs)!=0) {
+						JOptionPane.showMessageDialog(null, "Le justificatif a bien ete traite.");
+					}else {
+						JOptionPane.showConfirmDialog(null, "Erreur");
+					}
 				}
 			}
 			
@@ -173,13 +201,9 @@ public class JustificatifGUI extends JFrame {
 		//put components together
 		Box vBox=Box.createVerticalBox();
 		vBox.add(imgLabel);
-		Box vBox2=Box.createVerticalBox();
-		vBox2.add(cb);
-		vBox2.add(tf);
-		Box hBox=Box.createHorizontalBox();
-		hBox.add(vBox2);
-		hBox.add(confirm);
-		vBox.add(hBox);
+		vBox.add(cb);
+		vBox.add(tf);
+		vBox.add(confirm);
 		panel.add(vBox);
 		add(panel);
 		setVisible(true);
@@ -212,22 +236,7 @@ public class JustificatifGUI extends JFrame {
 	    graphics2D.drawImage(img, 0, 0, scaleWidth, scaleHeight, null);
 	    return output;
 	}
-	//TODO DEBUG THIS!
-	/**
-	 * Renderer for the combobox
-	 * @author miska
-	 */
-	class CustomRenderer extends DefaultListCellRenderer{
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-				boolean cellHasFocus) {
-			 	if(value instanceof AbsenceType) {
-			 		value=((AbsenceType)value).getNom();
-			 	}
-	            super.getListCellRendererComponent(list, value, index, cellHasFocus, cellHasFocus);
-			return null;
-		}
-		
-	}
+	
 	
     /**
      * For testing, to be deleted
@@ -235,6 +244,7 @@ public class JustificatifGUI extends JFrame {
      */
 	public static void main(String[] arg) {
 		//TODO Delete this after test
+		
 		JustificatifGUI j=new JustificatifGUI();
 		j.traiter(1);
 	}
