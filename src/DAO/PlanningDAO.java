@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 
 import models.Planning;
+import models.PlanningAff;
 
 public class PlanningDAO extends ConnectDAO {
 	public PlanningDAO(){
@@ -226,5 +227,54 @@ public class PlanningDAO extends ConnectDAO {
 		return rPlanning;
 	}
 	
-	
+	public ArrayList<PlanningAff> readPlanningAff(){
+		ArrayList<PlanningAff> list=new ArrayList<>();
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT id_planning,id_session,dow,horaire,nom_cours,"
+					+ "type_cr,duree,groupe.num AS grNum, enseignant.nom AS ensNom, id_ens,id_cours"
+					+ " FROM planning INNER JOIN sess ON sess=id_session "
+					+ "INNER JOIN cours ON mat=id_cours INNER JOIN groupe ON gr=id_gr "
+					+ "INNER JOIN enseignant ON ens=id_ens");
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new PlanningAff(rs.getInt("id_planning"),rs.getInt("id_session"), rs.getString("dow"), rs.getString("horaire"),
+						rs.getString("nom_cours"), rs.getString("type_cr"), rs.getInt("duree"),rs.getInt("grNum"), rs.getString("ensNom")
+						, rs.getInt("id_ens"),rs.getInt("id_cours")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 }

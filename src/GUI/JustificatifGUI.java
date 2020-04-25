@@ -10,6 +10,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import DAO.*;
+
+/***
+ * This class includes 2 GUIs, one for "uploading" a Justificatif and the other for treating a existing Justificatif.
+ * Each must be used after recieving an ABSENCE ID from Absence GUIs.
+ * @author miska
+ *
+ */
 public class JustificatifGUI extends JFrame {
 	
 	/**
