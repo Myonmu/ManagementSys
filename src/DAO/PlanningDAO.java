@@ -5,8 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Date;
 
 import models.Planning;
 import models.PlanningAff;
@@ -226,7 +230,10 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rPlanning;
 	}
-	
+	/**
+	 * Reads a more user-friendly planning list
+	 * @return the planning list (PlanningAff objects)
+	 */
 	public ArrayList<PlanningAff> readPlanningAff(){
 		ArrayList<PlanningAff> list=new ArrayList<>();
 		Connection con=null;
@@ -276,5 +283,61 @@ public class PlanningDAO extends ConnectDAO {
 			}
 		}
 		return list;
+	}
+	/**
+	 * Calculates the number of weeks between a given date and the session initial date
+	 * @param planningID
+	 * @param dateAbs 
+	 * @return
+	 * @throws ParseException
+	 */
+	public int calculateWeek(int planningID,String dateAbs) throws ParseException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		int diffWeeks=0;
+		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT date_debut FROM sess INNER JOIN planning ON id_session=sess WHERE id_planning=?");
+			ps.setInt(1, planningID);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				Date date=rs.getDate(1);
+				Date dateIN=df.parse(dateAbs);
+				long diffMs=dateIN.getTime()-date.getTime();
+				int diffDays=(int) (diffMs/(24*60*60*1000));
+				diffWeeks=diffDays/7+1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return diffWeeks;
 	}
 }

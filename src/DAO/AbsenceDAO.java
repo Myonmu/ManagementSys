@@ -269,16 +269,17 @@ public class AbsenceDAO extends ConnectDAO {
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT date_debut,week FROM absence INNER JOIN planning ON plan=id_planning"
+			ps=con.prepareStatement("SELECT date_debut,week,dow FROM absence INNER JOIN planning ON plan=id_planning"
 					+ "INNER JOIN sess ON id_session=sess WHERE id_abs=?");
 			ps.setInt(1, id);
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				int week=rs.getInt(2);
+				int dow=rs.getInt(3);
 				Date date=rs.getDate(1);
 				Calendar cal=Calendar.getInstance();
 				cal.setTime(date);
-				cal.add(Calendar.DATE, -week*7);
+				cal.add(Calendar.DATE, -(week-1)*7-dow);
 				date=cal.getTime();
 				rDate=df.format(date);
 			}
@@ -313,5 +314,7 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rDate;
 	}
+	
+	
 
 }

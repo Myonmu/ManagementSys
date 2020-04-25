@@ -17,6 +17,7 @@ public class EnseignantGUI extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static int selectedID=0;
+	
 	public void readPlanning() {
 		selectedID=0;
 		//window setup
@@ -83,6 +84,17 @@ public class EnseignantGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO copy show-absence GUI here
 			}
+			
+		});
+		JButton button3 =new JButton("Liste des Etudiants");
+		button3.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int grID=(int) table.getModel().getValueAt(selectedID, 7);
+				//TODO copy show-student-list (for a certain Group) GUI here		
+			}
+			
 			
 		});
 		Box hbox=Box.createHorizontalBox();
