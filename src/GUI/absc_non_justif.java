@@ -14,6 +14,7 @@ public class absc_non_justif {
 
 	private JFrame frmMenutudiant;
 	private JTable table;
+	
 
 	/**
 	 * Launch the application.
