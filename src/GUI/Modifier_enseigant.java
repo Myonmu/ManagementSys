@@ -6,11 +6,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import DAO.EnseignantDAO;
+import models.Enseignant;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Modifier_enseigant extends JFrame {
 
@@ -28,7 +36,8 @@ public class Modifier_enseigant extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Modifier_enseigant frame = new Modifier_enseigant();
+					Enseignant e = new Enseignant();
+					Modifier_enseigant frame = new Modifier_enseigant(e);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,8 +48,9 @@ public class Modifier_enseigant extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param enseignant 
 	 */
-	public Modifier_enseigant() {
+	public Modifier_enseigant(Enseignant enseignant) {
 		setTitle("Modif/supp_ensei");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 675, 372);
@@ -62,11 +72,13 @@ public class Modifier_enseigant extends JFrame {
 		
 		textField = new JTextField();
 		textField.setBounds(256, 106, 178, 20);
+		textField.setText(enseignant.getNom());
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
 		textField_1.setBounds(256, 150, 178, 20);
+		textField_1.setText(enseignant.getPrenom());
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -76,6 +88,7 @@ public class Modifier_enseigant extends JFrame {
 		
 		textField_2 = new JTextField();
 		textField_2.setBounds(256, 188, 178, 20);
+		textField_2.setText(enseignant.getTel());
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 		
@@ -85,6 +98,7 @@ public class Modifier_enseigant extends JFrame {
 		
 		textField_3 = new JTextField();
 		textField_3.setBounds(256, 268, 178, 20);
+		textField_3.setText(enseignant.getPassword());
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 		
@@ -94,6 +108,7 @@ public class Modifier_enseigant extends JFrame {
 		
 		textField_4 = new JTextField();
 		textField_4.setBounds(256, 228, 178, 20);
+		textField_4.setText(enseignant.getUsername());
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 		
@@ -102,11 +117,45 @@ public class Modifier_enseigant extends JFrame {
 		contentPane.add(lblUsername);
 		
 		JButton btnNewButton = new JButton("Confirmer_modif");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EnseignantDAO dao = new EnseignantDAO();
+				
+				int res = dao.modify(new Enseignant(enseignant.getID(),
+										  textField_4.getText(), 
+										  textField_3.getText(), 
+										  textField.getText(), 
+										  textField_1.getText(), 
+										  textField_2.getText()));
+				
+				JOptionPane.showMessageDialog(contentPane, res + " enseignant modifié!");
+			}
+		});
 		btnNewButton.setBackground(Color.GREEN);
 		btnNewButton.setBounds(464, 149, 169, 96);
 		contentPane.add(btnNewButton);
 		
 		JButton btnSupprimerenseignant = new JButton("Supprimer_enseignant");
+		btnSupprimerenseignant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EnseignantDAO dao = new EnseignantDAO();
+				int res = 0;
+				int n = JOptionPane.showConfirmDialog(contentPane, 
+				"Voulez vous supprimer l'enseignant " + enseignant.getNom() + " ?","Attention ",JOptionPane.YES_NO_OPTION);
+				
+				if(n == JOptionPane.YES_OPTION) {
+					res = dao.delete(enseignant);
+					
+				}else if(n == JOptionPane.NO_OPTION){
+					
+				}
+				
+				if(res == 1) {
+					JOptionPane.showMessageDialog(contentPane, res + " Enseignant supprimé");
+					dispose();
+				}
+			}
+		});
 		btnSupprimerenseignant.setBackground(Color.RED);
 		btnSupprimerenseignant.setBounds(10, 150, 169, 98);
 		contentPane.add(btnSupprimerenseignant);

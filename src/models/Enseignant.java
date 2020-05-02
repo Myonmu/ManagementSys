@@ -14,6 +14,9 @@ public class Enseignant extends User{
 		this.tel=tel;
 	}
 	
+	public Enseignant() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getTel() {
 		return this.tel;
 	}

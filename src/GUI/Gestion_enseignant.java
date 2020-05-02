@@ -12,9 +12,13 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import DAO.EnseignantDAO;
+import models.Enseignant;
 
 public class Gestion_enseignant extends JFrame {
 
@@ -40,6 +44,7 @@ public class Gestion_enseignant extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("serial")
 	public Gestion_enseignant() {
 		setTitle("Gestion-Enseignant");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,18 +70,6 @@ public class Gestion_enseignant extends JFrame {
 		lblTelephone.setBounds(206, 30, 91, 14);
 		contentPane.add(lblTelephone);
 		
-		JButton btnChercher = new JButton("Chercher/Modifier/Supprimer");
-		btnChercher.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Modifier_enseigant w = new Modifier_enseigant();
-				w.setVisible(true);
-				dispose();
-			}
-		});
-		btnChercher.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnChercher.setBounds(377, 26, 244, 23);
-		contentPane.add(btnChercher);
-		
 		JButton btnNewButton_1 = new JButton("Ajouter");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -90,22 +83,40 @@ public class Gestion_enseignant extends JFrame {
 		contentPane.add(btnNewButton_1);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"patrick", "kov", "0123"},
-			},
-			new String[] {
-				"Nom", "Prenom", "telephone"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+
+		Object header[] = {"Nom", "Prenom", "telephone"};
+
+		DefaultTableModel model = new DefaultTableModel(header, 0);
+		
+		EnseignantDAO ens_dao = new EnseignantDAO();
+		
+		ArrayList<Enseignant> liste_enseignant = ens_dao.readAll();
+		
+		for(int i = 0; i < liste_enseignant.size(); i++) {
+			Object[] table_enseignant = 
+				{
+					liste_enseignant.get(i).getNom(), 
+					liste_enseignant.get(i).getPrenom(),
+					liste_enseignant.get(i).getTel(),
+				};
+			model.addRow(table_enseignant);
+		}
+		
+		table.setModel(model);
 		table.setBounds(29, 55, 267, 258);
 		contentPane.add(table);
+		
+		JButton btnChercher = new JButton("Modifier/Supprimer");
+		btnChercher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Modifier_enseigant w = new Modifier_enseigant(liste_enseignant.get(table.getSelectedRow()));
+				w.setVisible(true);
+				dispose();
+			}
+		});
+		btnChercher.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnChercher.setBounds(377, 26, 244, 23);
+		contentPane.add(btnChercher);
+
 	}
 }

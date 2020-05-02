@@ -173,13 +173,13 @@ public class EnseignantDAO extends UserDAO{
 	 * Number of lines added. -1 means the process is aborted because of username violation.
 	 */
 	public int add(Enseignant newEns) {
-		if(!this.usernameViolationCheck(newEns)) {
+		//if(!this.usernameViolationCheck(newEns)) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int rVal = 0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO enseignant (id_ens,username, password, nom, prenom, tel) VALUES (enseignant_id.NEXTVAL,?,?,?,?,?) ");
+			ps=con.prepareStatement("INSERT INTO enseignant (username, password, nom, prenom, tel) VALUES (?,?,?,?,?) ");
 			ps.setString(1,newEns.getUsername());
 			ps.setString(2, newEns.getPassword());
 			ps.setString(3, newEns.getNom());
@@ -209,11 +209,11 @@ public class EnseignantDAO extends UserDAO{
 				}
 		}
 		return rVal;
-		}
+		/*}
 		else {
 			System.out.println("Username violation detected");
 			return -1;
-		}
+		}*/
 	}
 	/**
 	 * Modifies a Enseignant
