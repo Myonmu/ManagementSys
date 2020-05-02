@@ -107,14 +107,14 @@ public class Menu_Authen {
 					break;
 					 
 				case 2:
-					Menu_Enseignant o = new Menu_Enseignant();
+					Gestion_enseignant o = new Gestion_enseignant();
 					frmAuthentification.dispose();
 					JOptionPane.showMessageDialog(frmAuthentification, "Enseignant Connect�!");
 					break;
 					
 					
 				case 3: 
-					Menu_etudiant e = new Menu_etudiant();
+					Gestion_etudiant e = new Gestion_etudiant();
 					frmAuthentification.dispose();
 					JOptionPane.showMessageDialog(frmAuthentification, "Etudiant Connect�!");
 					break;

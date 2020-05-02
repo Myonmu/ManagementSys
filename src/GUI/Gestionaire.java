@@ -28,7 +28,6 @@ public class Gestionaire extends JFrame {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-					
 				}
 			}
 		});
@@ -56,10 +55,8 @@ public class Gestionaire extends JFrame {
 		JButton btnCrerUnCours = new JButton("Cr\u00E9er un cours");
 		btnCrerUnCours.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Creer_cours g = new Creer_cours();
-				g.setVisible(true);	
-				dispose();
-			}
+				Creer_cours g = new Creer_cours();g.setVisible(true);	}
+			
 		});
 		btnCrerUnCours.setBounds(10, 62, 140, 23);
 		contentPane.add(btnCrerUnCours);
@@ -76,14 +73,36 @@ public class Gestionaire extends JFrame {
 		contentPane.add(btnModifiersupp);
 		
 		JButton btnGestionDenseignant = new JButton("Gestion d'enseignant");
+		btnGestionDenseignant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Gestion_enseignant n = new Gestion_enseignant();
+				n.setVisible(true);
+				dispose();
+				
+			}
+		});
 		btnGestionDenseignant.setBounds(10, 130, 140, 42);
 		contentPane.add(btnGestionDenseignant);
 		
 		JButton btnGestionDtudiant = new JButton("Gestion d'\u00E9tudiant");
+		btnGestionDtudiant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Gestion_etudiant n = new Gestion_etudiant();
+				n.setVisible(true);
+				dispose();
+			}
+		});
 		btnGestionDtudiant.setBounds(10, 183, 140, 42);
 		contentPane.add(btnGestionDtudiant);
 		
 		JButton btnCrerUnType = new JButton("Cr\u00E9er un type d'absence");
+		btnCrerUnType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Typeabs w = new Typeabs();
+				w.setVisible(true);
+				dispose();
+			}
+		});
 		btnCrerUnType.setBounds(324, 78, 167, 41);
 		contentPane.add(btnCrerUnType);
 		
