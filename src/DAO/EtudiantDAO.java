@@ -28,7 +28,7 @@ public class EtudiantDAO extends UserDAO{
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM etudiant WHERE id_ens=?");
+			ps=con.prepareStatement("SELECT * FROM etudiant WHERE id_etu=?");
 			ps.setInt(1, ID);
 			rs=ps.executeQuery();
 			while(rs.next()) {

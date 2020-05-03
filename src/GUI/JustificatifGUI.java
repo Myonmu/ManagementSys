@@ -55,7 +55,7 @@ public class JustificatifGUI extends JFrame {
 		setTitle("Deposer justificatif");
 		setSize(500,75);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		final JLabel img=new JLabel();
 		final ImageIcon icon=new ImageIcon();
@@ -145,7 +145,7 @@ public class JustificatifGUI extends JFrame {
 		setTitle("Justificatif");
 		setSize(800,650);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		//Retrieving target justificatif and paint it on a JLabel
 		AbsenceDAO absDAO=new AbsenceDAO();
 		JustificatifDAO justDAO=new JustificatifDAO();
@@ -211,6 +211,37 @@ public class JustificatifGUI extends JFrame {
 		vBox.add(cb);
 		vBox.add(tf);
 		vBox.add(confirm);
+		panel.add(vBox);
+		add(panel);
+		setVisible(true);
+		
+		
+	}
+	public void show(int absID) {
+		final JPanel panel=new JPanel();
+		setTitle("Justificatif");
+		setSize(800,650);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		//Retrieving target justificatif and paint it on a JLabel
+		AbsenceDAO absDAO=new AbsenceDAO();
+		JustificatifDAO justDAO=new JustificatifDAO();
+		String imgTrj=justDAO.searchByID(absDAO.searchByID(absID).getJust()).getTrj();
+		JLabel imgLabel=new JLabel();
+		ImageIcon icon=new ImageIcon();
+
+		try {
+			BufferedImage img=scale(ImageIO.read(new File(imgTrj)));
+			icon.setImage(img);
+			imgLabel.setIcon(icon);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Erreur");
+			e.printStackTrace();
+		}
+		
+		//put components together
+		Box vBox=Box.createVerticalBox();
+		vBox.add(imgLabel);
 		panel.add(vBox);
 		add(panel);
 		setVisible(true);

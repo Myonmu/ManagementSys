@@ -40,6 +40,7 @@ public class UserDAO extends ConnectDAO{
 					access=attempt+1;
 					attempt=maxAttempt;
 					userID.setUserID(rs.getInt(2));
+					userID.setUSERTYPE(access);
 				}
 				else{
 					access=0;
