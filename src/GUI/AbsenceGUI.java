@@ -7,17 +7,20 @@ import javax.swing.table.TableColumnModel;
 
 import DAO.*;
 import models.*;
-import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class AbsenceGUI extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static int selectedID=0;
 	public void readEtuAbsence(int etuID) {
 		//WINDOW SET UP
 		selectedID=0;
 		this.setSize(800,600);
-		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle("Absences");
 		this.setLocationRelativeTo(null);
 		
@@ -48,6 +51,9 @@ public class AbsenceGUI extends JFrame {
 				
 			}
 		});
+		//adding table to the panel
+		panel.add(table.getTableHeader(),BorderLayout.NORTH);
+		panel.add(table,BorderLayout.CENTER);
 		//CREATING BUTTONS
 		JButton showJust = new JButton("Afficher");
 		showJust.addActionListener(new ActionListener() {
@@ -55,7 +61,11 @@ public class AbsenceGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JustificatifGUI justGUI=new JustificatifGUI();
-				justGUI.show(selectedID);
+				if(selectedID!=0) {
+					justGUI.show(selectedID);}
+				else {
+					JOptionPane.showMessageDialog(null, "Vous devez choisir l'absence!");
+				}
 			}
 		});
 		JButton deposeJust = new JButton("Deposer"); 
@@ -64,13 +74,40 @@ public class AbsenceGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JustificatifGUI justGUI=new JustificatifGUI();
-				justGUI.deposer(selectedID);
+				if(selectedID!=0) {
+					justGUI.deposer(selectedID);}
+				else {
+					JOptionPane.showMessageDialog(null, "Vous devez choisir l'absence!");
+				}
+				
 			}
 		});
 		JButton traiterJust = new JButton("Traiter");
+		traiterJust.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JustificatifGUI justGUI=new JustificatifGUI();
+				justGUI.traiter(selectedID);
+			}
+		});
+		Box hbox=Box.createHorizontalBox();
+		hbox.add(deposeJust);
+		hbox.add(showJust);
+		panel.add(hbox,BorderLayout.SOUTH);
+		
+		//showing the window
+		add(panel);
+		setVisible(true);
 		
 		
+	}
+	
+	public void declarerEtu(int planID) {
 		
+	}
+	public static void main(String[] arg) {
+		AbsenceGUI absGUI=new AbsenceGUI();
+		absGUI.readEtuAbsence(1);
 	}
 	
 		
