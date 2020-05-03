@@ -92,7 +92,7 @@ public class Gestion_etudiant extends JFrame {
 		btnListe.setBounds(55, 69, 115, 87);
 		contentPane.add(btnListe);
 		
-		JButton btnNewButton = new JButton("Chercher/Modifier/Supprimer");
+		JButton btnNewButton = new JButton("Modifier/Supprimer");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Modifier_etudiant w = new Modifier_etudiant();

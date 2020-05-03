@@ -6,11 +6,21 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import DAO.AbsTypeDAO;
+import models.AbsenceType;
+import models.Enseignant;
+import models.Etudiant;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Typeabs extends JFrame {
 
@@ -68,6 +78,25 @@ public class Typeabs extends JFrame {
 		contentPane.add(lblIdetudiant);
 		
 		JButton btnAjouterAbsence = new JButton("Ajouter absence");
+		btnAjouterAbsence.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AbsTypeDAO dao= new AbsTypeDAO();
+				int res = dao.add(new AbsenceType(
+						Integer.valueOf(textField_1.getText()),
+						textField.getText()
+						)
+						   
+						);
+	if(res==1) {
+		JOptionPane.showMessageDialog(contentPane, res + " absence ajouté");
+		dispose();
+		Gestion_etudiant g = new Gestion_etudiant();
+	}else {
+		JOptionPane.showMessageDialog(contentPane, "ERREUR, Vérifiez vos champs d'entrée");
+	}
+				
+			}
+		});
 		btnAjouterAbsence.setBackground(Color.RED);
 		btnAjouterAbsence.setForeground(Color.BLACK);
 		btnAjouterAbsence.setBounds(444, 234, 146, 34);
