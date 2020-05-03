@@ -11,6 +11,7 @@ import java.util.*;
 
 
 import models.Absence;
+import models.AbsenceAff;
 
 public class AbsenceDAO extends ConnectDAO {
 	public AbsenceDAO() {
@@ -315,6 +316,58 @@ public class AbsenceDAO extends ConnectDAO {
 		return rDate;
 	}
 	
+	public ArrayList<AbsenceAff> readAff(){
+		ArrayList<AbsenceAff> list=new ArrayList<>();
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT id_abs,id_etu,id_planning,nom_cours,type_cr,horaire,duree,just,etat,commentaire"
+					+ " FROM absence INNER JOIN planning ON plan=id_planning INNER JOIN cours ON id_cours=mat");
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				String date=this.calcDate(rs.getInt("id_abs"));
+				String just_state="PAS ENCORE DEPOSE";
+				if(rs.getInt("just")!=0) {
+					just_state="DEJA DEPOSE";
+				}
+				list.add(new AbsenceAff(rs.getInt("id_abs"), rs.getInt("id_etu"), rs.getInt("id_planning"), 
+						rs.getString("nom_cours"), rs.getString("type_cr"), date+" "+rs.getString("horaire"),
+						rs.getInt("duree"), just_state, rs.getString("etat"), rs.getString("commentaire")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 	
 
 }

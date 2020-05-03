@@ -95,14 +95,12 @@ public class EtudiantGUI extends JFrame{
 		JPanel panel=new JPanel(new BorderLayout());
 				
 	
-		/*		
+				
 		PlanningDAO plDAO=new PlanningDAO();
-		GroupeDAO grDAO=new GroupeDAO();
 		EtudiantDAO etuDAO=new EtudiantDAO();
-		int grID=grDAO.searchByID(etuDAO.searchByID(userID.ID).getGr()).getID();
+		int grID=etuDAO.searchByID(userID.ID).getGr();
 		Object[] columnHeads= {"ID","Session","Jour","Heure","Matiere","Type","Duree","Groupe","Enseignant","idEns","idMat"};
 		DefaultTableModel model=new DefaultTableModel(columnHeads,0);
-		//A Planning is considered in a Enseignant's table if he teaches it or is responsible for the course
 		for(PlanningAff i:plDAO.readPlanningAff()) {
 			if(i.getGroupe()==grID) {
 				Object[] row= {i.getId(),i.getSession(),i.getDow(),i.getHoraire(),i.getMatiere(),i.getType(),i.getDuree()
@@ -112,7 +110,7 @@ public class EtudiantGUI extends JFrame{
 		}
 		JTable table=new JTable(model);
 		TableColumnModel cm=table.getColumnModel();
-		*/
+		
 		//adding listSelectionListener
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -147,5 +145,10 @@ public class EtudiantGUI extends JFrame{
 		//showing the window
 		add(panel);
 		setVisible(true);	
+	}
+	
+	public static void main(String[] arg) {
+		EtudiantGUI etuGui=new EtudiantGUI();
+		etuGui.readPlanning();
 	}
 }

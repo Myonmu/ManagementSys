@@ -217,6 +217,37 @@ public class JustificatifGUI extends JFrame {
 		
 		
 	}
+	public void show(int absID) {
+		final JPanel panel=new JPanel();
+		setTitle("Justificatif");
+		setSize(800,650);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		//Retrieving target justificatif and paint it on a JLabel
+		AbsenceDAO absDAO=new AbsenceDAO();
+		JustificatifDAO justDAO=new JustificatifDAO();
+		String imgTrj=justDAO.searchByID(absDAO.searchByID(absID).getJust()).getTrj();
+		JLabel imgLabel=new JLabel();
+		ImageIcon icon=new ImageIcon();
+
+		try {
+			BufferedImage img=scale(ImageIO.read(new File(imgTrj)));
+			icon.setImage(img);
+			imgLabel.setIcon(icon);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Erreur");
+			e.printStackTrace();
+		}
+		
+		//put components together
+		Box vBox=Box.createVerticalBox();
+		vBox.add(imgLabel);
+		panel.add(vBox);
+		add(panel);
+		setVisible(true);
+		
+		
+	}
 	/**
 	 * Scales an image
 	 * @param img
