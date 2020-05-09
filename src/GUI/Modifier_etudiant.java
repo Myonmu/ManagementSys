@@ -6,10 +6,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import DAO.EnseignantDAO;
+import DAO.EtudiantDAO;
+import models.Enseignant;
+import models.Etudiant;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Modifier_etudiant extends JFrame {
 
@@ -28,7 +37,8 @@ public class Modifier_etudiant extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Modifier_etudiant frame = new Modifier_etudiant();
+					Etudiant etu= new Etudiant();
+					Modifier_etudiant frame = new Modifier_etudiant(etu);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +50,7 @@ public class Modifier_etudiant extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Modifier_etudiant() {
+	public Modifier_etudiant(Etudiant etudiant) {
 		setTitle("modif_supp_etudiant");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 699, 404);
@@ -49,17 +59,21 @@ public class Modifier_etudiant extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(342, 50, 130, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
 		JLabel lblNom = new JLabel("NOM:");
 		lblNom.setBounds(286, 53, 46, 14);
 		contentPane.add(lblNom);
 		
+		textField = new JTextField();
+		textField.setBounds(342, 50, 130, 20);
+		textField.setText(etudiant.getNom());
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		
+		
 		textField_1 = new JTextField();
 		textField_1.setBounds(342, 95, 130, 20);
+		textField_1.setText(etudiant.getPrenom());
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -69,6 +83,7 @@ public class Modifier_etudiant extends JFrame {
 		
 		textField_2 = new JTextField();
 		textField_2.setBounds(342, 137, 130, 20);
+		textField_2.setText(etudiant.getEmail());
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 		
@@ -78,6 +93,7 @@ public class Modifier_etudiant extends JFrame {
 		
 		textField_3 = new JTextField();
 		textField_3.setBounds(342, 185, 130, 20);
+		textField_3.setText(etudiant.getUsername());
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 		
@@ -87,6 +103,7 @@ public class Modifier_etudiant extends JFrame {
 		
 		textField_4 = new JTextField();
 		textField_4.setBounds(342, 232, 130, 20);
+		textField_4.setText(etudiant.getPassword());
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 		
@@ -96,6 +113,7 @@ public class Modifier_etudiant extends JFrame {
 		
 		textField_5 = new JTextField();
 		textField_5.setBounds(342, 276, 46, 20);
+		textField_5.setText(String.valueOf(etudiant.getGr()));
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
 		
@@ -104,11 +122,51 @@ public class Modifier_etudiant extends JFrame {
 		contentPane.add(lblGroupnum);
 		
 		JButton btnModifier = new JButton("Modifier");
+		btnModifier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EtudiantDAO dao = new EtudiantDAO();
+				
+				int res = dao.modify(new Etudiant(
+										  etudiant.getID(),
+										  textField_3.getText(), 
+										  textField_4.getText(), 
+										  textField.getText(),
+										  textField_1.getText(),
+										  textField_2.getText(),
+										  Integer.valueOf(textField_5.getText())
+										  
+										  ));
+				
+				if(res == 1) {
+					JOptionPane.showMessageDialog(contentPane, res + " etudiant modifié!");
+				}
+			}
+		});
 		btnModifier.setBackground(Color.GREEN);
 		btnModifier.setBounds(28, 137, 122, 82);
 		contentPane.add(btnModifier);
 		
 		JButton btnNewButton = new JButton("Supprimer");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EtudiantDAO dao = new EtudiantDAO();
+				int res = 0;
+				int n = JOptionPane.showConfirmDialog(contentPane, 
+				"Voulez vous supprimer l'enseignant " + etudiant.getNom() + " ?","Attention ",JOptionPane.YES_NO_OPTION);
+				
+				if(n == JOptionPane.YES_OPTION) {
+					res = dao.delete(etudiant);
+					
+				}else if(n == JOptionPane.NO_OPTION){
+					
+				}
+				
+				if(res == 1) {
+					JOptionPane.showMessageDialog(contentPane, res + " Etudiant supprimé");
+					dispose();
+				}
+			}
+		});
 		btnNewButton.setBackground(Color.RED);
 		btnNewButton.setBounds(540, 137, 122, 82);
 		contentPane.add(btnNewButton);

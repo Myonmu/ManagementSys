@@ -55,21 +55,6 @@ public class Gestion_enseignant extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNom = new JLabel("NOM:");
-		lblNom.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNom.setBounds(40, 30, 46, 14);
-		contentPane.add(lblNom);
-		
-		JLabel lblPrnom = new JLabel("Pr\u00E9nom:");
-		lblPrnom.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblPrnom.setBounds(118, 30, 63, 14);
-		contentPane.add(lblPrnom);
-		
-		JLabel lblTelephone = new JLabel("Telephone:");
-		lblTelephone.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTelephone.setBounds(206, 30, 91, 14);
-		contentPane.add(lblTelephone);
-		
 		JButton btnNewButton_1 = new JButton("Ajouter");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -88,6 +73,8 @@ public class Gestion_enseignant extends JFrame {
 
 		DefaultTableModel model = new DefaultTableModel(header, 0);
 		
+		model.addRow(header);
+		
 		EnseignantDAO ens_dao = new EnseignantDAO();
 		
 		ArrayList<Enseignant> liste_enseignant = ens_dao.readAll();
@@ -103,7 +90,7 @@ public class Gestion_enseignant extends JFrame {
 		}
 		
 		table.setModel(model);
-		table.setBounds(29, 55, 267, 258);
+		table.setBounds(29, 26, 267, 287);
 		contentPane.add(table);
 		
 		JButton btnChercher = new JButton("Modifier/Supprimer");

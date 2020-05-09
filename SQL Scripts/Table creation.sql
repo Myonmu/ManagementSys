@@ -100,6 +100,3 @@ CONSTRAINT fk_abs_etu FOREIGN KEY (etu) REFERENCES etudiant(id_etu),
 CONSTRAINT fk_abs_etat FOREIGN KEY (etat) REFERENCES typeAbs(id_type),
 CONSTRAINT fk_abs_just FOREIGN KEY (just) REFERENCES justificatif(id_just)
 );
-
-
-

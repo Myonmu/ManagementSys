@@ -118,9 +118,13 @@ public class Créer_enseignant extends JFrame {
 				
 				int res = dao.add(new Enseignant(textField_3.getText(), 
 									   textField_4.getText(), 
+									   
 									   textField.getText(), 
-									   textField_1.getText(), 
+									   
+									   textField_1.getText(),
+									   
 									   textField_2.getText()));
+				
 				if(res==1) {
 					JOptionPane.showMessageDialog(contentPane, res + " enseignant ajouté");
 					dispose();

@@ -5,25 +5,35 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import DAO.CoursDAO;
+import DAO.EnseignantDAO;
+import models.Cours;
+import models.Enseignant;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 
 public class Creer_cours extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-
+	private JTable table;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -76,57 +86,59 @@ public class Creer_cours extends JFrame {
 		lblMasseHoraire.setBounds(167, 135, 80, 14);
 		contentPane.add(lblMasseHoraire);
 		
-		JButton btnTerminer = new JButton("Terminer");
-		btnTerminer.setBounds(520, 37, 101, 31);
-		contentPane.add(btnTerminer);
+		table = new JTable();
+
+		Object header[] = {"Nom", "Prenom", "telephone"};
+
+		DefaultTableModel model = new DefaultTableModel(header, 0);
 		
-		JButton btnNewButton = new JButton("Confirmer");
-		btnNewButton.setBounds(520, 82, 101, 70);
-		contentPane.add(btnNewButton);
+		model.addRow(header);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(535, 185, 86, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		EnseignantDAO ens_dao = new EnseignantDAO();
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(535, 216, 86, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		ArrayList<Enseignant> liste_enseignant = ens_dao.readAll();
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(535, 247, 86, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		for(int i = 0; i < liste_enseignant.size(); i++) {
+			Object[] table_enseignant = 
+				{
+					liste_enseignant.get(i).getNom(), 
+					liste_enseignant.get(i).getPrenom(),
+					liste_enseignant.get(i).getTel(),
+				};
+			model.addRow(table_enseignant);
+		}
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(535, 278, 86, 20);
-		contentPane.add(textField_5);
-		textField_5.setColumns(10);
-		
-		textField_6 = new JTextField();
-		textField_6.setBounds(535, 309, 86, 20);
-		contentPane.add(textField_6);
-		textField_6.setColumns(10);
+		table.setModel(model);
+		table.setBounds(109, 182, 512, 168);
+		contentPane.add(table);
 		
 		JButton btnAjouterAuPlanning = new JButton("Ajouter au planning");
-		btnAjouterAuPlanning.setBounds(494, 340, 148, 23);
+		btnAjouterAuPlanning.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!textField.getText().isEmpty() && !textField_1.getText().isEmpty()) {
+					
+					try {
+						CoursDAO c = new CoursDAO();
+						int res = c.add(new Cours(textField.getText(), 
+												  Integer.valueOf(textField_1.getText()), 
+												  liste_enseignant.get(table.getSelectedColumn()-1).getID()));
+						
+						if(res == 1) {
+							JOptionPane.showMessageDialog(contentPane, res + " Cour ajouté");
+						}
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(contentPane, "La masse horaire doit etre un entier");
+					} catch (ArrayIndexOutOfBoundsException e) {
+						JOptionPane.showMessageDialog(contentPane, "Aucun enseignant sélectionné");
+					}
+					
+				}else {
+					JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs");
+				}
+			}
+		});
+		btnAjouterAuPlanning.setBounds(473, 106, 148, 46);
 		contentPane.add(btnAjouterAuPlanning);
-		
-		JButton btnPlanning = new JButton("Planning");
-		btnPlanning.setBackground(Color.GREEN);
-		btnPlanning.setForeground(Color.BLACK);
-		btnPlanning.setBounds(49, 184, 89, 56);
-		contentPane.add(btnPlanning);
-		
-		textField_7 = new JTextField();
-		textField_7.setBounds(59, 247, 52, 20);
-		contentPane.add(textField_7);
-		textField_7.setColumns(10);
-		
-		JLabel lblGroupe = new JLabel("Groupe");
-		lblGroupe.setBounds(10, 250, 52, 17);
-		contentPane.add(lblGroupe);
 	}
 
 }

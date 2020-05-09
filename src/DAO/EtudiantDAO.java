@@ -234,12 +234,13 @@ public class EtudiantDAO extends UserDAO{
 		int rVal = 0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO etudiant (id_etu,username, password, nom, prenom, email) VALUES (etudiant_id.NEXTVAL,?,?,?,?,?) ");
+			ps=con.prepareStatement("INSERT INTO etudiant (id_etu,username, password, nom, prenom, email, GROUPNUM) VALUES (etudiant_id.NEXTVAL,?,?,?,?,?,?) ");
 			ps.setString(1,newEtu.getUsername());
 			ps.setString(2, newEtu.getPassword());
 			ps.setString(3, newEtu.getNom());
 			ps.setString(4, newEtu.getPrenom());
 			ps.setString(5, newEtu.getEmail());
+			ps.setInt(6, newEtu.getGr());
 			rVal=ps.executeUpdate();
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block

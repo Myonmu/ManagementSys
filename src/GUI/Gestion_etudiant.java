@@ -5,22 +5,28 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import DAO.EnseignantDAO;
+import DAO.EtudiantDAO;
+import models.Enseignant;
+import models.Etudiant;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class Gestion_etudiant extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -51,58 +57,6 @@ public class Gestion_etudiant extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(490, 47, 149, 29);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblNom = new JLabel("NOM:");
-		lblNom.setBounds(446, 51, 59, 21);
-		contentPane.add(lblNom);
-		
-		JLabel lblPrenom = new JLabel("PRENOM:");
-		lblPrenom.setBounds(437, 106, 68, 21);
-		contentPane.add(lblPrenom);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(490, 102, 149, 29);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
-		JLabel lblEmail = new JLabel("EMAIL:");
-		lblEmail.setBounds(446, 155, 68, 21);
-		contentPane.add(lblEmail);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(490, 151, 149, 29);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(490, 205, 52, 29);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
-		
-		JLabel lblGroupnum = new JLabel("GROUPNUM:");
-		lblGroupnum.setBounds(422, 209, 89, 21);
-		contentPane.add(lblGroupnum);
-		
-		JButton btnListe = new JButton("Liste");
-		btnListe.setBackground(Color.GREEN);
-		btnListe.setBounds(55, 69, 115, 87);
-		contentPane.add(btnListe);
-		
-		JButton btnNewButton = new JButton("Modifier/Supprimer");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Modifier_etudiant w = new Modifier_etudiant();
-				w.setVisible(true);
-				dispose();
-			}
-		});
-		btnNewButton.setBounds(58, 208, 244, 29);
-		contentPane.add(btnNewButton);
-		
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -111,7 +65,48 @@ public class Gestion_etudiant extends JFrame {
 				dispose();
 			}
 		});
-		btnAjouter.setBounds(55, 264, 247, 29);
+		btnAjouter.setBounds(436, 85, 247, 29);
 		contentPane.add(btnAjouter);
+		
+		table = new JTable();
+
+		Object header[] = {"Nom", "Prenom", "email","gr_num"};
+
+		DefaultTableModel model = new DefaultTableModel(header, 0);
+		
+		model.addRow(header);
+		
+		EtudiantDAO etu_dao = new EtudiantDAO();
+		
+		ArrayList<Etudiant> liste_etudiant = etu_dao.readAll();
+		
+		for(int i = 0; i < liste_etudiant.size(); i++) {
+			Object[] table_etudiant = 
+				{
+					liste_etudiant.get(i).getNom(), 
+					liste_etudiant.get(i).getPrenom(),
+					liste_etudiant.get(i).getEmail(),
+					liste_etudiant.get(i).getGr()
+				};
+			model.addRow(table_etudiant);
+		}
+		
+		table.setModel(model);
+		table.setBounds(29, 26, 353, 298);
+		contentPane.add(table);
+		
+		JButton btnNewButton = new JButton("Modifier/Supprimer");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Etudiant etu = new Etudiant();
+				etu = liste_etudiant.get(table.getSelectedRow()-1);
+				Modifier_etudiant w = new Modifier_etudiant(etu);
+				w.setVisible(true);
+				dispose();
+			}
+		});
+		btnNewButton.setBounds(436, 29, 244, 29);
+		contentPane.add(btnNewButton);
+		
 	}
 }

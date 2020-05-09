@@ -13,6 +13,15 @@ public class Etudiant extends User{
 		this.email=email;
 		this.gr_id=gr;
 	}
+	public Etudiant(String nom, String prenom,String email,int gr) {
+		super(nom,prenom);
+		this.email=email;
+		this.gr_id=gr;
+	}
+	
+	public Etudiant() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getEmail() {
 		return this.email;
 	}
