@@ -234,12 +234,13 @@ public class EtudiantDAO extends UserDAO{
 		int rVal = 0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("INSERT INTO etudiant (id_etu,username, password, nom, prenom, email) VALUES (etudiant_id.NEXTVAL,?,?,?,?,?) ");
+			ps=con.prepareStatement("INSERT INTO etudiant (id_etu,username, password, nom, prenom, email,groupNum) VALUES (etudiant_id.NEXTVAL,?,?,?,?,?,?) ");
 			ps.setString(1,newEtu.getUsername());
 			ps.setString(2, newEtu.getPassword());
 			ps.setString(3, newEtu.getNom());
 			ps.setString(4, newEtu.getPrenom());
 			ps.setString(5, newEtu.getEmail());
+			ps.setInt(6, newEtu.getGr());
 			rVal=ps.executeUpdate();
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -283,13 +284,14 @@ public class EtudiantDAO extends UserDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE etudiant SET nom=?, prenom=?, username=?,password=?, email=? WHERE id_etu=?");
+			ps=con.prepareStatement("UPDATE etudiant SET nom=?, prenom=?, username=?,password=?, email=?,groupNum=? WHERE id_etu=?");
 			ps.setString(1, target.getNom());
 			ps.setString(2, target.getPrenom());
 			ps.setString(3, target.getUsername());
 			ps.setString(4, target.getPassword());
 			ps.setString(5, target.getEmail());
-			ps.setInt(6, target.getID());
+			ps.setInt(7, target.getID());
+			ps.setInt(6, target.getGr());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
