@@ -17,16 +17,16 @@ import DAO.*;
  * @author miska
  *
  */
-public class JustificatifGUI extends JFrame {
+public class JustificatifGUI extends JDialog {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static String trajectory="Pas de fichier choisi.";
-	public static boolean selected=false;
-	public static int assign=0; //AbsenceType ID to assign
-	
+	static String trajectory="Pas de fichier choisi.";
+	static boolean selected=false;
+	static int assign=0; //AbsenceType ID to assign
+	static boolean finished=false;
 	/**
 	 * Renderer for the combobox
 	 * @author miska
@@ -51,6 +51,7 @@ public class JustificatifGUI extends JFrame {
 	 */
 	public void deposer(int absID) {	
 		selected=false;
+		this.setModal(true);
 		final JPanel panel=new JPanel();
 		setTitle("Deposer justificatif");
 		setSize(500,75);
@@ -83,7 +84,6 @@ public class JustificatifGUI extends JFrame {
 						setLocationRelativeTo(null);
 						icon.setImage(nbi);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					remove(panel);
@@ -115,6 +115,7 @@ public class JustificatifGUI extends JFrame {
 							
 							if(absDAO.modify(temp)!=0) {
 								JOptionPane.showMessageDialog(null, "Votre fichier a bien ete enregistre.");
+								dispose();
 							}
 							else {
 								JOptionPane.showMessageDialog(null, "Erreur");
@@ -140,6 +141,7 @@ public class JustificatifGUI extends JFrame {
 	 * @param absID 
 	 */
 	public void traiter(int absID) {
+		this.setModal(true);
 		assign=0;
 		final JPanel panel=new JPanel();
 		setTitle("Justificatif");
@@ -218,6 +220,7 @@ public class JustificatifGUI extends JFrame {
 		
 	}
 	public void show(int absID) {
+		this.setModal(true);
 		final JPanel panel=new JPanel();
 		setTitle("Justificatif");
 		setSize(800,650);

@@ -63,13 +63,12 @@ public class AbsenceDAO extends ConnectDAO {
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
 			ps=con.prepareStatement("INSERT INTO absence "
-					+ "(id_abs,plan,week,etu,etat,commentaire) VALUES "
-					+ "(absence_id.NEXTVAL,?,?,?,?,?)");
+					+ "(id_abs,plan,week,etu,commentaire) VALUES "
+					+ "(absence_id.NEXTVAL,?,?,?,?)");
 			ps.setInt(1, target.getPlan());
 			ps.setInt(2,target.getWeek());
 			ps.setInt(3, target.getEtu());
-			ps.setInt(4, target.getEtat());
-			ps.setString(5, target.getComment());
+			ps.setString(4, target.getComment());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -139,7 +138,7 @@ public class AbsenceDAO extends ConnectDAO {
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("DELETE FROM absence WHERE id_abs=?)");
+			ps=con.prepareStatement("DELETE FROM absence WHERE id_abs=?");
 			ps.setInt(1, target.getID());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
@@ -330,7 +329,7 @@ public class AbsenceDAO extends ConnectDAO {
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT id_abs,etu AS id_etu,id_planning,nom_cours,type_cr,horaire,duree,just,typeAbs.nom AS etatAbs,commentaire"
-					+ " FROM absence INNER JOIN planning ON plan=id_planning INNER JOIN cours ON id_cours=mat INNER JOIN typeAbs ON etat=id_type");
+					+ " FROM absence INNER JOIN planning ON plan=id_planning INNER JOIN cours ON id_cours=mat FULL OUTER JOIN typeAbs ON etat=id_type");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				String date=this.calcDate(rs.getInt("id_abs"));
@@ -338,9 +337,17 @@ public class AbsenceDAO extends ConnectDAO {
 				if(rs.getInt("just")!=0) {
 					just_state="DEJA DEPOSE";
 				}
+				String state=rs.getString("etatAbs");
+				if(rs.wasNull()) {
+					state="N/A";
+				}
+				String comment=rs.getString("commentaire");
+				if(rs.wasNull()) {
+					comment="N/A";
+				}
 				list.add(new AbsenceAff(rs.getInt("id_abs"), rs.getInt("id_etu"), rs.getInt("id_planning"), 
 						rs.getString("nom_cours"), rs.getString("type_cr"), date+" "+rs.getString("horaire"),
-						rs.getInt("duree"), just_state, rs.getString("etatAbs"), rs.getString("commentaire")));
+						rs.getInt("duree"), just_state, state,comment));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

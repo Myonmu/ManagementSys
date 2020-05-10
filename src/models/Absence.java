@@ -34,6 +34,7 @@ public class Absence {
 		this.etu=etu;
 		this.comment=comment;
 	}
+
 	public int getID() {
 		return this.id;
 	}

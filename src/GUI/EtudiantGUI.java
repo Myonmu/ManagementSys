@@ -15,16 +15,17 @@ import models.*;
 
 
 public class EtudiantGUI extends JFrame{
-	public static int selectedID=0;
+	static int selectedID=0;
+	
 	public void readPlanning() {
 		selectedID=0;
 		
 		//window setup
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Planning");
-		setLocationRelativeTo(null);
+		
 		setSize(800,500);
-				
+		setLocationRelativeTo(null);		
 		JPanel panel=new JPanel(new BorderLayout());
 				
 		//Creating planning table
@@ -70,9 +71,9 @@ public class EtudiantGUI extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO copy add-absence GUI here
-			}
-					
+				AbsenceGUI absGUI=new AbsenceGUI();
+				absGUI.declarer(selectedID);
+			}	
 		});
 		
 		Box hbox=Box.createHorizontalBox();
@@ -95,7 +96,7 @@ public class EtudiantGUI extends JFrame{
 		JPanel panel=new JPanel(new BorderLayout());
 				
 	
-				
+		//TODO Incorrect table		
 		PlanningDAO plDAO=new PlanningDAO();
 		EtudiantDAO etuDAO=new EtudiantDAO();
 		int grID=etuDAO.searchByID(userID.ID).getGr();
@@ -133,7 +134,8 @@ public class EtudiantGUI extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO copy add-absence GUI here
+				AbsenceGUI absGUI=new AbsenceGUI();
+				absGUI.declarer(selectedID);
 			}
 					
 		});
@@ -148,6 +150,8 @@ public class EtudiantGUI extends JFrame{
 	}
 	
 	public static void main(String[] arg) {
+		userID.setUserID(1);
+		userID.setUSERTYPE(2);
 		EtudiantGUI etuGui=new EtudiantGUI();
 		etuGui.readPlanning();
 	}

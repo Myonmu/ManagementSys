@@ -163,7 +163,6 @@ public class PlanningGUI extends JFrame{
 	 * as ADD, and if selectedID is not 0 while button modify is pressed, this GUI functions as MODIFY.
 	 */
 	public DefaultTableModel editPlanning(DefaultTableModel model) {
-		state=false;
 		Planning target=new Planning(0, 0, 0, 0, "", "", 0, 0, 0);
 		if(selectedID!=0) {
 			PlanningDAO plDAO=new PlanningDAO();

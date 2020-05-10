@@ -78,7 +78,22 @@ public class AbsenceGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JustificatifGUI justGUI=new JustificatifGUI();
 				if(selectedID!=0) {
-					justGUI.deposer(selectedID);}
+					justGUI.deposer(selectedID);
+					//TODO
+					
+					model.setRowCount(0);
+					for(AbsenceAff i: absDAO.readAff()) {
+						if(i.getEtu()==etuID) {
+							Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+									i.getComment(),i.getEtu(),i.getPlan()};
+									model.addRow(row);
+							}
+						}
+					remove(panel);
+					add(panel);
+					revalidate();
+					repaint();
+					}
 				else {
 					JOptionPane.showMessageDialog(null, "Vous devez choisir l'absence!");
 				}
@@ -86,18 +101,19 @@ public class AbsenceGUI extends JFrame {
 			}
 		});
 		//TREATE JUST
-		//TODO ADD CONSTRAINT
 		JButton traiterJust = new JButton("Traiter");
 		traiterJust.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JustificatifGUI justGUI=new JustificatifGUI();
 				justGUI.traiter(selectedID);
+				//TODO Refresh this
 			}
 		});
 		Box hbox=Box.createHorizontalBox();
 		hbox.add(deposeJust);
 		hbox.add(showJust);
+		
 		panel.add(hbox,BorderLayout.SOUTH);
 		//DELETE ABSENCE
 		JButton deleteAbs=new JButton("Supprimer");
@@ -107,10 +123,14 @@ public class AbsenceGUI extends JFrame {
 				AbsenceDAO absDAO=new AbsenceDAO();
 				if(JOptionPane.showConfirmDialog(null, "Vous voulez vraiment supprimer cette absence?")==0) {
 					absDAO.delete(absDAO.searchByID(selectedID));
+					//TODO Refresh this
 				}
 			}
 		});
-		
+		if(userID.USERTYPE==3) {
+			hbox.add(traiterJust);
+			hbox.add(deleteAbs);
+		}
 		//showing the window
 		add(panel);
 		setVisible(true);
@@ -157,7 +177,7 @@ public class AbsenceGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AbsenceDAO absDAO=new AbsenceDAO() ;
-				Absence abs=new Absence(planID,Integer.parseInt(dateTF.getText()),0, "");
+				Absence abs=new Absence(planID,Integer.parseInt(dateTF.getText()),0,"");
 				if(userID.USERTYPE==2) {
 					abs.setEtu(userID.ID);
 				}	else {
@@ -178,6 +198,7 @@ public class AbsenceGUI extends JFrame {
 		this.setVisible(true);
 	}
 	public static void main(String[] arg) {
+		userID.setUSERTYPE(3);
 		AbsenceGUI absGUI=new AbsenceGUI();
 		absGUI.readEtuAbsence(1);
 	}
