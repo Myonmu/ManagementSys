@@ -1,6 +1,9 @@
 package GUI;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -14,25 +17,28 @@ import DAO.*;
 import models.*;
 public class PlanningGUI extends JFrame{
 	static int selectedID=0;
-	static int sessionID=0;
-	static int matID=0;
-	static int dow=0;
-	static String type="";
+	static int sessionID=1;
+	static int matID=1;
+	static int dow=1;
+	static String type="AMPHI";
+	static int groupeID=1;
+	static int enseignantID=1;
+	static boolean state=false;
 	public void readAllPlanning() {
 		selectedID=0;
 		//window setup
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Planning");
-		setLocationRelativeTo(null);
-		setSize(800,500);
 		
-		JPanel panel=new JPanel(new BorderLayout());
+		setSize(800,500);
+		setLocationRelativeTo(null);
+		final JPanel panel=new JPanel(new BorderLayout());
 		
 		//Creating planning table
 		
 		PlanningDAO plDAO=new PlanningDAO();
 		CoursDAO csDAO=new CoursDAO();
-		Object[] columnHeads= {"ID","Session","Jour","Heure","Matiere","Type","Duree","Groupe","Enseignant","idEns","idMat"};
+		final Object[] columnHeads= {"ID","Session","Jour","Heure","Matiere","Type","Duree","Groupe","Enseignant","idEns","idMat"};
 		DefaultTableModel model=new DefaultTableModel(columnHeads,0);
 		//A Planning is considered in a Enseignant's table if he teaches it or is responsible for the course
 		for(PlanningAff i:plDAO.readPlanningAff()) {
@@ -40,7 +46,7 @@ public class PlanningGUI extends JFrame{
 						,i.getGroupe(),i.getEns(),i.getIdEns(),i.getIdMat()};
 				model.addRow(row);
 		}
-		JTable table=new JTable(model);
+		final JTable table=new JTable(model);
 		TableColumnModel cm=table.getColumnModel();
 		//Hide id columns
 		cm.removeColumn(cm.getColumn(cm.getColumnIndex("idEns")));
@@ -62,19 +68,102 @@ public class PlanningGUI extends JFrame{
 		panel.add(table,BorderLayout.CENTER);
 		
 		//Buttons
+		Box buttons=Box.createHorizontalBox();
 		//Add
 		JButton addBtn=new JButton("Creer");
-		
+		addBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				selectedID=0;
+				PlanningGUI plGUI=new PlanningGUI();
+				DefaultTableModel modelMod=plGUI.editPlanning((DefaultTableModel)table.getModel());		
+				table.setModel(modelMod);
+				remove(panel);
+				add(panel);
+				revalidate();
+				repaint();
+			}
+			
+		});
+		buttons.add(addBtn);
 		//Modify
+		JButton modButton=new JButton("Modifier");
+		modButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(selectedID!=0) {
+					PlanningGUI plGUI=new PlanningGUI();
+					DefaultTableModel modelMod=plGUI.editPlanning((DefaultTableModel)table.getModel());		
+					table.setModel(modelMod);
+					remove(panel);
+					add(panel);
+					revalidate();
+					repaint();
+				    }else {
+					JOptionPane.showMessageDialog(null, "Vouz devez choisir un Planning!");
+				}
+			}
+		});
+		buttons.add(modButton);
 		//Delete
+		JButton deleteBtn=new JButton("Supprimer");
+		deleteBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(selectedID!=0) {
+					if(JOptionPane.showConfirmDialog(null, "Vous voulez supprimer ce Planning?")==0) {
+						PlanningDAO plDAO=new PlanningDAO();
+						plDAO.delete(plDAO.searchByID(selectedID));
+						DefaultTableModel modelMod=new DefaultTableModel(columnHeads, 0);
+						for(PlanningAff i:plDAO.readPlanningAff()) {
+							Object[] row= {i.getId(),i.getSession(),i.getDow(),i.getHoraire(),i.getMatiere(),i.getType(),i.getDuree()
+									,i.getGroupe(),i.getEns(),i.getIdEns(),i.getIdMat()};
+							modelMod.addRow(row);
+						}
+						table.setModel(modelMod);
+						TableColumnModel cm=table.getColumnModel();
+						//Hide id columns
+						cm.removeColumn(cm.getColumn(cm.getColumnIndex("idEns")));
+						cm.removeColumn(cm.getColumn(cm.getColumnIndex("idMat")));
+						remove(panel);
+						add(panel);
+						revalidate();
+						repaint();
+						
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Vous devez choisir un Planning.");
+				}
+				
+			}
+			
+		});
+		buttons.add(deleteBtn);
+		//Absence declare
+		JButton declareBtn=new JButton("Declarer Absence");
+		declareBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AbsenceGUI absGUI=new AbsenceGUI() ;
+				absGUI.declarer(selectedID);
+			}
+			
+		});
+		buttons.add(declareBtn);
 		
+		panel.add(buttons,BorderLayout.SOUTH);
+		this.add(panel);
+		this.setVisible(true);
 	}
 	/**
 	 * This GUI combines add/modify. If selectedID is 0 while add button is pressed, this GUI functions 
 	 * as ADD, and if selectedID is not 0 while button modify is pressed, this GUI functions as MODIFY.
 	 */
-	public void editPlanning() {
-		
+	public DefaultTableModel editPlanning(DefaultTableModel model) {
+		state=false;
 		Planning target=new Planning(0, 0, 0, 0, "", "", 0, 0, 0);
 		if(selectedID!=0) {
 			PlanningDAO plDAO=new PlanningDAO();
@@ -84,11 +173,11 @@ public class PlanningGUI extends JFrame{
 		this.setSize(500,300);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		this.setTitle("Creation Planning");
+		this.setTitle("Planning");
 		
 		//Components
 		//Session Combobox
-		sessionID=0;
+		sessionID=1;
 		JLabel session=new JLabel("Session");
 		JComboBox<Session> sessionCB= new JComboBox<Session>();
 		sessionCB.setMaximumRowCount(10);
@@ -112,7 +201,7 @@ public class PlanningGUI extends JFrame{
 		sesBox.add(session);
 		sesBox.add(sessionCB);
 		//Matiere Combobox
-		matID=0;
+		matID=1;
 		JLabel matiere=new JLabel("Matiere");
 		JComboBox<Cours> matCB=new JComboBox<Cours>();
 		matCB.setMaximumRowCount(10);
@@ -137,7 +226,7 @@ public class PlanningGUI extends JFrame{
 		matBox.add(matCB);
 		
 		//DOW Combobox
-		dow=0;
+		dow=1;
 		JLabel dowLabel=new JLabel("Jour");
 		String[] dowList= {"Lundi","Mardi","Mecredi","Jeudi","Vendredi"};
 		JComboBox<String> dowCB= new JComboBox<String>();
@@ -148,7 +237,7 @@ public class PlanningGUI extends JFrame{
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange()==ItemEvent.SELECTED) {
-					dow=dowCB.getSelectedIndex()+1; //TODO Verify if it is necessary to add 1
+					dow=dowCB.getSelectedIndex()+1; 
 				}
 			}
 			
@@ -164,14 +253,14 @@ public class PlanningGUI extends JFrame{
 		horaireBox.add(horaireLabel);
 		horaireBox.add(horaireTF);
 		//type 
-		type="";
+		type="AMPHI";
 		JLabel typeLabel=new JLabel("Type");
 		String[] typeList= {"AMPHI","TD","TP","DS"};
 		JComboBox<String> typeCB= new JComboBox<String>();
 		for(String i:typeList) {
 			typeCB.addItem(i);
 		}
-		dowCB.addItemListener(new ItemListener() {
+		typeCB.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange()==ItemEvent.SELECTED) {
@@ -184,14 +273,120 @@ public class PlanningGUI extends JFrame{
 		typeBox.add(typeCB);
 		//Duree
 		JTextField dureeTF=new JTextField();
-		JLabel dureeLabel=new JLabel("Duree");
+		JLabel dureeLabel=new JLabel("Duree(minutes)");
 		Box dureeBox=Box.createHorizontalBox();
-		dureeBox.add(horaireLabel);
-		dureeBox.add(horaireTF);
+		dureeBox.add(dureeLabel);
+		dureeBox.add(dureeTF);
 		//Groupe cb
+		groupeID=1;
+		JLabel grLabel=new JLabel("Groupe");
+		GroupeDAO grDAO=new GroupeDAO();
+		GroupeRenderer grRend=new GroupeRenderer();
+		JComboBox<Groupe>grCB= new JComboBox<Groupe>();
+		grCB.setRenderer(grRend);
+		for(Groupe i:grDAO.readGrList()) {
+			grCB.addItem(i);
+		}
+		grCB.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange()==ItemEvent.SELECTED) {
+					groupeID=((Groupe)grCB.getSelectedItem()).getID(); 
+				}
+			}
+			
+		});
+		Box groupeBox=Box.createHorizontalBox();
+		groupeBox.add(grLabel);
+		groupeBox.add(grCB);
 		
-		
-		
+		//Ens CB
+		enseignantID=1;
+		JLabel ensLabel=new JLabel("Enseignant");
+		EnseignantDAO ensDAO=new EnseignantDAO();
+		EnseignantRenderer ensRend=new EnseignantRenderer();
+		JComboBox<Enseignant>ensCB= new JComboBox<Enseignant>();
+		ensCB.setRenderer(ensRend);
+		for(Enseignant i:ensDAO.readAll()) {
+			ensCB.addItem(i);
+		}
+		ensCB.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange()==ItemEvent.SELECTED) {
+					enseignantID=((Enseignant)ensCB.getSelectedItem()).getID(); 
+					System.out.println(enseignantID);
+				}
+			}
+			
+		});
+		Box ensBox=Box.createHorizontalBox();
+		ensBox.add(ensLabel);
+		ensBox.add(ensCB);
+		//Modification mode
+		if(selectedID!=0) {
+			matCB.setSelectedItem(crDAO.searchByID(target.getMat()));
+			sessionCB.setSelectedItem(sesDAO.searchByID(target.getSess()));
+			dowCB.setSelectedIndex(target.getDow()-1);
+			horaireTF.setText(target.getHoraire());
+			typeCB.setSelectedItem(target.getType());
+			dureeTF.setText(Integer.toString(target.getDuree()));
+			grCB.setSelectedItem(grDAO.searchByID(target.getGr()));
+			ensCB.setSelectedItem(ensDAO.searchByID(target.getEns()));
+		}
+		//Button
+		JButton confirm=new JButton("Confirmer");
+		confirm.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PlanningDAO plDAO=new PlanningDAO();
+				Planning target=new Planning(0, 0, 0, 0, "", "", 0, 0, 0);
+				target.setDow(dow);
+				target.setDuree(Integer.parseInt(dureeTF.getText()));
+				target.setEns(enseignantID);
+				target.setGr(groupeID);
+				target.setHoraire(horaireTF.getText());
+				target.setMat(matID);
+				target.setSess(sessionID);
+				target.setType(type);
+				if(selectedID==0) {
+					if(plDAO.add(target)!=0) {
+						JOptionPane.showMessageDialog(null, "Planning Cree.");
+					}
+				}else {
+					target.setID(selectedID);
+					if(plDAO.modify(target)!=0) {
+						JOptionPane.showMessageDialog(null, "Planning Modifie.");
+					}
+				}
+				model.setRowCount(0);
+				for(PlanningAff i:plDAO.readPlanningAff()) {
+					Object[] row= {i.getId(),i.getSession(),i.getDow(),i.getHoraire(),i.getMatiere(),i.getType(),i.getDuree()
+							,i.getGroupe(),i.getEns(),i.getIdEns(),i.getIdMat()};
+					model.addRow(row);
+				}
+				
+				
+			}
+			
+		});
+		//Assemble
+		Box mainBox=Box.createVerticalBox();
+		mainBox.add(sesBox);
+		mainBox.add(matBox);
+		mainBox.add(dowBox);
+		mainBox.add(horaireBox);
+		mainBox.add(typeBox);
+		mainBox.add(dureeBox);
+		mainBox.add(groupeBox);
+		mainBox.add(ensBox);
+		mainBox.add(confirm);
+		JPanel panel=new JPanel(new BorderLayout());
+		panel.add(mainBox,BorderLayout.CENTER);
+		this.add(panel);
+		this.setVisible(true);
+		return model;
 	}
 	
 	
@@ -207,7 +402,7 @@ public class PlanningGUI extends JFrame{
 		private static final long serialVersionUID = 1L;
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
-			Object translated=((Session)value).getNum()+" "+((Session)value).getDate();
+			Object translated=((Session)value).getNum()+"   "+((Session)value).getDate();
 			super.getListCellRendererComponent(list,translated,index,isSelected,cellHasFocus);
 			return this;
 		}
@@ -243,7 +438,7 @@ public class PlanningGUI extends JFrame{
 		private static final long serialVersionUID = 1L;
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
-			Object translated=((Groupe)value).getNum();
+			Object translated=((Groupe)value).getNum()+"   CAP:"+((Groupe)value).getCap();
 			super.getListCellRendererComponent(list,translated,index,isSelected,cellHasFocus);
 			return this;
 		}
@@ -261,10 +456,14 @@ public class PlanningGUI extends JFrame{
 		private static final long serialVersionUID = 1L;
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
-			Object translated=((Enseignant)value).getNom()+" "+((Enseignant)value).getPrenom();
+			Object translated=((Enseignant)value).getID()+"   "+((Enseignant)value).getNom()+" "+((Enseignant)value).getPrenom();
 			super.getListCellRendererComponent(list,translated,index,isSelected,cellHasFocus);
 			return this;
 		}
 	}
 	
+	public static void main(String[] args) {
+		PlanningGUI plGUI=new PlanningGUI();
+		plGUI.readAllPlanning();
+	}
 }

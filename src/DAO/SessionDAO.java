@@ -58,16 +58,16 @@ public class SessionDAO  extends ConnectDAO{
 		}
 		return rSession;
 	}
-	public Session searchByID(String target) {
+	public Session searchByID(int i) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		Session rSession=new Session(0, 0, target);
+		Session rSession=new Session(0, 0, "");
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT * FROM sess WHERE id_session=?");
-			ps.setString(1, target);
+			ps.setInt(1, i);
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				rSession.setID(rs.getInt(1));
