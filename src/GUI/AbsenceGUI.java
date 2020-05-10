@@ -134,6 +134,7 @@ public class AbsenceGUI extends JFrame {
 		dateBox.add(dateTF);
 		mainBox.add(dateBox);
 		//Etu
+		
 		JLabel etuLabel=new JLabel("Etudiant");
 		JButton selectEtu=new JButton("Select");
 		selectEtu.addActionListener(new ActionListener() {

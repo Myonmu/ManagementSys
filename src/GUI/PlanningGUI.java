@@ -1,6 +1,8 @@
 package GUI;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -12,6 +14,10 @@ import DAO.*;
 import models.*;
 public class PlanningGUI extends JFrame{
 	static int selectedID=0;
+	static int sessionID=0;
+	static int matID=0;
+	static int dow=0;
+	static String type="";
 	public void readAllPlanning() {
 		selectedID=0;
 		//window setup
@@ -57,61 +63,205 @@ public class PlanningGUI extends JFrame{
 		
 		//Buttons
 		//Add
+		JButton addBtn=new JButton("Creer");
+		
 		//Modify
 		//Delete
 		
 	}
-	
-	public void addPlanning() {
+	/**
+	 * This GUI combines add/modify. If selectedID is 0 while add button is pressed, this GUI functions 
+	 * as ADD, and if selectedID is not 0 while button modify is pressed, this GUI functions as MODIFY.
+	 */
+	public void editPlanning() {
+		
+		Planning target=new Planning(0, 0, 0, 0, "", "", 0, 0, 0);
+		if(selectedID!=0) {
+			PlanningDAO plDAO=new PlanningDAO();
+			target=plDAO.searchByID(selectedID);
+		}
+		
 		this.setSize(500,300);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle("Creation Planning");
 		
 		//Components
+		//Session Combobox
+		sessionID=0;
 		JLabel session=new JLabel("Session");
-		JComboBox sessionCB= new JComboBox();
+		JComboBox<Session> sessionCB= new JComboBox<Session>();
+		sessionCB.setMaximumRowCount(10);
+		SessionDAO sesDAO=new SessionDAO();
+		SessionRenderer sesRend=new SessionRenderer();
+		sessionCB.setRenderer(sesRend);
+		for(Session i: sesDAO.readAll()) {
+			sessionCB.addItem(i);
+		}
+		sessionCB.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange()==ItemEvent.SELECTED) {
+					sessionID=((Session) sessionCB.getSelectedItem()).getID();
+				}
+			}
+			
+		});
+		Box sesBox=Box.createHorizontalBox();
+		sesBox.add(session);
+		sesBox.add(sessionCB);
+		//Matiere Combobox
+		matID=0;
+		JLabel matiere=new JLabel("Matiere");
+		JComboBox<Cours> matCB=new JComboBox<Cours>();
+		matCB.setMaximumRowCount(10);
+		MatiereRenderer matRend=new MatiereRenderer();
+		matCB.setRenderer(matRend);
+		CoursDAO crDAO=new CoursDAO();
+		for(Cours i: crDAO.readAll()) {
+			matCB.addItem(i);
+		}
+		matCB.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange()==ItemEvent.SELECTED) {
+					matID=((Cours) matCB.getSelectedItem()).getID();
+				}
+			}
+			
+		});
+		Box matBox=Box.createHorizontalBox();
+		matBox.add(matiere);
+		matBox.add(matCB);
+		
+		//DOW Combobox
+		dow=0;
+		JLabel dowLabel=new JLabel("Jour");
+		String[] dowList= {"Lundi","Mardi","Mecredi","Jeudi","Vendredi"};
+		JComboBox<String> dowCB= new JComboBox<String>();
+		for(String i:dowList) {
+			dowCB.addItem(i);
+		}
+		dowCB.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange()==ItemEvent.SELECTED) {
+					dow=dowCB.getSelectedIndex()+1; //TODO Verify if it is necessary to add 1
+				}
+			}
+			
+		});
+		Box dowBox=Box.createHorizontalBox();
+		dowBox.add(dowLabel);
+		dowBox.add(dowCB);
+		
+	    //Horaire txtField
+		JTextField horaireTF=new JTextField();
+		JLabel horaireLabel=new JLabel("Commence A");
+		Box horaireBox=Box.createHorizontalBox();
+		horaireBox.add(horaireLabel);
+		horaireBox.add(horaireTF);
+		//type 
+		type="";
+		JLabel typeLabel=new JLabel("Type");
+		String[] typeList= {"AMPHI","TD","TP","DS"};
+		JComboBox<String> typeCB= new JComboBox<String>();
+		for(String i:typeList) {
+			typeCB.addItem(i);
+		}
+		dowCB.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange()==ItemEvent.SELECTED) {
+					type=(String)typeCB.getSelectedItem();
+				}
+			}
+		});
+		Box typeBox=Box.createHorizontalBox();
+		typeBox.add(typeLabel);
+		typeBox.add(typeCB);
+		//Duree
+		JTextField dureeTF=new JTextField();
+		JLabel dureeLabel=new JLabel("Duree");
+		Box dureeBox=Box.createHorizontalBox();
+		dureeBox.add(horaireLabel);
+		dureeBox.add(horaireTF);
+		//Groupe cb
 		
 		
 		
 	}
 	
 	
-	class sessionRenderer extends DefaultListCellRenderer{
+	/**
+	 * Renderer for the Session Combobox
+	 * 
+	 */
+	class SessionRenderer extends DefaultListCellRenderer{
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 			Object translated=((Session)value).getNum()+" "+((Session)value).getDate();
 			super.getListCellRendererComponent(list,translated,index,isSelected,cellHasFocus);
 			return this;
 		}
 	}
-	class matiereRenderer extends DefaultListCellRenderer{
+	/**
+	 * Renderer for the course combobox
+	 * @author miska
+	 *
+	 */
+	class MatiereRenderer extends DefaultListCellRenderer{
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 			Object translated=((Cours)value).getNom();
 			super.getListCellRendererComponent(list,translated,index,isSelected,cellHasFocus);
 			return this;
 		}
 	}
-	class groupeRenderer extends DefaultListCellRenderer{
+	/**
+	 * Renderer for the group combobox
+	 * @author miska
+	 *
+	 */
+	class GroupeRenderer extends DefaultListCellRenderer{
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 			Object translated=((Groupe)value).getNum();
+			super.getListCellRendererComponent(list,translated,index,isSelected,cellHasFocus);
+			return this;
+		}
+	}
+	/**
+	 * Renderer for the enseignant combobox
+	 * @author miska
+	 *
+	 */
+	class EnseignantRenderer extends DefaultListCellRenderer{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			Object translated=((Enseignant)value).getNom()+" "+((Enseignant)value).getPrenom();
 			super.getListCellRendererComponent(list,translated,index,isSelected,cellHasFocus);
 			return this;
 		}
