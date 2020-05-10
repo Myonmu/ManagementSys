@@ -49,20 +49,19 @@ public class Gestion_etudiant extends JFrame {
 	 */
 	public Gestion_etudiant() {
 		setTitle("Gestion_etudiant");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 709, 397);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		setLocationRelativeTo(null);
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Creer_étudiant w = new Creer_étudiant();
+				Creer_etudiant w = new Creer_etudiant();
 				w.setVisible(true);
-				dispose();
 			}
 		});
 		btnAjouter.setBounds(436, 85, 247, 29);
@@ -102,7 +101,6 @@ public class Gestion_etudiant extends JFrame {
 				etu = liste_etudiant.get(table.getSelectedRow()-1);
 				Modifier_etudiant w = new Modifier_etudiant(etu);
 				w.setVisible(true);
-				dispose();
 			}
 		});
 		btnNewButton.setBounds(436, 29, 244, 29);

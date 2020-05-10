@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
-public class Creer_étudiant extends JFrame {
+public class Creer_etudiant extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -40,7 +40,7 @@ public class Creer_étudiant extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Creer_étudiant frame = new Creer_étudiant();
+					Creer_etudiant frame = new Creer_etudiant();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,9 +52,9 @@ public class Creer_étudiant extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Creer_étudiant() {
+	public Creer_etudiant() {
 		setTitle("Creer_etudiant");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 374, 328);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
@@ -114,20 +114,13 @@ public class Creer_étudiant extends JFrame {
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				EtudiantDAO dao = new EtudiantDAO();
-				
-				int res = dao.add(new Etudiant(
-									   
-									   textField.getText(), 
-									   
-									   textField_1.getText(),
-									   
-									   textField_2.getText(),
-									   
-									   liste_id[comboBox.getSelectedIndex()]
-						));
+				Etudiant temp=new Etudiant(textField.getText(),textField_1.getText(),textField_2.getText(),
+						liste_id[comboBox.getSelectedIndex()]);
+				temp.randomizer();
+				int res = dao.add(temp);
 				
 				if(res==1) {
-					JOptionPane.showMessageDialog(contentPane, res + " etudiant ajouté");
+					JOptionPane.showMessageDialog(contentPane, res + " etudiant ajoute");
 					dispose();
 					Gestion_etudiant g = new Gestion_etudiant();
 				}else {

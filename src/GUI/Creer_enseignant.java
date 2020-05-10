@@ -21,7 +21,7 @@ import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Créer_enseignant extends JFrame {
+public class Creer_enseignant extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -39,7 +39,7 @@ public class Créer_enseignant extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Créer_enseignant frame = new Créer_enseignant();
+					Creer_enseignant frame = new Creer_enseignant();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +51,7 @@ public class Créer_enseignant extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Créer_enseignant() {
+	public Creer_enseignant() {
 		setTitle("Cr\u00E9er_enseignant");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 653, 318);
@@ -126,11 +126,11 @@ public class Créer_enseignant extends JFrame {
 									   textField_2.getText()));
 				
 				if(res==1) {
-					JOptionPane.showMessageDialog(contentPane, res + " enseignant ajouté");
+					JOptionPane.showMessageDialog(contentPane, res + " enseignant ajoutï¿½");
 					dispose();
 					Gestion_enseignant g = new Gestion_enseignant();
 				}else {
-					JOptionPane.showMessageDialog(contentPane, "ERREUR, Vérifiez vos champs d'entrée");
+					JOptionPane.showMessageDialog(contentPane, "ERREUR, Vé–žifiez vos champs d'entré–‘");
 				}
 			}
 		});

@@ -1,6 +1,4 @@
---Cleaning existing data (ENSEIGANT)
-DROP SEQUENCE enseignant_id;
-DROP TABLE enseignant;
+
 --Creating ENSEIGNANT
 CREATE SEQUENCE enseignant_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE enseignant(
@@ -14,9 +12,7 @@ CONSTRAINT pk_enseignant PRIMARY KEY(id_ens)
 );
 
 
---Cleaning existing data (ETUDIANT)
-DROP SEQUENCE etudiant_id;
-DROP TABLE etudiant;
+
 --Creating ETUDIANT
 CREATE SEQUENCE etudiant_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE etudiant(
