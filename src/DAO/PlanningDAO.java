@@ -184,7 +184,7 @@ public class PlanningDAO extends ConnectDAO {
 		Planning rPlanning=new Planning(target, target, target, target, null, null, target, target, target);
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM cours WHERE id_cours=?");
+			ps=con.prepareStatement("SELECT * FROM planning WHERE id_planning=?");
 			ps.setInt(1, target);
 			rs=ps.executeQuery();
 			if(rs.next()) {

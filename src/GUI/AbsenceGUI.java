@@ -16,6 +16,7 @@ public class AbsenceGUI extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static int selectedID=0;
+	public static int etuID=0;
 	public void readEtuAbsence(int etuID) {
 		//WINDOW SET UP
 		selectedID=0;
@@ -55,6 +56,7 @@ public class AbsenceGUI extends JFrame {
 		panel.add(table.getTableHeader(),BorderLayout.NORTH);
 		panel.add(table,BorderLayout.CENTER);
 		//CREATING BUTTONS
+		//SHOW JUST
 		JButton showJust = new JButton("Afficher");
 		showJust.addActionListener(new ActionListener() {
 
@@ -68,6 +70,7 @@ public class AbsenceGUI extends JFrame {
 				}
 			}
 		});
+		//UPLOAD JUST
 		JButton deposeJust = new JButton("Deposer"); 
 		deposeJust.addActionListener(new ActionListener() {
 
@@ -82,6 +85,8 @@ public class AbsenceGUI extends JFrame {
 				
 			}
 		});
+		//TREATE JUST
+		//TODO ADD CONSTRAINT
 		JButton traiterJust = new JButton("Traiter");
 		traiterJust.addActionListener(new ActionListener() {
 			@Override
@@ -94,6 +99,17 @@ public class AbsenceGUI extends JFrame {
 		hbox.add(deposeJust);
 		hbox.add(showJust);
 		panel.add(hbox,BorderLayout.SOUTH);
+		//DELETE ABSENCE
+		JButton deleteAbs=new JButton("Supprimer");
+		deleteAbs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AbsenceDAO absDAO=new AbsenceDAO();
+				if(JOptionPane.showConfirmDialog(null, "Vous voulez vraiment supprimer cette absence?")==0) {
+					absDAO.delete(absDAO.searchByID(selectedID));
+				}
+			}
+		});
 		
 		//showing the window
 		add(panel);
@@ -102,8 +118,64 @@ public class AbsenceGUI extends JFrame {
 		
 	}
 	
-	public void declarerEtu(int planID) {
+	public void declarer(int planID) {
+		//setup window
+		this.setTitle("Creation Absence");
+		this.setSize(300,150);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		//setup textfields
+		//Date
+		Box mainBox=Box.createVerticalBox();
+		Box dateBox=Box.createHorizontalBox();
+		JLabel dateLabel=new JLabel("Semaine");
+		JTextField dateTF=new JTextField();
+		dateBox.add(dateLabel);
+		dateBox.add(dateTF);
+		mainBox.add(dateBox);
+		//Etu
 		
+		JLabel etuLabel=new JLabel("Etudiant");
+		JButton selectEtu=new JButton("Select");
+		selectEtu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO Paste Etudiant selection here
+				etuID=0;
+				
+			}
+		});
+		Box etuBox=Box.createHorizontalBox();
+		etuBox.add(etuLabel);
+		etuBox.add(selectEtu);
+		if(userID.USERTYPE!=2) {
+			mainBox.add(etuBox);
+		}
+		//button
+		JButton confirm=new JButton("Confirmer");
+		confirm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AbsenceDAO absDAO=new AbsenceDAO() ;
+				Absence abs=new Absence(planID,Integer.parseInt(dateTF.getText()),0, "");
+				if(userID.USERTYPE==2) {
+					abs.setEtu(userID.ID);
+				}	else {
+					abs.setEtu(etuID);
+				}
+				if(absDAO.addNoJust(abs)!=0) {
+					JOptionPane.showMessageDialog(null, "Absence declaree");
+				}else {
+					JOptionPane.showMessageDialog(null, "Erreur");
+				}
+			}
+		});
+		mainBox.add(confirm);
+		//assemble
+		JPanel panel=new JPanel();
+		panel.add(mainBox);
+		this.add(panel);
+		this.setVisible(true);
 	}
 	public static void main(String[] arg) {
 		AbsenceGUI absGUI=new AbsenceGUI();
