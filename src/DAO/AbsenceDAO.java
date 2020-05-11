@@ -12,11 +12,20 @@ import java.util.*;
 
 import models.Absence;
 import models.AbsenceAff;
-
+/**
+ * Absence DAO
+ * @author Hippocrate
+ *
+ */
 public class AbsenceDAO extends ConnectDAO {
 	public AbsenceDAO() {
 		super();
 	}
+	/**
+	 * Adding an absence in to the db
+	 * @param target target absence
+	 * @return number of rows added
+	 */
 	public int add(Absence target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -56,6 +65,11 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * Add an absence without justification into the db
+	 * @param target target absence without absencetype nor justification
+	 * @return numberof rows added.
+	 */
 	public int addNoJust(Absence target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -93,6 +107,11 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * Modifies an absence
+	 * @param target target absence to be modified
+	 * @return number of rows modified. Normally 1.
+	 */
 	public int modify(Absence target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -141,7 +160,11 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
-	
+	/**
+	 * Deletes an absence
+	 * @param target target absence to be deleted
+	 * @return number of rows deleted
+	 */
 	public int delete(Absence target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -174,7 +197,10 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
-	
+	/**
+	 * Read all absence record
+	 * @return list of records
+	 */
 	public ArrayList<Absence> readAll(){
 		ArrayList<Absence> list=new ArrayList<>();
 		Connection con=null;
@@ -220,6 +246,11 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return list;
 	}
+	/**
+	 * Search for a complete absence object, knowing the id.
+	 * @param id
+	 * @return the absence object
+	 */
 	public Absence searchByID(int id){
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -270,7 +301,11 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rAbs;
 	}
-	
+	/**
+	 * Calculates the exact date of absence
+	 * @param id of the target absence
+	 * @return Date in DD/MM/YYYY format
+	 */
 	public String calcDate(int id) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -329,7 +364,10 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rDate;
 	}
-	
+	/**
+	 * Reads all absence record, in a user-friendly style.
+	 * @return list of records
+	 */
 	public ArrayList<AbsenceAff> readAff(){
 		ArrayList<AbsenceAff> list=new ArrayList<>();
 		Connection con=null;

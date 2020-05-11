@@ -1,13 +1,12 @@
 package GUI;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.ParseException;
-import java.util.ArrayList;
+
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -16,7 +15,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import DAO.*;
 import models.*;
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class PlanningGUI extends JDialog{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static int selectedID=0;
 	static int sessionID=1;
 	static int matID=1;
@@ -25,6 +33,9 @@ public class PlanningGUI extends JDialog{
 	static int groupeID=1;
 	static int enseignantID=1;
 	static boolean state=false;
+	/**
+	 * reads all planning (user-friendly style)
+	 */
 	public void readAllPlanning() {
 		selectedID=0;
 		//window setup
@@ -38,7 +49,6 @@ public class PlanningGUI extends JDialog{
 		//Creating planning table
 		
 		PlanningDAO plDAO=new PlanningDAO();
-		CoursDAO csDAO=new CoursDAO();
 		final Object[] columnHeads= {"ID","Session","Jour","Heure","Matiere","Type","Duree","Groupe","Enseignant","idEns","idMat"};
 		DefaultTableModel model=new DefaultTableModel(columnHeads,0);
 		//A Planning is considered in a Enseignant's table if he teaches it or is responsible for the course

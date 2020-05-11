@@ -16,9 +16,10 @@ public class UserDAO extends ConnectDAO{
 	 * This is an auth process. The process returns an integer that represents the type of the user.
 	 * Each type of user must contain field password and username.
 	 * 0=login unsuccessful
-	 * 1=logged in with Manager account
-	 * 2=logged in with Teacher account
-	 * 3=logged in with Student account
+	 * 3=logged in with Manager account
+	 * 1=logged in with Teacher account
+	 * 2=logged in with Student account
+	 * Access level and userID will be stored in userID, respectively userID.USERTYPE and userID.ID
 	 * @return access level
 	 */
 	public int login(User anonymous) {

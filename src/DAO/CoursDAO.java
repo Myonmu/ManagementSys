@@ -8,7 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import models.Cours;
 import models.Enseignant;
-
+/**
+ * @author Hippocrate
+ *
+ */
 public class CoursDAO extends ConnectDAO{
 
 	public CoursDAO() {
@@ -53,6 +56,11 @@ public class CoursDAO extends ConnectDAO{
 		}
 		return rVal;
 	}
+	/**
+	 * modifies a course
+	 * @param target course
+	 * @return number of rows modified
+	 */
 	public int modify(Cours target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -88,6 +96,11 @@ public class CoursDAO extends ConnectDAO{
 		}
 		return rVal;
 	}
+	/**
+	 * deletes a course
+	 * @param target course
+	 * @return number of course deleted
+	 */
 	public int delete(Cours target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -120,6 +133,10 @@ public class CoursDAO extends ConnectDAO{
 		}
 		return rVal;
 	}
+	/**
+	 * Read all course in the db
+	 * @return list of course
+	 */
 	public ArrayList<Cours> readAll(){
 		ArrayList<Cours> list=new ArrayList<>();
 		Connection con=null;
@@ -214,6 +231,11 @@ public class CoursDAO extends ConnectDAO{
 		}
 		return list;
 	}
+	/**
+	 * search a course by its name
+	 * @param target name
+	 * @return target course object
+	 */
 	public Cours searchByName(String target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -261,6 +283,11 @@ public class CoursDAO extends ConnectDAO{
 		}
 		return rCours;
 	}
+	/**
+	 * searches a course by its id
+	 * @param target id
+	 * @return course object
+	 */
 	public Cours searchByID(int target) {
 		Connection con=null;
 		PreparedStatement ps=null;

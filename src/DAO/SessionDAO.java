@@ -6,11 +6,20 @@ import java.util.ArrayList;
 
 import models.Session;
 
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class SessionDAO  extends ConnectDAO{
 	public SessionDAO() {
 		super();
 	}
+	/**
+	 * search a session by its number
+	 * @param target number
+	 * @return session object
+	 */
 	public Session searchByNum(String target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -58,6 +67,11 @@ public class SessionDAO  extends ConnectDAO{
 		}
 		return rSession;
 	}
+	/**
+	 * search a session py its id
+	 * @param id
+	 * @return session object
+	 */
 	public Session searchByID(int i) {
 		Connection con=null;
 		PreparedStatement ps=null;

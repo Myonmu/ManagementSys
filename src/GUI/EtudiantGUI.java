@@ -2,7 +2,6 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -22,6 +21,10 @@ import models.*;
  *
  */
 public class EtudiantGUI extends JDialog{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static int selectedID=0;
 	/**
 	 * Student menu
@@ -126,7 +129,13 @@ public class EtudiantGUI extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AbsenceGUI absGUI=new AbsenceGUI();
-				absGUI.declarer(selectedID);
+				if(selectedID!=0) {
+				    absGUI.declarer(selectedID);
+				    selectedID=0;
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Vous devez choisir un Planning!");
+				}
 			}	
 		});
 		
@@ -138,7 +147,60 @@ public class EtudiantGUI extends JDialog{
 		add(panel);
 		setVisible(true);
 	}
-	
+	/**
+	 * For student selection
+	 * @return selected student's id
+	 */
+	public int etuSelect() {
+		selectedID=0;
+		this.setSize(800,500);
+		this.setLocationRelativeTo(null);
+		this.setTitle("Etudiant selection");
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.setModal(true);
+		
+		Object[] tableHead= {"ID","Nom","Prenom"};
+		DefaultTableModel model=new DefaultTableModel(tableHead,0);
+		EtudiantDAO etuDAO=new EtudiantDAO();
+		for(Etudiant i:etuDAO.readAll()) {
+			Object[] row= {i.getID(),i.getNom(),i.getPrenom()};
+			model.addRow(row);
+		}
+		JTable table=new JTable(model);
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(table.getSelectedRow()>-1) {
+					selectedID=(int) table.getModel().getValueAt(table.getSelectedRow(), 0);
+				}
+			}
+			
+		});
+		
+		JPanel panel=new JPanel(new BorderLayout());
+		panel.add(table.getTableHeader(),BorderLayout.NORTH);
+		panel.add(table,BorderLayout.CENTER);
+		
+		//button
+		JButton confirm=new JButton("Confirmer") ;
+		confirm.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(selectedID!=0) {
+					JOptionPane.showMessageDialog(null, "Etudiant Selectione");
+					dispose();
+				}	
+			}
+		});
+		panel.add(confirm,BorderLayout.SOUTH);
+		add(panel);
+		setVisible(true);
+		System.out.println(selectedID);
+		return selectedID;
+		
+	}
 	/**
 	 * TODO To be deleted
 	 * @param arg

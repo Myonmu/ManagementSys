@@ -194,9 +194,8 @@ public class AbsenceGUI extends JDialog {
 		selectEtu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO Paste Etudiant selection here
-				etuID=0;
-				
+				EtudiantGUI etuGUI=new EtudiantGUI();
+				etuID=etuGUI.etuSelect();
 			}
 		});
 		Box etuBox=Box.createHorizontalBox();
@@ -219,6 +218,7 @@ public class AbsenceGUI extends JDialog {
 				}
 				if(absDAO.addNoJust(abs)!=0) {
 					JOptionPane.showMessageDialog(null, "Absence declaree");
+					dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "Erreur");
 				}

@@ -9,16 +9,24 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import models.Planning;
 import models.PlanningAff;
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class PlanningDAO extends ConnectDAO {
 	public PlanningDAO(){
 		super();
 	}
+	/**
+	 * adds a planning
+	 * @param target
+	 * @return nb of rows added
+	 */
 	public int add(Planning target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -59,6 +67,11 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * modifies a planning
+	 * @param target
+	 * @return nb of rows modified
+	 */
 	public int modify(Planning target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -99,6 +112,11 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * deletes a planning
+	 * @param target
+	 * @return nb of rows deleted
+	 */
 	public int delete(Planning target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -131,7 +149,10 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
-	
+	/**
+	 * reads all planning
+	 * @return list of planning
+	 */
 	public ArrayList<Planning> readAll(){
 		ArrayList<Planning> list=new ArrayList<>();
 		Connection con=null;
@@ -177,6 +198,11 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return list;
 	}
+	/**
+	 * search a planning by its id
+	 * @param target id
+	 * @return planning object
+	 */
 	public Planning searchByID(int target) {
 		Connection con=null;
 		PreparedStatement ps=null;

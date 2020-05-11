@@ -10,7 +10,11 @@ import java.util.ArrayList;
 
 import models.Etudiant;
 import models.Groupe;
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class EtudiantDAO extends UserDAO{
 	public EtudiantDAO() {
 		super();

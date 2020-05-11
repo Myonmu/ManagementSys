@@ -1,5 +1,9 @@
 package models;
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class Absence {
 	private int id;
 	private int plan;

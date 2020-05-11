@@ -9,12 +9,20 @@ import java.util.ArrayList;
 
 import models.AbsenceType;
 
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class AbsTypeDAO extends ConnectDAO{
 	public AbsTypeDAO() {
 		super();
 	}
-	
+	/**
+	 * Adds an absencetype into the db
+	 * @param target absencetype
+	 * @return number of rows added
+	 */
 	public int add(AbsenceType target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -48,6 +56,11 @@ public class AbsTypeDAO extends ConnectDAO{
 		}
 		return rVal;
 	}
+	/**
+	 * Modifies an absence type
+	 * @param target absencetype
+	 * @return number of rows modified
+	 */
 	public int modify(AbsenceType target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -81,6 +94,11 @@ public class AbsTypeDAO extends ConnectDAO{
 		}
 		return rVal;
 	}
+	/**
+	 * Deletes an absenceType
+	 * @param target absencetype
+	 * @return number of rows deleted
+	 */
 	public int delete(AbsenceType target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -113,7 +131,10 @@ public class AbsTypeDAO extends ConnectDAO{
 		}
 		return rVal;
 	}
-	
+	/**
+	 * Reads all absence type
+	 * @return list of absence type
+	 */
 	public ArrayList<AbsenceType> readAll(){
 		ArrayList<AbsenceType> list=new ArrayList<>();
 		Connection con=null;
@@ -158,6 +179,11 @@ public class AbsTypeDAO extends ConnectDAO{
 		}
 		return list;
 	}
+	/**
+	 * search a complete absence type object, knowing its id.
+	 * @param target id
+	 * @return absence type object
+	 */
 	public AbsenceType searchByID(int target) {
 		Connection con=null;
 		PreparedStatement ps=null;

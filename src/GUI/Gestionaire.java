@@ -38,7 +38,7 @@ public class Gestionaire extends JFrame {
 	 */
 	public Gestionaire() {
 		setBackground(Color.WHITE);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 517, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.CYAN);
@@ -106,7 +106,16 @@ public class Gestionaire extends JFrame {
 		btnCrerUnType.setBounds(324, 78, 167, 41);
 		contentPane.add(btnCrerUnType);
 		
-		JButton btnTraiterUnJustificatif = new JButton("Traiter un justificatif");
+		JButton btnTraiterUnJustificatif = new JButton("Traiter des absences");
+		btnTraiterUnJustificatif.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AbsenceGUI absGUI=new AbsenceGUI() ;
+				absGUI.readEtuAbsence(0);
+			}
+			
+		});
 		btnTraiterUnJustificatif.setBounds(324, 130, 167, 42);
 		contentPane.add(btnTraiterUnJustificatif);
 		

@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import models.Enseignant;
 
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class EnseignantDAO extends UserDAO{
 
 	public EnseignantDAO() {
