@@ -19,13 +19,6 @@ public class Mail {
     private Properties properties;
     private Session session;
     public Mail() {
-    	
-    }
-    /**
-     * Sends a warning mail to student
-     * @param to
-     */
-    public void sendAbsWarning(String to) {
     	properties=new Properties();
     	properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
@@ -36,6 +29,13 @@ public class Mail {
                 return new PasswordAuthentication(user, password);
             }
         });
+    }
+    /**
+     * Sends a warning mail to student
+     * @param to
+     */
+    public void sendAbsWarning(String to) {
+    	
     	try {
     		MimeMessage message=new MimeMessage(session);
 			message.setFrom(new InternetAddress(user));
@@ -43,7 +43,8 @@ public class Mail {
 			message.setSubject("[ATTENTION] Votre heures d'absence");
 			message.setText("Bonjour, \n "
 					+ "Vous avez depasse la limite de nombre d'heures d'absence.\n"
-					+ "Penalites vous seront attribues.\n\n"
+					+ "Penalites vous seront attribues.\n"
+					+ "Serieusement,\n"
 					+ "Systeme de gestion d'absence");
 			Transport.send(message);
 			JOptionPane.showMessageDialog(null, "Mail(s) envoye(s).");
@@ -57,6 +58,7 @@ public class Mail {
     	
     }
     public static void main(String[] args) {
-
+    	Mail m=new Mail();
+    	m.sendAbsWarning("miskatonic3014@yahoo.co.jp");
     }
 }

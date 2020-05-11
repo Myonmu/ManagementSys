@@ -167,6 +167,69 @@ public class AbsenceGUI extends JDialog {
 		
 		
 	}
+	
+	public void readPlanningAbsence(int planningID) {
+		//WINDOW SET UP
+		selectedID=0;
+		this.setSize(800,600);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.setTitle("Absences");
+		this.setLocationRelativeTo(null);
+		
+		JPanel panel=new JPanel(new BorderLayout());
+		//CREATING ABSENCE TABLE
+		AbsenceDAO absDAO=new AbsenceDAO();
+		Object[] columnheads= {"ID","Matiere","Type","Date","Duree","Justificatif","Etat","Commentaire","etuID","idPlan"};
+		DefaultTableModel model=new DefaultTableModel(columnheads,0);
+		for(AbsenceAff i: absDAO.readAff()) {
+			Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+			i.getComment(),i.getEtu(),i.getPlan()};
+			if(i.getPlan()==planningID) {
+				model.addRow(row);
+			}
+		}
+		JTable table=new JTable(model);
+		TableColumnModel cm=table.getColumnModel();
+		cm.removeColumn(cm.getColumn(cm.getColumnIndex("etuID")));
+		cm.removeColumn(cm.getColumn(cm.getColumnIndex("idPlan")));
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(table.getSelectedRow()>-1) {
+					selectedID=(int) table.getModel().getValueAt(table.getSelectedRow(), 0);
+					//System.out.println(selectedID);
+				}
+				
+			}
+		});
+		//adding table to the panel
+		panel.add(table.getTableHeader(),BorderLayout.NORTH);
+		panel.add(table,BorderLayout.CENTER);
+		//CREATING BUTTONS
+		//SHOW JUST
+		JButton showJust = new JButton("Afficher Justificatif");
+		showJust.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JustificatifGUI justGUI=new JustificatifGUI();
+				if(selectedID!=0) {
+					justGUI.show(selectedID);
+					selectedID=0;
+					}
+				else {
+					JOptionPane.showMessageDialog(null, "Vous devez choisir l'absence!");
+				}
+			}
+		});
+		panel.add(showJust,BorderLayout.SOUTH);
+		//showing the window
+		add(panel);
+		setVisible(true);
+		
+		
+	}
 	/**
 	 * Declare an absence, must be a sub-GUI after a planning selection GUI
 	 * @param planID

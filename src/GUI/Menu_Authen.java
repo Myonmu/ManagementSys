@@ -101,7 +101,8 @@ public class Menu_Authen {
 				switch (access)
 				{
 				case 1:
-					Gestion_enseignant o = new Gestion_enseignant();
+					EnseignantGUI ensGUI=new EnseignantGUI();
+					ensGUI.enseignantMenu();
 					frmAuthentification.dispose();
 					JOptionPane.showMessageDialog(frmAuthentification, "Enseignant Connect�!");
 					break;
