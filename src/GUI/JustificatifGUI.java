@@ -153,16 +153,20 @@ public class JustificatifGUI extends JDialog {
 		String imgTrj=justDAO.searchByID(absDAO.searchByID(absID).getJust()).getTrj();
 		JLabel imgLabel=new JLabel();
 		ImageIcon icon=new ImageIcon();
-
-		try {
-			BufferedImage img=scale(ImageIO.read(new File(imgTrj)));
-			icon.setImage(img);
-			imgLabel.setIcon(icon);
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Erreur");
-			e.printStackTrace();
+		if(imgTrj!="") {
+			try {
+				BufferedImage img=scale(ImageIO.read(new File(imgTrj)));
+				icon.setImage(img);
+				imgLabel.setIcon(icon);
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null,"Cette absence n'a pas de Justificatif associe.");
+				e.printStackTrace();
+			} catch(IOException e) {
+				JOptionPane.showMessageDialog(null,"Erreur");
+			}
+		}else {
+			JOptionPane.showMessageDialog(null,"Cette absence n'a pas de Justificatif associe.");
 		}
-		
 		//Retrieving all absenceType and fill them into a JComboBox
 		AbsTypeDAO typeDAO=new AbsTypeDAO();
 		JComboBox<AbsenceType> cb=new JComboBox<AbsenceType>();
@@ -200,7 +204,7 @@ public class JustificatifGUI extends JDialog {
 						JOptionPane.showMessageDialog(null, "Le justificatif a bien ete traite.");
 						dispose();
 					}else {
-						JOptionPane.showConfirmDialog(null, "Erreur");
+						JOptionPane.showMessageDialog(null, "Erreur");
 					}
 				}
 			
@@ -240,6 +244,8 @@ public class JustificatifGUI extends JDialog {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"Erreur");
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			JOptionPane.showMessageDialog(null, "Justificatif n'existe pas");
 		}
 		
 		//put components together

@@ -118,16 +118,17 @@ public class AbsenceDAO extends ConnectDAO {
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			if(target.getEtat()!=0) {
-			ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,just=?,commentaire=? WHERE id_abs=?");
-			ps.setInt(1, target.getPlan());
-			ps.setInt(2,target.getWeek());
-			ps.setInt(3, target.getEtu());
-			ps.setInt(4, target.getEtat());
-			ps.setInt(5, target.getJust());
-			ps.setString(6, target.getComment());
-			ps.setInt(7, target.getID());}
-			else {
+			if(target.getEtat()!=0&&target.getJust()!=0) {
+				ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,just=?,commentaire=? WHERE id_abs=?");
+				ps.setInt(1, target.getPlan());
+				ps.setInt(2,target.getWeek());
+				ps.setInt(3, target.getEtu());
+				ps.setInt(4, target.getEtat());
+				ps.setInt(5, target.getJust());
+				ps.setString(6, target.getComment());
+				ps.setInt(7, target.getID());
+			}
+			else if(target.getEtat()==0&&target.getJust()!=0){
 				ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,just=?,commentaire=? WHERE id_abs=?");
 				ps.setInt(1, target.getPlan());
 				ps.setInt(2,target.getWeek());
@@ -135,6 +136,21 @@ public class AbsenceDAO extends ConnectDAO {
 				ps.setInt(4, target.getJust());
 				ps.setString(5, target.getComment());
 				ps.setInt(6, target.getID());
+			}else if(target.getEtat()!=0&&target.getJust()==0){
+				ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,commentaire=? WHERE id_abs=?");
+				ps.setInt(1, target.getPlan());
+				ps.setInt(2,target.getWeek());
+				ps.setInt(3, target.getEtu());
+				ps.setInt(4, target.getEtat());
+				ps.setString(5, target.getComment());
+				ps.setInt(6, target.getID());
+			}else {
+				ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,commentaire=? WHERE id_abs=?");
+				ps.setInt(1, target.getPlan());
+				ps.setInt(2,target.getWeek());
+				ps.setInt(3, target.getEtu());
+				ps.setString(4, target.getComment());
+				ps.setInt(5, target.getID());
 			}
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
