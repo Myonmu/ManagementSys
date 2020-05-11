@@ -445,6 +445,56 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return list;
 	}
-	
+	/**
+	 * Gets all students' email address whose absence total surpass the quota, 
+	 * @return list of email address.
+	 */
+	public ArrayList<String> getWarningMailList() {
+		ArrayList<String> list=new ArrayList<String>();
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		ConstantsDAO cDAO=new ConstantsDAO();
+		int quota=cDAO.readQ();
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT email,SUM(duree) FROM absence INNER JOIN planning ON plan=id_planning "
+					+ "INNER JOIN etudiant ON etu=id_etu GROUP BY email HAVING SUM(duree)>?");
+			ps.setInt(1, quota);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString("email"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 
 }

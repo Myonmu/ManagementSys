@@ -25,3 +25,5 @@ DROP TABLE justificatif CASCADE CONSTRAINT;
 --Cleanning existing data(Absence)
 DROP SEQUENCE absence_id;
 DROP TABLE absence CASCADE CONSTRAINT;
+--Cleanning constants
+DROP TABLE constants;

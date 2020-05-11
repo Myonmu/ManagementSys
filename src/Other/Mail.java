@@ -1,7 +1,8 @@
 package Other;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.swing.JOptionPane;
+
+import DAO.AbsenceDAO;
 
 import java.util.*;
 import javax.activation.*;
@@ -20,7 +21,7 @@ public class Mail {
     private Session session;
     public Mail() {
     	properties=new Properties();
-    	properties.put("mail.smtp.host", "smtp.gmail.com");
+    	properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
@@ -47,7 +48,6 @@ public class Mail {
 					+ "Serieusement,\n"
 					+ "Systeme de gestion d'absence");
 			Transport.send(message);
-			JOptionPane.showMessageDialog(null, "Mail(s) envoye(s).");
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,6 +56,16 @@ public class Mail {
 			e.printStackTrace();
 		}
     	
+    }
+    /**
+     * send warning email to every student who has been too lazy
+     */
+    public void sendMultiWarning() {
+    	AbsenceDAO absDAO=new AbsenceDAO();
+    	ArrayList<String> mailList=absDAO.getWarningMailList();
+    	for(String i:mailList) {
+    		sendAbsWarning(i);
+    	}
     }
     public static void main(String[] args) {
     	Mail m=new Mail();
