@@ -174,7 +174,7 @@ public class GroupeDAO extends ConnectDAO {
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM groupe");
+			ps=con.prepareStatement("SELECT * FROM groupe ORDER BY id_gr");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Groupe(rs.getInt("id_gr"), rs.getInt("num"), rs.getInt("cap")));

@@ -239,7 +239,7 @@ public class SessionDAO  extends ConnectDAO{
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM sess");
+			ps=con.prepareStatement("SELECT * FROM sess ORDER BY id_session");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Session(rs.getInt(1), rs.getInt(2),df.format(rs.getDate(3))));

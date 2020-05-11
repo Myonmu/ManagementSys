@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import DAO.*;
 import models.*;
-public class PlanningGUI extends JFrame{
+public class PlanningGUI extends JDialog{
 	static int selectedID=0;
 	static int sessionID=1;
 	static int matID=1;
@@ -27,7 +28,7 @@ public class PlanningGUI extends JFrame{
 	public void readAllPlanning() {
 		selectedID=0;
 		//window setup
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Planning");
 		
 		setSize(800,500);
@@ -148,7 +149,11 @@ public class PlanningGUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AbsenceGUI absGUI=new AbsenceGUI() ;
-				absGUI.declarer(selectedID);
+				if(selectedID!=0) {
+				absGUI.declarer(selectedID);}
+				else {
+					JOptionPane.showMessageDialog(null, "Vous devez choisir un Planning.");
+				}
 			}
 			
 		});
@@ -163,6 +168,7 @@ public class PlanningGUI extends JFrame{
 	 * as ADD, and if selectedID is not 0 while button modify is pressed, this GUI functions as MODIFY.
 	 */
 	public DefaultTableModel editPlanning(DefaultTableModel model) {
+		this.setModal(true);
 		Planning target=new Planning(0, 0, 0, 0, "", "", 0, 0, 0);
 		if(selectedID!=0) {
 			PlanningDAO plDAO=new PlanningDAO();
@@ -342,21 +348,23 @@ public class PlanningGUI extends JFrame{
 				PlanningDAO plDAO=new PlanningDAO();
 				Planning target=new Planning(0, 0, 0, 0, "", "", 0, 0, 0);
 				target.setDow(dow);
-				target.setDuree(Integer.parseInt(dureeTF.getText()));
+				target.setHoraire(horaireTF.getText());
 				target.setEns(enseignantID);
 				target.setGr(groupeID);
-				target.setHoraire(horaireTF.getText());
+				target.setDuree(Integer.parseInt(dureeTF.getText()));
 				target.setMat(matID);
 				target.setSess(sessionID);
 				target.setType(type);
 				if(selectedID==0) {
 					if(plDAO.add(target)!=0) {
 						JOptionPane.showMessageDialog(null, "Planning Cree.");
+						dispose();
 					}
 				}else {
 					target.setID(selectedID);
 					if(plDAO.modify(target)!=0) {
 						JOptionPane.showMessageDialog(null, "Planning Modifie.");
+						dispose();
 					}
 				}
 				model.setRowCount(0);

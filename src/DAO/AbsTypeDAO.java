@@ -122,7 +122,7 @@ public class AbsTypeDAO extends ConnectDAO{
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM typeAbs");
+			ps=con.prepareStatement("SELECT * FROM typeAbs ORDER BY id_type");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new AbsenceType(rs.getInt(1),rs.getString(2)));

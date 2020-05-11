@@ -101,22 +101,24 @@ public class Menu_Authen {
 				switch (access)
 				{
 				case 1:
-					Gestionaire m = new Gestionaire();
-					frmAuthentification.dispose();
-					JOptionPane.showMessageDialog(frmAuthentification, "Gestionnaire Connect�!");
-					break;
-					 
-				case 2:
 					Gestion_enseignant o = new Gestion_enseignant();
 					frmAuthentification.dispose();
 					JOptionPane.showMessageDialog(frmAuthentification, "Enseignant Connect�!");
 					break;
+				case 2:
 					
+					EtudiantGUI etuGUI=new EtudiantGUI();
+					etuGUI.etudiantMenu();
+					JOptionPane.showMessageDialog(null, "Etudiant Connect�!");
+					frmAuthentification.dispose();
+					break;
+					 
 					
 				case 3: 
-					Gestion_etudiant e = new Gestion_etudiant();
+					
+					Gestionaire m = new Gestionaire();
 					frmAuthentification.dispose();
-					JOptionPane.showMessageDialog(frmAuthentification, "Etudiant Connect�!");
+					JOptionPane.showMessageDialog(frmAuthentification, "Gestionnaire Connect�!");
 					break;
 				
 				default:

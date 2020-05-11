@@ -123,7 +123,7 @@ public class JustificatifDAO extends ConnectDAO{
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM justificatif");
+			ps=con.prepareStatement("SELECT * FROM justificatif ORDER BY id_just");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Justificatif(rs.getInt("id_just"), rs.getString("trj")));

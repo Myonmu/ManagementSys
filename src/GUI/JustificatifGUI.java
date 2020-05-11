@@ -25,8 +25,7 @@ public class JustificatifGUI extends JDialog {
 	private static final long serialVersionUID = 1L;
 	static String trajectory="Pas de fichier choisi.";
 	static boolean selected=false;
-	static int assign=0; //AbsenceType ID to assign
-	static boolean finished=false;
+	static int assign=1; //AbsenceType ID to assign
 	/**
 	 * Renderer for the combobox
 	 * @author miska
@@ -142,7 +141,7 @@ public class JustificatifGUI extends JDialog {
 	 */
 	public void traiter(int absID) {
 		this.setModal(true);
-		assign=0;
+		assign=1;
 		final JPanel panel=new JPanel();
 		setTitle("Justificatif");
 		setSize(800,650);
@@ -173,13 +172,13 @@ public class JustificatifGUI extends JDialog {
 		for(AbsenceType i:typeDAO.readAll()) {
 			cb.addItem(i);
 		}
-		
 		cb.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange()==ItemEvent.SELECTED) {
 					assign=((AbsenceType) cb.getSelectedItem()).getID();
+					System.out.println(assign);
 				}
 			}
 			
@@ -192,18 +191,19 @@ public class JustificatifGUI extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(assign!=0) {
 					AbsenceDAO absDAO=new AbsenceDAO();
 					Absence abs=absDAO.searchByID(absID);
 					abs.setEtat(assign);
+					System.out.println(assign);
 					abs.setComment(tf.getText());
 					if(absDAO.modify(abs)!=0) {
 						JOptionPane.showMessageDialog(null, "Le justificatif a bien ete traite.");
+						dispose();
 					}else {
 						JOptionPane.showConfirmDialog(null, "Erreur");
 					}
 				}
-			}
+			
 			
 		});
 		

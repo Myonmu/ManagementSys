@@ -10,13 +10,18 @@ import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-public class AbsenceGUI extends JFrame {
+public class AbsenceGUI extends JDialog {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	public static int selectedID=0;
 	public static int etuID=0;
+	/**
+	 * Shows a student's absence record
+	 * @param etuID
+	 * if etuID is 0, then all absence record will be shown. 
+	 */
 	public void readEtuAbsence(int etuID) {
 		//WINDOW SET UP
 		selectedID=0;
@@ -31,12 +36,12 @@ public class AbsenceGUI extends JFrame {
 		Object[] columnheads= {"ID","Matiere","Type","Date","Duree","Justificatif","Etat","Commentaire","etuID","idPlan"};
 		DefaultTableModel model=new DefaultTableModel(columnheads,0);
 		for(AbsenceAff i: absDAO.readAff()) {
-			if(i.getEtu()==etuID) {
-				Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
-						i.getComment(),i.getEtu(),i.getPlan()};
-						model.addRow(row);
-				}
+			Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+			i.getComment(),i.getEtu(),i.getPlan()};
+			if(i.getEtu()==etuID||etuID==0) {
+				model.addRow(row);
 			}
+		}
 		JTable table=new JTable(model);
 		TableColumnModel cm=table.getColumnModel();
 		cm.removeColumn(cm.getColumn(cm.getColumnIndex("etuID")));
@@ -64,7 +69,9 @@ public class AbsenceGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JustificatifGUI justGUI=new JustificatifGUI();
 				if(selectedID!=0) {
-					justGUI.show(selectedID);}
+					justGUI.show(selectedID);
+					selectedID=0;
+					}
 				else {
 					JOptionPane.showMessageDialog(null, "Vous devez choisir l'absence!");
 				}
@@ -79,11 +86,9 @@ public class AbsenceGUI extends JFrame {
 				JustificatifGUI justGUI=new JustificatifGUI();
 				if(selectedID!=0) {
 					justGUI.deposer(selectedID);
-					//TODO
-					
 					model.setRowCount(0);
 					for(AbsenceAff i: absDAO.readAff()) {
-						if(i.getEtu()==etuID) {
+						if(i.getEtu()==etuID||etuID==0) {
 							Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
 									i.getComment(),i.getEtu(),i.getPlan()};
 									model.addRow(row);
@@ -93,6 +98,7 @@ public class AbsenceGUI extends JFrame {
 					add(panel);
 					revalidate();
 					repaint();
+					selectedID=0;
 					}
 				else {
 					JOptionPane.showMessageDialog(null, "Vous devez choisir l'absence!");
@@ -107,7 +113,19 @@ public class AbsenceGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JustificatifGUI justGUI=new JustificatifGUI();
 				justGUI.traiter(selectedID);
-				//TODO Refresh this
+				model.setRowCount(0);
+				for(AbsenceAff i: absDAO.readAff()) {
+					if(i.getEtu()==etuID||etuID==0) {
+						Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+								i.getComment(),i.getEtu(),i.getPlan()};
+								model.addRow(row);
+						}
+					}
+				remove(panel);
+				add(panel);
+				revalidate();
+				repaint();
+				selectedID=0;
 			}
 		});
 		Box hbox=Box.createHorizontalBox();
@@ -123,7 +141,19 @@ public class AbsenceGUI extends JFrame {
 				AbsenceDAO absDAO=new AbsenceDAO();
 				if(JOptionPane.showConfirmDialog(null, "Vous voulez vraiment supprimer cette absence?")==0) {
 					absDAO.delete(absDAO.searchByID(selectedID));
-					//TODO Refresh this
+					model.setRowCount(0);
+					for(AbsenceAff i: absDAO.readAff()) {
+						if(i.getEtu()==etuID||etuID==0) {
+							Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+									i.getComment(),i.getEtu(),i.getPlan()};
+									model.addRow(row);
+							}
+						}
+					remove(panel);
+					add(panel);
+					revalidate();
+					repaint();
+					selectedID=0;
 				}
 			}
 		});
@@ -137,9 +167,13 @@ public class AbsenceGUI extends JFrame {
 		
 		
 	}
-	
+	/**
+	 * Declare an absence, must be a sub-GUI after a planning selection GUI
+	 * @param planID
+	 */
 	public void declarer(int planID) {
 		//setup window
+		setModal(true);
 		this.setTitle("Creation Absence");
 		this.setSize(300,150);
 		this.setLocationRelativeTo(null);

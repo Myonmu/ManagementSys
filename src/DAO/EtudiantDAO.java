@@ -78,7 +78,7 @@ public class EtudiantDAO extends UserDAO{
 		ArrayList<Etudiant> result=new ArrayList<>();
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM etudiant");
+			ps=con.prepareStatement("SELECT * FROM etudiant ORDER BY id_etu");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				result.add(new Etudiant(rs.getInt("id_etu"),rs.getString("username"), rs.getString("password"),

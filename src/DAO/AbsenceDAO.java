@@ -99,6 +99,7 @@ public class AbsenceDAO extends ConnectDAO {
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
+			if(target.getEtat()!=0) {
 			ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,just=?,commentaire=? WHERE id_abs=?");
 			ps.setInt(1, target.getPlan());
 			ps.setInt(2,target.getWeek());
@@ -106,7 +107,16 @@ public class AbsenceDAO extends ConnectDAO {
 			ps.setInt(4, target.getEtat());
 			ps.setInt(5, target.getJust());
 			ps.setString(6, target.getComment());
-			ps.setInt(7, target.getID());
+			ps.setInt(7, target.getID());}
+			else {
+				ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,just=?,commentaire=? WHERE id_abs=?");
+				ps.setInt(1, target.getPlan());
+				ps.setInt(2,target.getWeek());
+				ps.setInt(3, target.getEtu());
+				ps.setInt(4, target.getJust());
+				ps.setString(5, target.getComment());
+				ps.setInt(6, target.getID());
+			}
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -173,7 +183,7 @@ public class AbsenceDAO extends ConnectDAO {
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM absence");
+			ps=con.prepareStatement("SELECT * FROM absence ORDER BY id_abs");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Absence(rs.getInt(1), rs.getInt(2), rs.getInt(3), 
@@ -329,7 +339,8 @@ public class AbsenceDAO extends ConnectDAO {
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT id_abs,etu AS id_etu,id_planning,nom_cours,type_cr,horaire,duree,just,typeAbs.nom AS etatAbs,commentaire"
-					+ " FROM absence INNER JOIN planning ON plan=id_planning INNER JOIN cours ON id_cours=mat FULL OUTER JOIN typeAbs ON etat=id_type");
+					+ " FROM absence INNER JOIN planning ON plan=id_planning INNER JOIN cours ON id_cours=mat FULL OUTER JOIN typeAbs ON etat=id_type"
+					+ " ORDER BY id_abs ASC");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				String date=this.calcDate(rs.getInt("id_abs"));

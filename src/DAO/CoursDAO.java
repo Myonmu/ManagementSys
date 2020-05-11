@@ -128,7 +128,7 @@ public class CoursDAO extends ConnectDAO{
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM cours");
+			ps=con.prepareStatement("SELECT * FROM cours ORDER BY id_cours");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Cours(rs.getInt("id_cours"), rs.getString("nom_cours"), rs.getInt("masse"),rs.getInt(4)));

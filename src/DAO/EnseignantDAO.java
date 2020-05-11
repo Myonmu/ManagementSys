@@ -23,7 +23,7 @@ public class EnseignantDAO extends UserDAO{
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM enseignant");
+			ps=con.prepareStatement("SELECT * FROM enseignant ORDER BY id_ens");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				result.add(new Enseignant(rs.getInt("id_ens"),rs.getString("username"), rs.getString("password"),

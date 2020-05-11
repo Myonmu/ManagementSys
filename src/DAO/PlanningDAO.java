@@ -140,7 +140,7 @@ public class PlanningDAO extends ConnectDAO {
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM planning");
+			ps=con.prepareStatement("SELECT * FROM planning ORDER BY id_planning");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Planning(rs.getInt(1),rs.getInt(2), rs.getInt(3), rs.getInt(4),
@@ -246,7 +246,7 @@ public class PlanningDAO extends ConnectDAO {
 					+ "type_cr,duree,groupe.num AS grNum, enseignant.nom AS ensNom, id_ens,id_cours"
 					+ " FROM planning INNER JOIN sess ON sess=id_session "
 					+ "INNER JOIN cours ON mat=id_cours INNER JOIN groupe ON gr=id_gr "
-					+ "INNER JOIN enseignant ON ens=id_ens");
+					+ "INNER JOIN enseignant ON ens=id_ens ORDER BY id_planning");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new PlanningAff(rs.getInt("id_planning"),rs.getInt("id_session"), rs.getString("dow"), rs.getString("horaire"),
