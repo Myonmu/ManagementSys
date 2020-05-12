@@ -1,10 +1,16 @@
 
+import java.awt.EventQueue;
+
 import DAO.*;
+import GUI.Menu_Authen;
 import models.*;
 
 public class ManagementMain {
 
 	public static void main(String[] args) {
+		Menu_Authen menu=new Menu_Authen();
+		
+		/*
 		// TODO Auto-generated method stub
 		Enseignant test=new Enseignant(1,"33333","0000","PATRIKOV","SIMON","00000000");
 		EnseignantDAO testDAO=new EnseignantDAO();
@@ -38,6 +44,7 @@ public class ManagementMain {
 		Absence absence=new Absence(1, 1, 1, 1, 1, 0, "");
 		AbsenceDAO absDAO=new AbsenceDAO();
 		absDAO.addNoJust(absence);
+		*/
 
 
 	}

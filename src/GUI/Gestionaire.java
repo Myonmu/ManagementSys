@@ -61,12 +61,11 @@ public class Gestionaire extends JFrame {
 		btnCrerUnCours.setBounds(10, 62, 140, 23);
 		contentPane.add(btnCrerUnCours);
 		
-		JButton btnModifiersupp = new JButton("Modifier/Supp");
+		JButton btnModifiersupp = new JButton("Gestion Planning");
 		btnModifiersupp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Modif_supp h = new Modif_supp();
-				h.setVisible(true);
-				dispose();
+				PlanningGUI plGUI=new PlanningGUI();
+				plGUI.readAllPlanning();
 			}
 		});
 		btnModifiersupp.setBounds(10, 96, 140, 23);
