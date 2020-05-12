@@ -35,7 +35,7 @@ public class EnseignantGUI extends JFrame {
 		CoursDAO csDAO=new CoursDAO();
 		ArrayList<Integer> idMat=new ArrayList<>();
 		for(Cours i:csDAO.searchByEns(userID.ID)) {
-			idMat.add(i.getEnsPar());
+			idMat.add(i.getID());
 		}
 		Object[] columnHeads= {"ID","Session","Jour","Heure","Matiere","Type","Duree","Groupe","Enseignant","idEns","idMat"};
 		DefaultTableModel model=new DefaultTableModel(columnHeads,0);
@@ -159,6 +159,7 @@ public class EnseignantGUI extends JFrame {
 
 	public static void main(String[] arg) {
 		EnseignantGUI ensGUI=new EnseignantGUI();
+		userID.ID=1;
 		ensGUI.enseignantMenu();
 	}
 }

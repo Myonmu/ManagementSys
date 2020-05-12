@@ -62,8 +62,7 @@ public class Mail {
      */
     public void sendMultiWarning() {
     	AbsenceDAO absDAO=new AbsenceDAO();
-    	ArrayList<String> mailList=absDAO.getWarningMailList();
-    	for(String i:mailList) {
+    	for(String i:absDAO.getWarningMailList()) {
     		sendAbsWarning(i);
     	}
     }

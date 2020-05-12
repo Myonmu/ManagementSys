@@ -3,12 +3,16 @@ import java.awt.EventQueue;
 
 import DAO.*;
 import GUI.Menu_Authen;
-import models.*;
+import Other.Mail;
 
 public class ManagementMain {
 
 	public static void main(String[] args) {
-		Menu_Authen menu=new Menu_Authen();
+		ConstantsDAO csDAO=new ConstantsDAO();
+		csDAO.modifyQ(300);
+		System.out.println(csDAO.readQ());
+		Mail mail=new Mail();
+		mail.sendMultiWarning();
 		
 		/*
 		// TODO Auto-generated method stub

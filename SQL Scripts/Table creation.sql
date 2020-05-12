@@ -1,4 +1,12 @@
 
+--Creating GESTIONNAIRE
+CREATE SEQUENCE gestionnaire_id START WITH 1 INCREMENT BY 1;
+CREATE TABLE gestionnaire(
+id_gest NUMBER(2),
+username VARCHAR2(16) UNIQUE,
+password VARCHAR2(16),
+CONSTRAINT pk_gest PRIMARY KEY(id_gest)
+);
 --Creating ENSEIGNANT
 CREATE SEQUENCE enseignant_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE enseignant(
@@ -11,7 +19,14 @@ tel VARCHAR2(10),
 CONSTRAINT pk_enseignant PRIMARY KEY(id_ens)
 );
 
-
+--Creating GROUPE
+CREATE SEQUENCE groupe_id START WITH 1 INCREMENT BY 1;
+CREATE TABLE groupe(
+id_gr NUMBER(2),
+num NUMBER(2) UNIQUE,
+cap NUMBER(2),
+CONSTRAINT pk_groupe PRIMARY KEY(id_gr)
+);
 
 --Creating ETUDIANT
 CREATE SEQUENCE etudiant_id START WITH 1 INCREMENT BY 1;

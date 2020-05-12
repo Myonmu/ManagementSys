@@ -1,3 +1,6 @@
+--Cleaning gestionnaire
+DROP SEQUENCE gestionnaire_id;
+DROP TABLE gestionnaire CASCADE CONSTRAINT;
 --Cleaning existing data (ENSEIGANT)
 DROP SEQUENCE enseignant_id;
 DROP TABLE enseignant CASCADE CONSTRAINT;
