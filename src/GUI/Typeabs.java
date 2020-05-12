@@ -49,7 +49,7 @@ public class Typeabs extends JFrame {
 	 */
 	public Typeabs() {
 		setTitle("Type_abscence");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 681, 344);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.CYAN);
@@ -89,7 +89,7 @@ public class Typeabs extends JFrame {
 						);
 	if(res==1) {
 		JOptionPane.showMessageDialog(contentPane, res + " absence ajouté");
-		dispose();
+		
 		Gestion_etudiant g = new Gestion_etudiant();
 	}else {
 		JOptionPane.showMessageDialog(contentPane, "ERREUR, Vérifiez vos champs d'entrée");

@@ -54,7 +54,7 @@ public class Creer_étudiant extends JFrame {
 	 */
 	public Creer_étudiant() {
 		setTitle("Creer_etudiant");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 374, 328);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
@@ -128,7 +128,7 @@ public class Creer_étudiant extends JFrame {
 				
 				if(res==1) {
 					JOptionPane.showMessageDialog(contentPane, res + " etudiant ajouté");
-					dispose();
+					
 					Gestion_etudiant g = new Gestion_etudiant();
 				}else {
 					JOptionPane.showMessageDialog(contentPane, "ERREUR, Verifiez vos champs d'entree");

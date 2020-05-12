@@ -44,7 +44,7 @@ public class Modif_supp extends JFrame {
 	 */
 	public Modif_supp() {
 		setTitle("Cours");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 657, 370);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.CYAN);

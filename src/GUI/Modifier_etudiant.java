@@ -52,7 +52,7 @@ public class Modifier_etudiant extends JFrame {
 	 */
 	public Modifier_etudiant(Etudiant etudiant) {
 		setTitle("modif_supp_etudiant");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 699, 404);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -163,7 +163,7 @@ public class Modifier_etudiant extends JFrame {
 				
 				if(res == 1) {
 					JOptionPane.showMessageDialog(contentPane, res + " Etudiant supprimé");
-					dispose();
+					
 				}
 			}
 		});

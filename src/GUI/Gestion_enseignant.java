@@ -47,7 +47,7 @@ public class Gestion_enseignant extends JFrame {
 	@SuppressWarnings("serial")
 	public Gestion_enseignant() {
 		setTitle("Gestion-Enseignant");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 647, 363);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
@@ -60,7 +60,7 @@ public class Gestion_enseignant extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Créer_enseignant w = new Créer_enseignant();
 				w.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -98,7 +98,7 @@ public class Gestion_enseignant extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Modifier_enseigant w = new Modifier_enseigant(liste_enseignant.get(table.getSelectedRow()));
 				w.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnChercher.setFont(new Font("Tahoma", Font.PLAIN, 14));

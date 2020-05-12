@@ -38,7 +38,7 @@ public class Gestionaire extends JFrame {
 	 */
 	public Gestionaire() {
 		setBackground(Color.WHITE);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 517, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.CYAN);
@@ -66,7 +66,7 @@ public class Gestionaire extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Modif_supp h = new Modif_supp();
 				h.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnModifiersupp.setBounds(10, 96, 140, 23);
@@ -77,7 +77,7 @@ public class Gestionaire extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Gestion_enseignant n = new Gestion_enseignant();
 				n.setVisible(true);
-				dispose();
+				
 				
 			}
 		});
@@ -89,7 +89,7 @@ public class Gestionaire extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Gestion_etudiant n = new Gestion_etudiant();
 				n.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnGestionDtudiant.setBounds(10, 183, 140, 42);
@@ -100,7 +100,7 @@ public class Gestionaire extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Typeabs w = new Typeabs();
 				w.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnCrerUnType.setBounds(324, 78, 167, 41);

@@ -52,7 +52,7 @@ public class Modifier_enseigant extends JFrame {
 	 */
 	public Modifier_enseigant(Enseignant enseignant) {
 		setTitle("Modif/supp_ensei");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 675, 372);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
@@ -152,7 +152,7 @@ public class Modifier_enseigant extends JFrame {
 				
 				if(res == 1) {
 					JOptionPane.showMessageDialog(contentPane, res + " Enseignant supprimé");
-					dispose();
+					
 				}
 			}
 		});

@@ -49,7 +49,7 @@ public class Gestion_etudiant extends JFrame {
 	 */
 	public Gestion_etudiant() {
 		setTitle("Gestion_etudiant");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 709, 397);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
@@ -62,7 +62,7 @@ public class Gestion_etudiant extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Creer_étudiant w = new Creer_étudiant();
 				w.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnAjouter.setBounds(436, 85, 247, 29);
@@ -102,7 +102,7 @@ public class Gestion_etudiant extends JFrame {
 				etu = liste_etudiant.get(table.getSelectedRow()-1);
 				Modifier_etudiant w = new Modifier_etudiant(etu);
 				w.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnNewButton.setBounds(436, 29, 244, 29);

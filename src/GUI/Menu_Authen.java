@@ -61,7 +61,7 @@ public class Menu_Authen {
 		frmAuthentification.getContentPane().setForeground(Color.WHITE);
 		frmAuthentification.setTitle("AUTHENTIFICATION");
 		frmAuthentification.setBounds(100, 100, 450, 300);
-		frmAuthentification.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAuthentification.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAuthentification.getContentPane().setLayout(null);
 		
 		JLabel lblIdentifiant = new JLabel("IDENTIFIANT");

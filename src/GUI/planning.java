@@ -45,7 +45,7 @@ public class planning {
 		frmPlanning.getContentPane().setBackground(Color.CYAN);
 		frmPlanning.setTitle("Planning");
 		frmPlanning.setBounds(100, 100, 450, 300);
-		frmPlanning.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmPlanning.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmPlanning.getContentPane().setLayout(null);
 		
 		table = new JTable();
