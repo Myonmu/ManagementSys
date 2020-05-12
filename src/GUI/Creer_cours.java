@@ -55,7 +55,7 @@ public class Creer_cours extends JFrame {
 	 */
 	public Creer_cours() {
 		setTitle("Cours");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 700, 417);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.CYAN);
@@ -124,12 +124,12 @@ public class Creer_cours extends JFrame {
 												  liste_enseignant.get(table.getSelectedColumn()-1).getID()));
 						
 						if(res == 1) {
-							JOptionPane.showMessageDialog(contentPane, res + " Cour ajouté");
+							JOptionPane.showMessageDialog(contentPane, res + " Cour ajoutï¿½");
 						}
 					} catch (NumberFormatException e) {
 						JOptionPane.showMessageDialog(contentPane, "La masse horaire doit etre un entier");
 					} catch (ArrayIndexOutOfBoundsException e) {
-						JOptionPane.showMessageDialog(contentPane, "Aucun enseignant sélectionné");
+						JOptionPane.showMessageDialog(contentPane, "Aucun enseignant sé–˜ectionnï¿½");
 					}
 					
 				}else {

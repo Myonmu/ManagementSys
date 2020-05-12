@@ -69,6 +69,6 @@ public class Mail {
     }
     public static void main(String[] args) {
     	Mail m=new Mail();
-    	m.sendAbsWarning("miskatonic3014@yahoo.co.jp");
+    	m.sendAbsWarning("");
     }
 }

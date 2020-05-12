@@ -53,7 +53,7 @@ public class Creer_enseignant extends JFrame {
 	 */
 	public Creer_enseignant() {
 		setTitle("Cr\u00E9er_enseignant");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 653, 318);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
