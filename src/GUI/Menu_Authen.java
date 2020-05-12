@@ -90,13 +90,13 @@ public class Menu_Authen {
 			
 			//Logique de connexion
 			public void actionPerformed(ActionEvent arg0) {
-			//Cr閍tion d'un utilisateur standard avec les valeurs des textField 
+			//Creation d'un utilisateur standard avec les valeurs des textField 
 			User user = new User(textField.getText(), textField_1.getText());
 			
-			//Appel de la m閠hode DAO pour recuperer un User
+			//Appel de la methhode DAO pour recuperer un User
 			UserDAO dao =new UserDAO();
 			
-			//R閟ultat de la requete; 
+			//Resultat de la requete; 
 			int access = dao.login(user);
 				switch (access)
 				{
