@@ -61,7 +61,7 @@ public class Menu_Authen {
 		frmAuthentification.getContentPane().setForeground(Color.WHITE);
 		frmAuthentification.setTitle("AUTHENTIFICATION");
 		frmAuthentification.setBounds(100, 100, 450, 300);
-		frmAuthentification.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmAuthentification.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAuthentification.getContentPane().setLayout(null);
 		
 		JLabel lblIdentifiant = new JLabel("IDENTIFIANT");
@@ -104,13 +104,13 @@ public class Menu_Authen {
 					EnseignantGUI ensGUI=new EnseignantGUI();
 					ensGUI.enseignantMenu();
 					frmAuthentification.dispose();
-					JOptionPane.showMessageDialog(frmAuthentification, "Enseignant Connect�!");
+					JOptionPane.showMessageDialog(frmAuthentification, "Enseignant Connecte!");
 					break;
 				case 2:
 					
 					EtudiantGUI etuGUI=new EtudiantGUI();
 					etuGUI.etudiantMenu();
-					JOptionPane.showMessageDialog(null, "Etudiant Connect�!");
+					JOptionPane.showMessageDialog(null, "Etudiant Connecte!");
 					frmAuthentification.dispose();
 					break;
 					 
@@ -118,8 +118,9 @@ public class Menu_Authen {
 				case 3: 
 					
 					Gestionaire m = new Gestionaire();
+					
+					JOptionPane.showMessageDialog(frmAuthentification, "Gestionnaire Connecte!");
 					frmAuthentification.dispose();
-					JOptionPane.showMessageDialog(frmAuthentification, "Gestionnaire Connect�!");
 					break;
 				
 				default:

@@ -297,7 +297,7 @@ public class AbsenceGUI extends JDialog {
 	public static void main(String[] arg) {
 		userID.setUSERTYPE(3);
 		AbsenceGUI absGUI=new AbsenceGUI();
-		absGUI.readEtuAbsence(1);
+		absGUI.readEtuAbsence(2);
 	}
 	
 		

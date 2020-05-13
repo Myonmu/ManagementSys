@@ -31,11 +31,11 @@ public class UserDAO extends ConnectDAO{
 		while (attempt<maxAttempt) {
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("SELECT password,"+IDFIELD[attempt]+" FROM "+SEARCHFIELD[attempt]+" WHERE username = ?");	
+			ps=con.prepareStatement("SELECT password,"+IDFIELD[attempt]+" FROM "+SEARCHFIELD[attempt]+" WHERE username=?");	
 			ps.setString(1, anonymous.getUsername());
 			rs=ps.executeQuery();
 			if(rs.next()) {
-				if(rs.getString(1).contentEquals(anonymous.getPassword()))
+				if(rs.getString("password").equals(anonymous.getPassword()))
 				{
 					System.out.println("login successful");
 					access=attempt+1;
@@ -141,6 +141,9 @@ public class UserDAO extends ConnectDAO{
 		return rVal;
 	}
 	
-	
+	public static void main(String[] args) {
+		UserDAO ud=new UserDAO();
+		System.out.println(ud.login(new User("0000","0000")));
+	}
 		
 	}

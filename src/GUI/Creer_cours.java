@@ -22,12 +22,14 @@ import java.awt.HeadlessException;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class Creer_cours extends JFrame {
+public class Creer_cours extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -54,6 +56,7 @@ public class Creer_cours extends JFrame {
 	 * Create the frame.
 	 */
 	public Creer_cours() {
+		setModal(true);
 		setTitle("Cours");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 700, 417);
@@ -112,7 +115,7 @@ public class Creer_cours extends JFrame {
 		table.setBounds(109, 182, 512, 168);
 		contentPane.add(table);
 		
-		JButton btnAjouterAuPlanning = new JButton("Ajouter au planning");
+		JButton btnAjouterAuPlanning = new JButton("Creer");
 		btnAjouterAuPlanning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!textField.getText().isEmpty() && !textField_1.getText().isEmpty()) {
@@ -124,12 +127,12 @@ public class Creer_cours extends JFrame {
 												  liste_enseignant.get(table.getSelectedColumn()-1).getID()));
 						
 						if(res == 1) {
-							JOptionPane.showMessageDialog(contentPane, res + " Cour ajout�");
+							JOptionPane.showMessageDialog(contentPane, res + " Cour cree");
 						}
 					} catch (NumberFormatException e) {
 						JOptionPane.showMessageDialog(contentPane, "La masse horaire doit etre un entier");
 					} catch (ArrayIndexOutOfBoundsException e) {
-						JOptionPane.showMessageDialog(contentPane, "Aucun enseignant s閘ectionn�");
+						JOptionPane.showMessageDialog(contentPane, "Aucun enseignant selectionne");
 					}
 					
 				}else {

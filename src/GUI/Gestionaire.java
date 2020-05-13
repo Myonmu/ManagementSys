@@ -55,22 +55,15 @@ public class Gestionaire extends JFrame {
 		JButton btnCrerUnCours = new JButton("Gestion cours");
 		btnCrerUnCours.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Modif_supp g = new Modif_supp();g.setVisible(true);	}
+				Modif_supp g = new Modif_supp();
+				g.setVisible(true);	
+			}
 			
 		});
 		btnCrerUnCours.setBounds(10, 77, 140, 42);
 		contentPane.add(btnCrerUnCours);
 		
-		JButton btnModifiersupp = new JButton("Gestion Planning");
-		btnModifiersupp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				PlanningGUI plGUI=new PlanningGUI();
-				plGUI.readAllPlanning();
-
-			}
-		});
-		btnModifiersupp.setBounds(10, 96, 140, 23);
-		contentPane.add(btnModifiersupp);
+		
 		
 
 		JButton btnGestionDenseignant = new JButton("Gestion d'enseignant");
@@ -125,7 +118,17 @@ public class Gestionaire extends JFrame {
 		contentPane.add(btnDfinirQuota);
 		
 		JButton btnGestionPlanning = new JButton("Gestion planning");
+		btnGestionPlanning.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PlanningGUI plGUI=new PlanningGUI();
+				plGUI.readAllPlanning();
+			}
+			
+		});
 		btnGestionPlanning.setBounds(324, 62, 167, 23);
 		contentPane.add(btnGestionPlanning);
+		setVisible(true);
 	}
 }
