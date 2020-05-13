@@ -59,7 +59,7 @@ public class CoursDAO extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE cours SET nom=?, masse=?,ens_par=? WHERE id_cours=?");
+			ps=con.prepareStatement("UPDATE cours SET nom_cours=?, masse=?,ens_par=? WHERE id_cours=?");
 			ps.setString(1, target.getNom());
 			ps.setInt(2, target.getMasse());
 			ps.setInt(3, target.getEnsPar());

@@ -52,25 +52,14 @@ public class Gestionaire extends JFrame {
 		lblGestionnaire.setBounds(178, 11, 160, 34);
 		contentPane.add(lblGestionnaire);
 		
-		JButton btnCrerUnCours = new JButton("Cr\u00E9er un cours");
+		JButton btnCrerUnCours = new JButton("Gestion cours");
 		btnCrerUnCours.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Creer_cours g = new Creer_cours();g.setVisible(true);	}
+				Modif_supp g = new Modif_supp();g.setVisible(true);	}
 			
 		});
-		btnCrerUnCours.setBounds(10, 62, 140, 23);
+		btnCrerUnCours.setBounds(10, 77, 140, 42);
 		contentPane.add(btnCrerUnCours);
-		
-		JButton btnModifiersupp = new JButton("Modifier/Supp");
-		btnModifiersupp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Modif_supp h = new Modif_supp();
-				h.setVisible(true);
-				
-			}
-		});
-		btnModifiersupp.setBounds(10, 96, 140, 23);
-		contentPane.add(btnModifiersupp);
 		
 		JButton btnGestionDenseignant = new JButton("Gestion d'enseignant");
 		btnGestionDenseignant.addActionListener(new ActionListener() {

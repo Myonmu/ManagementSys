@@ -60,7 +60,7 @@ public class Gestion_etudiant extends JFrame {
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Creer_étudiant w = new Creer_étudiant();
+				Creer_etudiant w = new Creer_etudiant();
 				w.setVisible(true);
 				
 			}

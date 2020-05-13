@@ -120,8 +120,10 @@ CoursDAO dao = new CoursDAO();
 				
 				int res = dao.modify(new Cours(c.getID(),
 										  textField.getText(), 
-										  Integer.valueOf(textField_1.getText()), 
-										  Integer.valueOf(textField_2.getText())));
+										  Integer.valueOf((textField_1.getText())), 
+										  Integer.valueOf(textField_2.getText())
+										  
+						));
 				
 				JOptionPane.showMessageDialog(contentPane, res + " cours modifié!");
 			}

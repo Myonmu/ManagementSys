@@ -58,7 +58,7 @@ public class Gestion_enseignant extends JFrame {
 		JButton btnNewButton_1 = new JButton("Ajouter");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Créer_enseignant w = new Créer_enseignant();
+				Creer_enseignant w = new Creer_enseignant();
 				w.setVisible(true);
 				
 			}

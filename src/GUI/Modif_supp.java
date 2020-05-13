@@ -83,7 +83,7 @@ public class Modif_supp extends JFrame {
 		}
 		
 		table.setModel(model);
-		table.setBounds(31, 40, 267, 267);
+		table.setBounds(31, 40, 267, 213);
 		contentPane.add(table);
 		
 		JLabel lblModifiersupprimer = new JLabel("Modifier/Supprimer");
@@ -93,6 +93,7 @@ public class Modif_supp extends JFrame {
 		contentPane.add(lblModifiersupprimer);
 		
 		JButton btnConfirmer = new JButton("Modifier/supprimer");
+		btnConfirmer.setBackground(Color.RED);
 		btnConfirmer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Cours c = new Cours();
@@ -101,11 +102,21 @@ public class Modif_supp extends JFrame {
 				w.setVisible(true);
 			}
 		});
-		btnConfirmer.setBounds(377, 129, 154, 80);
+		btnConfirmer.setBounds(95, 264, 154, 55);
 		contentPane.add(btnConfirmer);
+		
+		JButton btnAjouterUnEnseignant = new JButton("Ajouter un cours");
+		btnAjouterUnEnseignant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Creer_cours n = new Creer_cours();
+				n.setVisible(true);
+			}
+		});
+		btnAjouterUnEnseignant.setBackground(Color.GREEN);
+		btnAjouterUnEnseignant.setBounds(363, 121, 160, 55);
+		contentPane.add(btnAjouterUnEnseignant);
 		
 	
 		
 	}
-
 }
