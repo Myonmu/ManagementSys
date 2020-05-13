@@ -68,6 +68,5 @@ public class Mail {
     }
     public static void main(String[] args) {
     	Mail m=new Mail();
-    	m.sendAbsWarning("");
     }
 }

@@ -163,7 +163,7 @@ public class Modifier_etudiant extends JFrame {
 				
 				if(res == 1) {
 
-					JOptionPane.showMessageDialog(contentPane, res + " Etudiant supprim?);
+					JOptionPane.showMessageDialog(contentPane, res + " Etudiant supprim?");
 					
 				}
 			}
