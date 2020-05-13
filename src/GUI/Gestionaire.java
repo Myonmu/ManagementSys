@@ -66,6 +66,7 @@ public class Gestionaire extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				PlanningGUI plGUI=new PlanningGUI();
 				plGUI.readAllPlanning();
+
 			}
 		});
 		btnModifiersupp.setBounds(10, 96, 140, 23);
@@ -76,7 +77,7 @@ public class Gestionaire extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Gestion_enseignant n = new Gestion_enseignant();
 				n.setVisible(true);
-				dispose();
+				
 				
 			}
 		});
@@ -88,7 +89,7 @@ public class Gestionaire extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Gestion_etudiant n = new Gestion_etudiant();
 				n.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnGestionDtudiant.setBounds(10, 183, 140, 42);
@@ -99,7 +100,7 @@ public class Gestionaire extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Typeabs w = new Typeabs();
 				w.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnCrerUnType.setBounds(324, 78, 167, 41);

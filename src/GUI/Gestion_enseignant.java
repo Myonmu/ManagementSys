@@ -60,7 +60,7 @@ public class Gestion_enseignant extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Creer_enseignant w = new Creer_enseignant();
 				w.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -98,7 +98,7 @@ public class Gestion_enseignant extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Modifier_enseigant w = new Modifier_enseigant(liste_enseignant.get(table.getSelectedRow()));
 				w.setVisible(true);
-				dispose();
+				
 			}
 		});
 		btnChercher.setFont(new Font("Tahoma", Font.PLAIN, 14));

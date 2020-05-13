@@ -128,7 +128,7 @@ public class Modifier_enseigant extends JFrame {
 										  textField_1.getText(), 
 										  textField_2.getText()));
 				
-				JOptionPane.showMessageDialog(contentPane, res + " enseignant modifiï¿½!");
+				JOptionPane.showMessageDialog(contentPane, res + " enseignant modifiï¿?");
 			}
 		});
 		btnNewButton.setBackground(Color.GREEN);
@@ -151,8 +151,9 @@ public class Modifier_enseigant extends JFrame {
 				}
 				
 				if(res == 1) {
-					JOptionPane.showMessageDialog(contentPane, res + " Enseignant supprimï¿½");
-					dispose();
+
+					JOptionPane.showMessageDialog(contentPane, res + " Enseignant supprim?);
+					
 				}
 			}
 		});

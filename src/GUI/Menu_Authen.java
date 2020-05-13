@@ -61,7 +61,7 @@ public class Menu_Authen {
 		frmAuthentification.getContentPane().setForeground(Color.WHITE);
 		frmAuthentification.setTitle("AUTHENTIFICATION");
 		frmAuthentification.setBounds(100, 100, 450, 300);
-		frmAuthentification.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAuthentification.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAuthentification.getContentPane().setLayout(null);
 		
 		JLabel lblIdentifiant = new JLabel("IDENTIFIANT");
@@ -90,13 +90,13 @@ public class Menu_Authen {
 			
 			//Logique de connexion
 			public void actionPerformed(ActionEvent arg0) {
-			//Cr閍tion d'un utilisateur standard avec les valeurs des textField 
+			//Creation d'un utilisateur standard avec les valeurs des textField 
 			User user = new User(textField.getText(), textField_1.getText());
 			
-			//Appel de la m閠hode DAO pour recuperer un User
+			//Appel de la methhode DAO pour recuperer un User
 			UserDAO dao =new UserDAO();
 			
-			//R閟ultat de la requete; 
+			//Resultat de la requete; 
 			int access = dao.login(user);
 				switch (access)
 				{

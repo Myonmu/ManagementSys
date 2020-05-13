@@ -162,8 +162,9 @@ public class Modifier_etudiant extends JFrame {
 				}
 				
 				if(res == 1) {
-					JOptionPane.showMessageDialog(contentPane, res + " Etudiant supprime");
-					dispose();
+
+					JOptionPane.showMessageDialog(contentPane, res + " Etudiant supprim?);
+					
 				}
 			}
 		});

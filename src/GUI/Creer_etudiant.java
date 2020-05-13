@@ -120,8 +120,11 @@ public class Creer_etudiant extends JFrame {
 				int res = dao.add(temp);
 				
 				if(res==1) {
+
 					JOptionPane.showMessageDialog(contentPane, res + " etudiant ajoute");
 					dispose();
+
+					
 					Gestion_etudiant g = new Gestion_etudiant();
 				}else {
 					JOptionPane.showMessageDialog(contentPane, "ERREUR, Verifiez vos champs d'entree");
