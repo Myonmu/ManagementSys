@@ -1,4 +1,4 @@
-package GUI;
+﻿package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -126,11 +126,12 @@ public class Creer_enseignant extends JFrame {
 									   textField_2.getText()));
 				
 				if(res==1) {
-					JOptionPane.showMessageDialog(contentPane, res + " enseignant ajout�");
+
+					JOptionPane.showMessageDialog(contentPane, res + " enseignant ajoute");
 					dispose();
 					Gestion_enseignant g = new Gestion_enseignant();
 				}else {
-					JOptionPane.showMessageDialog(contentPane, "ERREUR, V閞ifiez vos champs d'entr閑");
+					JOptionPane.showMessageDialog(contentPane, "ERREUR, Verifiez vos champs d'entree");
 				}
 			}
 		});
@@ -139,4 +140,6 @@ public class Creer_enseignant extends JFrame {
 		btnAjouter.setBounds(52, 87, 89, 71);
 		contentPane.add(btnAjouter);
 	}
+
 }
+
