@@ -56,13 +56,13 @@ public class Gestion_etudiant extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		setLocationRelativeTo(null);
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Creer_etudiant w = new Creer_etudiant();
 				w.setVisible(true);
-				
+
 			}
 		});
 		btnAjouter.setBounds(436, 85, 247, 29);
@@ -102,7 +102,7 @@ public class Gestion_etudiant extends JFrame {
 				etu = liste_etudiant.get(table.getSelectedRow()-1);
 				Modifier_etudiant w = new Modifier_etudiant(etu);
 				w.setVisible(true);
-				
+
 			}
 		});
 		btnNewButton.setBounds(436, 29, 244, 29);

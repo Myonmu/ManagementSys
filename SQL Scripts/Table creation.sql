@@ -1,6 +1,12 @@
---Cleaning existing data (ENSEIGANT)
-DROP SEQUENCE enseignant_id;
-DROP TABLE enseignant;
+
+--Creating GESTIONNAIRE
+CREATE SEQUENCE gestionnaire_id START WITH 1 INCREMENT BY 1;
+CREATE TABLE gestionnaire(
+id_gest NUMBER(2),
+username VARCHAR2(16) UNIQUE,
+password VARCHAR2(16),
+CONSTRAINT pk_gest PRIMARY KEY(id_gest)
+);
 --Creating ENSEIGNANT
 CREATE SEQUENCE enseignant_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE enseignant(
@@ -13,10 +19,15 @@ tel VARCHAR2(10),
 CONSTRAINT pk_enseignant PRIMARY KEY(id_ens)
 );
 
+--Creating GROUPE
+CREATE SEQUENCE groupe_id START WITH 1 INCREMENT BY 1;
+CREATE TABLE groupe(
+id_gr NUMBER(2),
+num NUMBER(2) UNIQUE,
+cap NUMBER(2),
+CONSTRAINT pk_groupe PRIMARY KEY(id_gr)
+);
 
---Cleaning existing data (ETUDIANT)
-DROP SEQUENCE etudiant_id;
-DROP TABLE etudiant;
 --Creating ETUDIANT
 CREATE SEQUENCE etudiant_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE etudiant(
@@ -61,7 +72,7 @@ mat NUMBER(2),
 dow NUMBER(1),
 horaire VARCHAR2(10),
 type_cr VARCHAR2(10),
-duree NUMBER(1),
+duree NUMBER(3),
 gr NUMBER(2),
 ens NUMBER(2),
 CONSTRAINT pk_planning PRIMARY KEY(id_planning),
@@ -81,7 +92,7 @@ CONSTRAINT pk_type PRIMARY KEY (id_type)
 CREATE SEQUENCE just_id START WITH 1 INCREMENT BY 1;
 CREATE TABLE justificatif(
 id_just NUMBER(4),
-trj VARCHAR2(50) UNIQUE,
+trj VARCHAR2(200),
 CONSTRAINT pk_just PRIMARY KEY(id_just)
 );
 --Creating Absence
@@ -95,8 +106,15 @@ etat NUMBER(2),
 just NUMBER(4),
 commentaire VARCHAR2(50),
 CONSTRAINT pk_abs PRIMARY KEY (id_abs),
-CONSTRAINT fk_abs_plan FOREIGN KEY (plan) REFERENCES planning(id_planning),
-CONSTRAINT fk_abs_etu FOREIGN KEY (etu) REFERENCES etudiant(id_etu),
-CONSTRAINT fk_abs_etat FOREIGN KEY (etat) REFERENCES typeAbs(id_type),
-CONSTRAINT fk_abs_just FOREIGN KEY (just) REFERENCES justificatif(id_just)
+CONSTRAINT fk_abs_plan FOREIGN KEY (plan) REFERENCES planning(id_planning) ON DELETE CASCADE,
+CONSTRAINT fk_abs_etu FOREIGN KEY (etu) REFERENCES etudiant(id_etu) ON DELETE CASCADE,
+CONSTRAINT fk_abs_etat FOREIGN KEY (etat) REFERENCES typeAbs(id_type) ON DELETE SET NULL,
+CONSTRAINT fk_abs_just FOREIGN KEY (just) REFERENCES justificatif(id_just) ON DELETE SET NULL
+);
+
+--Creating Constants
+CREATE TABLE constants(
+description VARCHAR2(20),
+constValue NUMBER(10),
+CONSTRAINT pk_const PRIMARY KEY (description)
 );

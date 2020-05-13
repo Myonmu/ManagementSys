@@ -8,13 +8,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import models.Justificatif;
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class JustificatifDAO extends ConnectDAO{
 	public JustificatifDAO() {
 		super();
 	}
 	
-	
+	/**
+	 * adds a justification
+	 * @param target
+	 * @return nb of rows added
+	 */
 	public int add(Justificatif target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -47,6 +55,11 @@ public class JustificatifDAO extends ConnectDAO{
 		}
 		return rVal;
 	}
+	/**
+	 * modifies a justification
+	 * @param target
+	 * @return number of rows modified
+	 */
 	public int modify(Justificatif target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -81,7 +94,11 @@ public class JustificatifDAO extends ConnectDAO{
 		}
 		return rVal;
 	}
-	
+	/**
+	 * deletes a justification
+	 * @param target
+	 * @return number of rows deleted
+	 */
 	public int delete(Justificatif target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -114,7 +131,10 @@ public class JustificatifDAO extends ConnectDAO{
 		}
 		return rVal;
 	}
-	
+	/**
+	 * reads all justifications
+	 * @return  list of justification
+	 */
 	public ArrayList<Justificatif> readAll(){
 		ArrayList<Justificatif> list=new ArrayList<>();
 		Connection con=null;
@@ -123,7 +143,7 @@ public class JustificatifDAO extends ConnectDAO{
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM justificatif");
+			ps=con.prepareStatement("SELECT * FROM justificatif ORDER BY id_just");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Justificatif(rs.getInt("id_just"), rs.getString("trj")));
@@ -159,6 +179,11 @@ public class JustificatifDAO extends ConnectDAO{
 		}
 		return list;
 	}
+	/**
+	 * search a justification by its id
+	 * @param id
+	 * @return target justification
+	 */
 	public Justificatif searchByID(int id){
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -204,6 +229,11 @@ public class JustificatifDAO extends ConnectDAO{
 		}
 		return rJust;
 	}
+	/**
+	 * searches a justification by its trajectory
+	 * @param trj
+	 * @return target justification
+	 */
 	public Justificatif searchByTrj(String trj){
 		Connection con=null;
 		PreparedStatement ps=null;

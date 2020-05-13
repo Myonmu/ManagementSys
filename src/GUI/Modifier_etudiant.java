@@ -138,7 +138,7 @@ public class Modifier_etudiant extends JFrame {
 										  ));
 				
 				if(res == 1) {
-					JOptionPane.showMessageDialog(contentPane, res + " etudiant modifié!");
+					JOptionPane.showMessageDialog(contentPane, res + " etudiant modifie!");
 				}
 			}
 		});
@@ -162,7 +162,8 @@ public class Modifier_etudiant extends JFrame {
 				}
 				
 				if(res == 1) {
-					JOptionPane.showMessageDialog(contentPane, res + " Etudiant supprimé");
+
+					JOptionPane.showMessageDialog(contentPane, res + " Etudiant supprim?");
 					
 				}
 			}

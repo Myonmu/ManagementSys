@@ -1,10 +1,20 @@
 
+import java.awt.EventQueue;
+
 import DAO.*;
-import models.*;
+import GUI.Menu_Authen;
+import Other.Mail;
 
 public class ManagementMain {
 
 	public static void main(String[] args) {
+		ConstantsDAO csDAO=new ConstantsDAO();
+		csDAO.modifyQ(300);
+		System.out.println(csDAO.readQ());
+		Mail mail=new Mail();
+		mail.sendMultiWarning();
+		
+		/*
 		// TODO Auto-generated method stub
 		Enseignant test=new Enseignant(1,"33333","0000","PATRIKOV","SIMON","00000000");
 		EnseignantDAO testDAO=new EnseignantDAO();
@@ -38,6 +48,7 @@ public class ManagementMain {
 		Absence absence=new Absence(1, 1, 1, 1, 1, 0, "");
 		AbsenceDAO absDAO=new AbsenceDAO();
 		absDAO.addNoJust(absence);
+		*/
 
 
 	}

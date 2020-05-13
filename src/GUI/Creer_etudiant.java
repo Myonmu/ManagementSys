@@ -141,4 +141,6 @@ public class Creer_etudiant extends JFrame {
 		lblCreationNouvelEtudiant.setBounds(83, 23, 197, 14);
 		contentPane.add(lblCreationNouvelEtudiant);
 	}
+
 }
+

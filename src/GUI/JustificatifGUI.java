@@ -17,16 +17,15 @@ import DAO.*;
  * @author miska
  *
  */
-public class JustificatifGUI extends JFrame {
+public class JustificatifGUI extends JDialog {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static String trajectory="Pas de fichier choisi.";
-	public static boolean selected=false;
-	public static int assign=0; //AbsenceType ID to assign
-	
+	static String trajectory="Pas de fichier choisi.";
+	static boolean selected=false;
+	static int assign=1; //AbsenceType ID to assign
 	/**
 	 * Renderer for the combobox
 	 * @author miska
@@ -51,6 +50,7 @@ public class JustificatifGUI extends JFrame {
 	 */
 	public void deposer(int absID) {	
 		selected=false;
+		this.setModal(true);
 		final JPanel panel=new JPanel();
 		setTitle("Deposer justificatif");
 		setSize(500,75);
@@ -83,7 +83,6 @@ public class JustificatifGUI extends JFrame {
 						setLocationRelativeTo(null);
 						icon.setImage(nbi);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					remove(panel);
@@ -115,6 +114,7 @@ public class JustificatifGUI extends JFrame {
 							
 							if(absDAO.modify(temp)!=0) {
 								JOptionPane.showMessageDialog(null, "Votre fichier a bien ete enregistre.");
+								dispose();
 							}
 							else {
 								JOptionPane.showMessageDialog(null, "Erreur");
@@ -140,7 +140,8 @@ public class JustificatifGUI extends JFrame {
 	 * @param absID 
 	 */
 	public void traiter(int absID) {
-		assign=0;
+		this.setModal(true);
+		assign=1;
 		final JPanel panel=new JPanel();
 		setTitle("Justificatif");
 		setSize(800,650);
@@ -152,16 +153,20 @@ public class JustificatifGUI extends JFrame {
 		String imgTrj=justDAO.searchByID(absDAO.searchByID(absID).getJust()).getTrj();
 		JLabel imgLabel=new JLabel();
 		ImageIcon icon=new ImageIcon();
-
-		try {
-			BufferedImage img=scale(ImageIO.read(new File(imgTrj)));
-			icon.setImage(img);
-			imgLabel.setIcon(icon);
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Erreur");
-			e.printStackTrace();
+		if(imgTrj!="") {
+			try {
+				BufferedImage img=scale(ImageIO.read(new File(imgTrj)));
+				icon.setImage(img);
+				imgLabel.setIcon(icon);
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(null,"Cette absence n'a pas de Justificatif associe.");
+				e.printStackTrace();
+			} catch(IOException e) {
+				JOptionPane.showMessageDialog(null,"Erreur");
+			}
+		}else {
+			JOptionPane.showMessageDialog(null,"Cette absence n'a pas de Justificatif associe.");
 		}
-		
 		//Retrieving all absenceType and fill them into a JComboBox
 		AbsTypeDAO typeDAO=new AbsTypeDAO();
 		JComboBox<AbsenceType> cb=new JComboBox<AbsenceType>();
@@ -171,13 +176,13 @@ public class JustificatifGUI extends JFrame {
 		for(AbsenceType i:typeDAO.readAll()) {
 			cb.addItem(i);
 		}
-		
 		cb.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange()==ItemEvent.SELECTED) {
 					assign=((AbsenceType) cb.getSelectedItem()).getID();
+					System.out.println(assign);
 				}
 			}
 			
@@ -190,18 +195,19 @@ public class JustificatifGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(assign!=0) {
 					AbsenceDAO absDAO=new AbsenceDAO();
 					Absence abs=absDAO.searchByID(absID);
 					abs.setEtat(assign);
+					System.out.println(assign);
 					abs.setComment(tf.getText());
 					if(absDAO.modify(abs)!=0) {
 						JOptionPane.showMessageDialog(null, "Le justificatif a bien ete traite.");
+						dispose();
 					}else {
-						JOptionPane.showConfirmDialog(null, "Erreur");
+						JOptionPane.showMessageDialog(null, "Erreur");
 					}
 				}
-			}
+			
 			
 		});
 		
@@ -218,6 +224,7 @@ public class JustificatifGUI extends JFrame {
 		
 	}
 	public void show(int absID) {
+		this.setModal(true);
 		final JPanel panel=new JPanel();
 		setTitle("Justificatif");
 		setSize(800,650);
@@ -237,6 +244,8 @@ public class JustificatifGUI extends JFrame {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"Erreur");
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			JOptionPane.showMessageDialog(null, "Justificatif n'existe pas");
 		}
 		
 		//put components together

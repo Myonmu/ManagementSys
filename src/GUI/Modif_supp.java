@@ -62,14 +62,14 @@ public class Modif_supp extends JFrame {
 		
 		table = new JTable();
 
-		Object header[] = {"Nom", "Masse hotaire", "ID_Enseignant"};
+		Object header[] = {"Nom", "Masse hotaire", "Enseignant"};
 
 		DefaultTableModel model = new DefaultTableModel(header, 0);
 		
 		model.addRow(header);
 		
 		CoursDAO cours_dao = new CoursDAO();
-		
+		EnseignantDAO ensDAO=new EnseignantDAO();
 		ArrayList<Cours> liste_cours = cours_dao.readAll();
 		
 		for(int i = 0; i < liste_cours.size(); i++) {
@@ -77,7 +77,7 @@ public class Modif_supp extends JFrame {
 				{
 					liste_cours.get(i).getNom(), 
 					liste_cours.get(i).getMasse(),
-					liste_cours.get(i).getEnsPar(),
+					ensDAO.searchByID(liste_cours.get(i).getEnsPar()).getNom()
 				};
 			model.addRow(table_cours);
 		}

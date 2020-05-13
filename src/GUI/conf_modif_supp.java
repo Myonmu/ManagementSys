@@ -17,10 +17,12 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class conf_modif_supp extends JFrame {
+public class conf_modif_supp extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -49,6 +51,7 @@ public class conf_modif_supp extends JFrame {
 	 * @param c 
 	 */
 	public conf_modif_supp(Cours c) {
+		setModal(true);
 		setTitle("conf_mod_supp");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 593, 320);
@@ -104,7 +107,7 @@ public class conf_modif_supp extends JFrame {
 				}
 				
 				if(res == 1) {
-					JOptionPane.showMessageDialog(contentPane, res + " Cours supprimé");
+					JOptionPane.showMessageDialog(contentPane, res + " Cours supprimï¿½");
 					
 				}
 			}
@@ -125,7 +128,7 @@ CoursDAO dao = new CoursDAO();
 										  
 						));
 				
-				JOptionPane.showMessageDialog(contentPane, res + " cours modifié!");
+				JOptionPane.showMessageDialog(contentPane, res + " cours modifiï¿½!");
 			}
 		});
 		btnNewButton.setBackground(Color.GREEN);

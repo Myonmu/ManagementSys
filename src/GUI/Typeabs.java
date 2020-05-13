@@ -67,32 +67,23 @@ public class Typeabs extends JFrame {
 		lblDescription.setBounds(94, 55, 140, 23);
 		contentPane.add(lblDescription);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(207, 182, 140, 28);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
 		
-		JLabel lblIdetudiant = new JLabel("ID_Etudiant:");
-		lblIdetudiant.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblIdetudiant.setBounds(94, 185, 140, 14);
-		contentPane.add(lblIdetudiant);
-		
-		JButton btnAjouterAbsence = new JButton("Ajouter absence");
+		JButton btnAjouterAbsence = new JButton("Ajouter");
 		btnAjouterAbsence.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AbsTypeDAO dao= new AbsTypeDAO();
 				int res = dao.add(new AbsenceType(
-						Integer.valueOf(textField_1.getText()),
+						0,
 						textField.getText()
 						)
 						   
 						);
 	if(res==1) {
-		JOptionPane.showMessageDialog(contentPane, res + " absence ajouté");
+		JOptionPane.showMessageDialog(contentPane, res + "type absence ajoute");
 		
 		Gestion_etudiant g = new Gestion_etudiant();
 	}else {
-		JOptionPane.showMessageDialog(contentPane, "ERREUR, Vérifiez vos champs d'entrée");
+		JOptionPane.showMessageDialog(contentPane, "ERREUR, Verifiez vos champs d'entree");
 	}
 				
 			}

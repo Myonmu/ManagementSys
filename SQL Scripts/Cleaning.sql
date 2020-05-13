@@ -1,3 +1,6 @@
+--Cleaning gestionnaire
+DROP SEQUENCE gestionnaire_id;
+DROP TABLE gestionnaire CASCADE CONSTRAINT;
 --Cleaning existing data (ENSEIGANT)
 DROP SEQUENCE enseignant_id;
 DROP TABLE enseignant CASCADE CONSTRAINT;
@@ -25,3 +28,5 @@ DROP TABLE justificatif CASCADE CONSTRAINT;
 --Cleanning existing data(Absence)
 DROP SEQUENCE absence_id;
 DROP TABLE absence CASCADE CONSTRAINT;
+--Cleanning constants
+DROP TABLE constants;

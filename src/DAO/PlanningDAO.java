@@ -9,16 +9,24 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import models.Planning;
 import models.PlanningAff;
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class PlanningDAO extends ConnectDAO {
 	public PlanningDAO(){
 		super();
 	}
+	/**
+	 * adds a planning
+	 * @param target
+	 * @return nb of rows added
+	 */
 	public int add(Planning target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -59,6 +67,11 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * modifies a planning
+	 * @param target
+	 * @return nb of rows modified
+	 */
 	public int modify(Planning target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -99,6 +112,11 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * deletes a planning
+	 * @param target
+	 * @return nb of rows deleted
+	 */
 	public int delete(Planning target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -131,7 +149,10 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
-	
+	/**
+	 * reads all planning
+	 * @return list of planning
+	 */
 	public ArrayList<Planning> readAll(){
 		ArrayList<Planning> list=new ArrayList<>();
 		Connection con=null;
@@ -140,7 +161,7 @@ public class PlanningDAO extends ConnectDAO {
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM planning");
+			ps=con.prepareStatement("SELECT * FROM planning ORDER BY id_planning");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Planning(rs.getInt(1),rs.getInt(2), rs.getInt(3), rs.getInt(4),
@@ -177,6 +198,11 @@ public class PlanningDAO extends ConnectDAO {
 		}
 		return list;
 	}
+	/**
+	 * search a planning by its id
+	 * @param target id
+	 * @return planning object
+	 */
 	public Planning searchByID(int target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -184,7 +210,7 @@ public class PlanningDAO extends ConnectDAO {
 		Planning rPlanning=new Planning(target, target, target, target, null, null, target, target, target);
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM cours WHERE id_cours=?");
+			ps=con.prepareStatement("SELECT * FROM planning WHERE id_planning=?");
 			ps.setInt(1, target);
 			rs=ps.executeQuery();
 			if(rs.next()) {
@@ -246,7 +272,7 @@ public class PlanningDAO extends ConnectDAO {
 					+ "type_cr,duree,groupe.num AS grNum, enseignant.nom AS ensNom, id_ens,id_cours"
 					+ " FROM planning INNER JOIN sess ON sess=id_session "
 					+ "INNER JOIN cours ON mat=id_cours INNER JOIN groupe ON gr=id_gr "
-					+ "INNER JOIN enseignant ON ens=id_ens");
+					+ "INNER JOIN enseignant ON ens=id_ens ORDER BY id_planning");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new PlanningAff(rs.getInt("id_planning"),rs.getInt("id_session"), rs.getString("dow"), rs.getString("horaire"),

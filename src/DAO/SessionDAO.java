@@ -6,11 +6,20 @@ import java.util.ArrayList;
 
 import models.Session;
 
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class SessionDAO  extends ConnectDAO{
 	public SessionDAO() {
 		super();
 	}
+	/**
+	 * search a session by its number
+	 * @param target number
+	 * @return session object
+	 */
 	public Session searchByNum(String target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -58,16 +67,21 @@ public class SessionDAO  extends ConnectDAO{
 		}
 		return rSession;
 	}
-	public Session searchByID(String target) {
+	/**
+	 * search a session py its id
+	 * @param id
+	 * @return session object
+	 */
+	public Session searchByID(int i) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		Session rSession=new Session(0, 0, target);
+		Session rSession=new Session(0, 0, "");
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT * FROM sess WHERE id_session=?");
-			ps.setString(1, target);
+			ps.setInt(1, i);
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				rSession.setID(rs.getInt(1));
@@ -239,7 +253,7 @@ public class SessionDAO  extends ConnectDAO{
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM sess");
+			ps=con.prepareStatement("SELECT * FROM sess ORDER BY id_session");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Session(rs.getInt(1), rs.getInt(2),df.format(rs.getDate(3))));

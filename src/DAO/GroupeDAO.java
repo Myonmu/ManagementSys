@@ -1,9 +1,15 @@
 package DAO;
 import java.sql.*;
+
 import java.util.ArrayList;
 
 
 import models.Groupe;
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class GroupeDAO extends ConnectDAO {
 
 	public GroupeDAO() {
@@ -174,7 +180,7 @@ public class GroupeDAO extends ConnectDAO {
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM groupe");
+			ps=con.prepareStatement("SELECT * FROM groupe ORDER BY id_gr");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Groupe(rs.getInt("id_gr"), rs.getInt("num"), rs.getInt("cap")));
@@ -210,7 +216,11 @@ public class GroupeDAO extends ConnectDAO {
 		}
 		return list;
 	}
-
+/**
+ * Adds a group
+ * @param newGroup
+ * @return number of rows added
+ */
 	public int add(Groupe newGr) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -245,6 +255,11 @@ public class GroupeDAO extends ConnectDAO {
 		return rVal;
 		
 	}
+	/**
+	 * modifies a group
+	 * @param target
+	 * @return number of rows modified
+	 */
 	public int modify(Groupe target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -279,6 +294,11 @@ public class GroupeDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * Deletes a group
+	 * @param target
+	 * @return number of group deleted
+	 */
 	public int delete(Groupe target) {
 		Connection con=null;
 		PreparedStatement ps=null;

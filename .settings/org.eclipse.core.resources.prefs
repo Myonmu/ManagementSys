@@ -1,2 +1,7 @@
 eclipse.preferences.version=1
+encoding//src/GUI/Creer_cours.java=UTF-8
+encoding//src/GUI/Creer_enseignant.java=UTF-8
+encoding//src/GUI/Creer_etudiant.java=UTF-8
 encoding//src/GUI/Menu_Authen.java=UTF-8
+encoding//src/GUI/Modifier_enseigant.java=UTF-8
+encoding//src/GUI/conf_modif_supp.java=UTF-8

@@ -1,5 +1,9 @@
 package models;
-
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class Absence {
 	private int id;
 	private int plan;
@@ -27,6 +31,14 @@ public class Absence {
 		this.just=just;
 		this.comment=comment;
 	}
+	public Absence(int plan,int week,int etu, String comment) {
+		this.id=0;
+		this.plan=plan;
+		this.week=week;
+		this.etu=etu;
+		this.comment=comment;
+	}
+
 	public int getID() {
 		return this.id;
 	}

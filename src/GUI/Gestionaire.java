@@ -55,12 +55,17 @@ public class Gestionaire extends JFrame {
 		JButton btnCrerUnCours = new JButton("Gestion cours");
 		btnCrerUnCours.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Modif_supp g = new Modif_supp();g.setVisible(true);	}
+				Modif_supp g = new Modif_supp();
+				g.setVisible(true);	
+			}
 			
 		});
 		btnCrerUnCours.setBounds(10, 77, 140, 42);
 		contentPane.add(btnCrerUnCours);
 		
+		
+		
+
 		JButton btnGestionDenseignant = new JButton("Gestion d'enseignant");
 		btnGestionDenseignant.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -95,7 +100,16 @@ public class Gestionaire extends JFrame {
 		btnCrerUnType.setBounds(324, 96, 167, 23);
 		contentPane.add(btnCrerUnType);
 		
-		JButton btnTraiterUnJustificatif = new JButton("Traiter un justificatif");
+		JButton btnTraiterUnJustificatif = new JButton("Traiter des absences");
+		btnTraiterUnJustificatif.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AbsenceGUI absGUI=new AbsenceGUI() ;
+				absGUI.readEtuAbsence(0);
+			}
+			
+		});
 		btnTraiterUnJustificatif.setBounds(324, 130, 167, 42);
 		contentPane.add(btnTraiterUnJustificatif);
 		
@@ -104,7 +118,17 @@ public class Gestionaire extends JFrame {
 		contentPane.add(btnDfinirQuota);
 		
 		JButton btnGestionPlanning = new JButton("Gestion planning");
+		btnGestionPlanning.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PlanningGUI plGUI=new PlanningGUI();
+				plGUI.readAllPlanning();
+			}
+			
+		});
 		btnGestionPlanning.setBounds(324, 62, 167, 23);
 		contentPane.add(btnGestionPlanning);
+		setVisible(true);
 	}
 }

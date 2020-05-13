@@ -17,15 +17,16 @@ public class EnseignantGUI extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static int selectedID=0;
-	
+	/**
+	 * Reads the prof's planning
+	 */
 	public void readPlanning() {
 		selectedID=0;
 		//window setup
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Planning");
-		setLocationRelativeTo(null);
 		setSize(800,500);
-		
+		setLocationRelativeTo(null);
 		JPanel panel=new JPanel(new BorderLayout());
 		
 		//Creating planning table
@@ -34,7 +35,7 @@ public class EnseignantGUI extends JFrame {
 		CoursDAO csDAO=new CoursDAO();
 		ArrayList<Integer> idMat=new ArrayList<>();
 		for(Cours i:csDAO.searchByEns(userID.ID)) {
-			idMat.add(i.getEnsPar());
+			idMat.add(i.getID());
 		}
 		Object[] columnHeads= {"ID","Session","Jour","Heure","Matiere","Type","Duree","Groupe","Enseignant","idEns","idMat"};
 		DefaultTableModel model=new DefaultTableModel(columnHeads,0);
@@ -73,7 +74,21 @@ public class EnseignantGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO copy add-absence GUI here
+				AbsenceGUI absGUI=new AbsenceGUI();
+				absGUI.declarer(selectedID);
+				model.setRowCount(0);
+				for(PlanningAff i:plDAO.readPlanningAff()) {
+					if(i.getIdEns()==userID.ID||idMat.contains(i.getIdMat())) {
+						Object[] row= {i.getId(),i.getSession(),i.getDow(),i.getHoraire(),i.getMatiere(),i.getType(),i.getDuree()
+								,i.getGroupe(),i.getEns(),i.getIdEns(),i.getIdMat()};
+						model.addRow(row);
+					}
+				}
+				remove(panel);
+				add(panel);
+				revalidate();
+				repaint();
+				selectedID=0;
 			}
 			
 		});
@@ -83,20 +98,13 @@ public class EnseignantGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO copy show-absence GUI here
+				AbsenceGUI absGUI=new AbsenceGUI();
+				absGUI.readPlanningAbsence(selectedID);
+				selectedID=0;
 			}
 			
 		});
-		JButton button3 =new JButton("Liste des Etudiants");
-		button3.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int grID=(int) table.getModel().getValueAt(selectedID, 7);
-				//TODO copy show-student-list (for a certain Group) GUI here		
-			}
-			
-			
-		});
 		Box hbox=Box.createHorizontalBox();
 		hbox.add(button1);
 		hbox.add(button2);
@@ -107,9 +115,51 @@ public class EnseignantGUI extends JFrame {
 		setVisible(true);
 	}
 	
+	public void enseignantMenu() {
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle("Benvenuto, Insegnante.");
+		setSize(200,100);
+		setLocationRelativeTo(null);
+		JPanel panel=new JPanel(new BorderLayout());
+		Box mainBox=Box.createVerticalBox();
+		selectedID=0;
+		//Buttons
+		//Planning
+		JButton planningBtn=new JButton("Consulter Planning");
+		planningBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EnseignantGUI ensGUI=new EnseignantGUI();
+				ensGUI.readPlanning();
+			}
+			
+		});
+		mainBox.add(planningBtn);
+		//Student List(Absence)
+		JButton absBtn=new JButton("Absence des etudiants");
+		absBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				selectedID=0;
+				EtudiantGUI etuGUI=new EtudiantGUI();
+				selectedID=etuGUI.etuSelect();
+				AbsenceGUI absGUI=new AbsenceGUI();
+				absGUI.readEtuAbsence(selectedID);
+			}
+			
+		});
+		mainBox.add(absBtn);
+		
+		panel.add(mainBox,BorderLayout.CENTER);
+		add(panel);
+		setVisible(true);
+	}
 
 	public static void main(String[] arg) {
 		EnseignantGUI ensGUI=new EnseignantGUI();
-		ensGUI.readPlanning();
+		userID.ID=1;
+		ensGUI.enseignantMenu();
 	}
 }

@@ -12,11 +12,20 @@ import java.util.*;
 
 import models.Absence;
 import models.AbsenceAff;
-
+/**
+ * Absence DAO
+ * @author Hippocrate
+ *
+ */
 public class AbsenceDAO extends ConnectDAO {
 	public AbsenceDAO() {
 		super();
 	}
+	/**
+	 * Adding an absence in to the db
+	 * @param target target absence
+	 * @return number of rows added
+	 */
 	public int add(Absence target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -56,6 +65,11 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * Add an absence without justification into the db
+	 * @param target target absence without absencetype nor justification
+	 * @return numberof rows added.
+	 */
 	public int addNoJust(Absence target) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -63,13 +77,12 @@ public class AbsenceDAO extends ConnectDAO {
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
 			ps=con.prepareStatement("INSERT INTO absence "
-					+ "(id_abs,plan,week,etu,etat,commentaire) VALUES "
-					+ "(absence_id.NEXTVAL,?,?,?,?,?)");
+					+ "(id_abs,plan,week,etu,commentaire) VALUES "
+					+ "(absence_id.NEXTVAL,?,?,?,?)");
 			ps.setInt(1, target.getPlan());
 			ps.setInt(2,target.getWeek());
 			ps.setInt(3, target.getEtu());
-			ps.setInt(4, target.getEtat());
-			ps.setString(5, target.getComment());
+			ps.setString(4, target.getComment());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -94,20 +107,51 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
+	/**
+	 * Modifies an absence
+	 * @param target target absence to be modified
+	 * @return number of rows modified. Normally 1.
+	 */
 	public int modify(Absence target) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,just=?,commentaire=? WHERE id_abs=?");
-			ps.setInt(1, target.getPlan());
-			ps.setInt(2,target.getWeek());
-			ps.setInt(3, target.getEtu());
-			ps.setInt(4, target.getEtat());
-			ps.setInt(5, target.getJust());
-			ps.setString(6, target.getComment());
-			ps.setInt(7, target.getID());
+			if(target.getEtat()!=0&&target.getJust()!=0) {
+				ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,just=?,commentaire=? WHERE id_abs=?");
+				ps.setInt(1, target.getPlan());
+				ps.setInt(2,target.getWeek());
+				ps.setInt(3, target.getEtu());
+				ps.setInt(4, target.getEtat());
+				ps.setInt(5, target.getJust());
+				ps.setString(6, target.getComment());
+				ps.setInt(7, target.getID());
+			}
+			else if(target.getEtat()==0&&target.getJust()!=0){
+				ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,just=?,commentaire=? WHERE id_abs=?");
+				ps.setInt(1, target.getPlan());
+				ps.setInt(2,target.getWeek());
+				ps.setInt(3, target.getEtu());
+				ps.setInt(4, target.getJust());
+				ps.setString(5, target.getComment());
+				ps.setInt(6, target.getID());
+			}else if(target.getEtat()!=0&&target.getJust()==0){
+				ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,etat=?,commentaire=? WHERE id_abs=?");
+				ps.setInt(1, target.getPlan());
+				ps.setInt(2,target.getWeek());
+				ps.setInt(3, target.getEtu());
+				ps.setInt(4, target.getEtat());
+				ps.setString(5, target.getComment());
+				ps.setInt(6, target.getID());
+			}else {
+				ps=con.prepareStatement("UPDATE absence SET plan=?,week=?,etu=?,commentaire=? WHERE id_abs=?");
+				ps.setInt(1, target.getPlan());
+				ps.setInt(2,target.getWeek());
+				ps.setInt(3, target.getEtu());
+				ps.setString(4, target.getComment());
+				ps.setInt(5, target.getID());
+			}
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -132,14 +176,18 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
-	
+	/**
+	 * Deletes an absence
+	 * @param target target absence to be deleted
+	 * @return number of rows deleted
+	 */
 	public int delete(Absence target) {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL, LOGIN, PASS);
-			ps=con.prepareStatement("DELETE FROM absence WHERE id_abs=?)");
+			ps=con.prepareStatement("DELETE FROM absence WHERE id_abs=?");
 			ps.setInt(1, target.getID());
 			rVal=ps.executeUpdate();
 		} catch (SQLException e) {
@@ -165,7 +213,10 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rVal;
 	}
-	
+	/**
+	 * Read all absence record
+	 * @return list of records
+	 */
 	public ArrayList<Absence> readAll(){
 		ArrayList<Absence> list=new ArrayList<>();
 		Connection con=null;
@@ -174,7 +225,7 @@ public class AbsenceDAO extends ConnectDAO {
 		
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM absence");
+			ps=con.prepareStatement("SELECT * FROM absence ORDER BY id_abs");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Absence(rs.getInt(1), rs.getInt(2), rs.getInt(3), 
@@ -211,6 +262,11 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return list;
 	}
+	/**
+	 * Search for a complete absence object, knowing the id.
+	 * @param id
+	 * @return the absence object
+	 */
 	public Absence searchByID(int id){
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -261,7 +317,11 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rAbs;
 	}
-	
+	/**
+	 * Calculates the exact date of absence
+	 * @param id of the target absence
+	 * @return Date in DD/MM/YYYY format
+	 */
 	public String calcDate(int id) {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -320,7 +380,10 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return rDate;
 	}
-	
+	/**
+	 * Reads all absence record, in a user-friendly style.
+	 * @return list of records
+	 */
 	public ArrayList<AbsenceAff> readAff(){
 		ArrayList<AbsenceAff> list=new ArrayList<>();
 		Connection con=null;
@@ -330,7 +393,8 @@ public class AbsenceDAO extends ConnectDAO {
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT id_abs,etu AS id_etu,id_planning,nom_cours,type_cr,horaire,duree,just,typeAbs.nom AS etatAbs,commentaire"
-					+ " FROM absence INNER JOIN planning ON plan=id_planning INNER JOIN cours ON id_cours=mat INNER JOIN typeAbs ON etat=id_type");
+					+ " FROM absence INNER JOIN planning ON plan=id_planning INNER JOIN cours ON id_cours=mat FULL OUTER JOIN typeAbs ON etat=id_type"
+					+ " ORDER BY id_abs ASC");
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				String date=this.calcDate(rs.getInt("id_abs"));
@@ -338,9 +402,17 @@ public class AbsenceDAO extends ConnectDAO {
 				if(rs.getInt("just")!=0) {
 					just_state="DEJA DEPOSE";
 				}
+				String state=rs.getString("etatAbs");
+				if(rs.wasNull()) {
+					state="N/A";
+				}
+				String comment=rs.getString("commentaire");
+				if(rs.wasNull()) {
+					comment="N/A";
+				}
 				list.add(new AbsenceAff(rs.getInt("id_abs"), rs.getInt("id_etu"), rs.getInt("id_planning"), 
 						rs.getString("nom_cours"), rs.getString("type_cr"), date+" "+rs.getString("horaire"),
-						rs.getInt("duree"), just_state, rs.getString("etatAbs"), rs.getString("commentaire")));
+						rs.getInt("duree"), just_state, state,comment));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -373,6 +445,56 @@ public class AbsenceDAO extends ConnectDAO {
 		}
 		return list;
 	}
-	
+	/**
+	 * Gets all students' email address whose absence total surpass the quota, 
+	 * @return list of email address.
+	 */
+	public ArrayList<String> getWarningMailList() {
+		ArrayList<String> list=new ArrayList<String>();
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		ConstantsDAO cDAO=new ConstantsDAO();
+		int quota=cDAO.readQ();
+		try {
+			con=DriverManager.getConnection(URL,LOGIN,PASS);
+			ps=con.prepareStatement("SELECT email,SUM(duree) FROM absence INNER JOIN planning ON plan=id_planning "
+					+ "INNER JOIN etudiant ON etu=id_etu GROUP BY email HAVING SUM(duree)>?");
+			ps.setInt(1, quota);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString("email"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con!=null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 
 }
