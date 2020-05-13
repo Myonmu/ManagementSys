@@ -28,6 +28,10 @@ public class Cours {
 		this.ens_par=ens_par;
 	}
 	
+	public Cours() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return this.id;
 	}

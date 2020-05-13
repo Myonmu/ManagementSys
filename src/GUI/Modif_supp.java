@@ -5,23 +5,30 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import DAO.CoursDAO;
+import DAO.EnseignantDAO;
+import models.Cours;
+import models.Enseignant;
+import models.Etudiant;
+
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Modif_supp extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -53,87 +60,52 @@ public class Modif_supp extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		table = new JTable();
+
+		Object header[] = {"Nom", "Masse hotaire", "ID_Enseignant"};
+
+		DefaultTableModel model = new DefaultTableModel(header, 0);
+		
+		model.addRow(header);
+		
+		CoursDAO cours_dao = new CoursDAO();
+		
+		ArrayList<Cours> liste_cours = cours_dao.readAll();
+		
+		for(int i = 0; i < liste_cours.size(); i++) {
+			Object[] table_cours = 
+				{
+					liste_cours.get(i).getNom(), 
+					liste_cours.get(i).getMasse(),
+					liste_cours.get(i).getEnsPar(),
+				};
+			model.addRow(table_cours);
+		}
+		
+		table.setModel(model);
+		table.setBounds(31, 40, 267, 267);
+		contentPane.add(table);
+		
 		JLabel lblModifiersupprimer = new JLabel("Modifier/Supprimer");
 		lblModifiersupprimer.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblModifiersupprimer.setForeground(Color.RED);
-		lblModifiersupprimer.setBounds(231, 11, 193, 22);
+		lblModifiersupprimer.setBounds(72, 7, 193, 22);
 		contentPane.add(lblModifiersupprimer);
 		
-		JLabel lblGroupe = new JLabel("Groupe");
-		lblGroupe.setBounds(42, 50, 46, 17);
-		contentPane.add(lblGroupe);
-		
-		textField = new JTextField();
-		textField.setBounds(98, 48, 54, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JButton btnPlanning = new JButton("Planning");
-		btnPlanning.setBackground(Color.GREEN);
-		btnPlanning.setBounds(63, 100, 89, 58);
-		contentPane.add(btnPlanning);
-		
-		JButton btnSupprimer = new JButton("Supprimer");
-		btnSupprimer.setBounds(185, 255, 89, 23);
-		contentPane.add(btnSupprimer);
-		
-		JButton btnConfirmer = new JButton("Confirmer");
-		btnConfirmer.setBounds(354, 255, 89, 23);
+		JButton btnConfirmer = new JButton("Modifier/supprimer");
+		btnConfirmer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Cours c = new Cours();
+				c = liste_cours.get(table.getSelectedRow()-1);
+				conf_modif_supp w = new conf_modif_supp(c);
+				w.setVisible(true);
+			}
+		});
+		btnConfirmer.setBounds(377, 129, 154, 80);
 		contentPane.add(btnConfirmer);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(371, 154, 86, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+	
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(371, 119, 86, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(371, 88, 86, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
-		
-		textField_4 = new JTextField();
-		textField_4.setBounds(371, 185, 86, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
-		
-		textField_5 = new JTextField();
-		textField_5.setBounds(371, 216, 86, 20);
-		contentPane.add(textField_5);
-		textField_5.setColumns(10);
-		
-		textField_6 = new JTextField();
-		textField_6.setBounds(354, 48, 119, 20);
-		contentPane.add(textField_6);
-		textField_6.setColumns(10);
-		
-		JLabel lblNomDuCours = new JLabel("Nom du cours");
-		lblNomDuCours.setBounds(427, 23, 86, 14);
-		contentPane.add(lblNomDuCours);
-		
-		JLabel lblNewLabel = new JLabel("jour");
-		lblNewLabel.setBounds(334, 91, 46, 14);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblA = new JLabel("a");
-		lblA.setBounds(346, 122, 15, 14);
-		contentPane.add(lblA);
-		
-		JLabel lblType = new JLabel("Type");
-		lblType.setBounds(332, 157, 29, 14);
-		contentPane.add(lblType);
-		
-		JLabel lblDure = new JLabel("Dur\u00E9e");
-		lblDure.setBounds(332, 188, 29, 14);
-		contentPane.add(lblDure);
-		
-		JLabel lblEnseignant = new JLabel("Enseignant");
-		lblEnseignant.setBounds(311, 216, 67, 14);
-		contentPane.add(lblEnseignant);
 	}
 
 }

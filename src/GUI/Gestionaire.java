@@ -103,7 +103,7 @@ public class Gestionaire extends JFrame {
 				
 			}
 		});
-		btnCrerUnType.setBounds(324, 78, 167, 41);
+		btnCrerUnType.setBounds(324, 96, 167, 23);
 		contentPane.add(btnCrerUnType);
 		
 		JButton btnTraiterUnJustificatif = new JButton("Traiter un justificatif");
@@ -113,6 +113,9 @@ public class Gestionaire extends JFrame {
 		JButton btnDfinirQuota = new JButton("D\u00E9finir quota");
 		btnDfinirQuota.setBounds(324, 183, 167, 42);
 		contentPane.add(btnDfinirQuota);
+		
+		JButton btnGestionPlanning = new JButton("Gestion planning");
+		btnGestionPlanning.setBounds(324, 62, 167, 23);
+		contentPane.add(btnGestionPlanning);
 	}
-
 }
