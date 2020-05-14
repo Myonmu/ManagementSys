@@ -130,5 +130,6 @@ public class Menu_Authen {
 		});
 		btnLogin.setBounds(159, 210, 110, 26);
 		frmAuthentification.getContentPane().add(btnLogin);
+		frmAuthentification.setVisible(true);
 	}
 }

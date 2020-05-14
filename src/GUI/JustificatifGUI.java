@@ -13,8 +13,8 @@ import DAO.*;
 
 /***
  * This class includes 2 GUIs, one for "uploading" a Justificatif and the other for treating a existing Justificatif.
- * Each must be used after recieving an ABSENCE ID from Absence GUIs.
- * @author miska
+ * Each must be used after receiving an ABSENCE ID from Absence GUIs.
+ * @author Hippocrate
  *
  */
 public class JustificatifGUI extends JDialog {
@@ -189,6 +189,11 @@ public class JustificatifGUI extends JDialog {
 		});
 		//Comment box
 		JTextField tf=new JTextField("Pas de commentaire");
+		tf.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				tf.setText("");
+			}
+		});
 		//Confirmation button
 		JButton confirm=new JButton("Confirmer");
 		confirm.addActionListener(new ActionListener() {

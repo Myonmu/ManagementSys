@@ -8,12 +8,8 @@ import Other.Mail;
 public class ManagementMain {
 
 	public static void main(String[] args) {
-		ConstantsDAO csDAO=new ConstantsDAO();
-		csDAO.modifyQ(300);
-		System.out.println(csDAO.readQ());
-		Mail mail=new Mail();
-		mail.sendMultiWarning();
 		
+		Menu_Authen menu=new Menu_Authen();
 		/*
 		// TODO Auto-generated method stub
 		Enseignant test=new Enseignant(1,"33333","0000","PATRIKOV","SIMON","00000000");

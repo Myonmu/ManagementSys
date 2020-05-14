@@ -1,6 +1,7 @@
 package Other;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.swing.JOptionPane;
 
 import DAO.AbsenceDAO;
 
@@ -65,6 +66,7 @@ public class Mail {
     	for(String i:absDAO.getWarningMailList()) {
     		sendAbsWarning(i);
     	}
+    	JOptionPane.showMessageDialog(null, "Mails envoyes");
     }
     public static void main(String[] args) {
     	Mail m=new Mail();

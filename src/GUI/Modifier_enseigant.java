@@ -128,7 +128,7 @@ public class Modifier_enseigant extends JFrame {
 										  textField_1.getText(), 
 										  textField_2.getText()));
 				
-				JOptionPane.showMessageDialog(contentPane, res + " enseignant modifi�?");
+				JOptionPane.showMessageDialog(contentPane, res + " enseignant modifie?");
 			}
 		});
 		btnNewButton.setBackground(Color.GREEN);

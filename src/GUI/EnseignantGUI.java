@@ -11,7 +11,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-public class EnseignantGUI extends JFrame {
+public class EnseignantGUI extends JDialog {
 	/**
 	 * 
 	 */
@@ -156,6 +156,60 @@ public class EnseignantGUI extends JFrame {
 		add(panel);
 		setVisible(true);
 	}
+	/**
+	 * Selects an ens
+	 * @return the ID of the selected Ens
+	 */
+	public int ensSelect() {
+		selectedID=0;
+		this.setSize(800,500);
+		this.setLocationRelativeTo(null);
+		this.setTitle("Enseignant selection");
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.setModal(true);
+		
+		Object[] tableHead= {"ID","Nom","Prenom"};
+		DefaultTableModel model=new DefaultTableModel(tableHead,0);
+		EnseignantDAO ensDAO=new EnseignantDAO();
+		for(Enseignant i:ensDAO.readAll()) {
+			Object[] row= {i.getID(),i.getNom(),i.getPrenom()};
+			model.addRow(row);
+		}
+		JTable table=new JTable(model);
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(table.getSelectedRow()>-1) {
+					selectedID=(int) table.getModel().getValueAt(table.getSelectedRow(), 0);
+				}
+			}
+			
+		});
+		
+		JPanel panel=new JPanel(new BorderLayout());
+		panel.add(table.getTableHeader(),BorderLayout.NORTH);
+		panel.add(table,BorderLayout.CENTER);
+		
+		//button
+		JButton confirm=new JButton("Confirmer") ;
+		confirm.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(selectedID!=0) {
+					JOptionPane.showMessageDialog(null, "Enesignant Selectione");
+					dispose();
+				}	
+			}
+		});
+		panel.add(confirm,BorderLayout.SOUTH);
+		add(panel);
+		setVisible(true);
+		System.out.println(selectedID);
+		return selectedID;
+	}
+	
 
 	public static void main(String[] arg) {
 		EnseignantGUI ensGUI=new EnseignantGUI();

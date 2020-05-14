@@ -114,6 +114,15 @@ public class Gestionaire extends JFrame {
 		contentPane.add(btnTraiterUnJustificatif);
 		
 		JButton btnDfinirQuota = new JButton("D\u00E9finir quota");
+		btnDfinirQuota.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				QuotaGUI qt=new QuotaGUI();
+				qt.quota();
+			}
+			
+		});
 		btnDfinirQuota.setBounds(324, 183, 167, 42);
 		contentPane.add(btnDfinirQuota);
 		

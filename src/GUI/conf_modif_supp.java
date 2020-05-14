@@ -107,7 +107,7 @@ public class conf_modif_supp extends JDialog {
 				}
 				
 				if(res == 1) {
-					JOptionPane.showMessageDialog(contentPane, res + " Cours supprim�");
+					JOptionPane.showMessageDialog(contentPane, res + " Cours supprime");
 					
 				}
 			}
@@ -119,7 +119,7 @@ public class conf_modif_supp extends JDialog {
 		JButton btnNewButton = new JButton("Conf_modif");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-CoursDAO dao = new CoursDAO();
+				CoursDAO dao = new CoursDAO();
 				
 				int res = dao.modify(new Cours(c.getID(),
 										  textField.getText(), 
