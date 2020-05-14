@@ -10,6 +10,11 @@ import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/**
+ * 
+ * @author Hippocrate
+ *
+ */
 public class AbsenceGUI extends JDialog {
 	/**
 	 * 
@@ -25,7 +30,7 @@ public class AbsenceGUI extends JDialog {
 	public void readEtuAbsence(int etuID) {
 		//WINDOW SET UP
 		selectedID=0;
-		this.setSize(800,600);
+		this.setSize(1000,600);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle("Absences");
 		this.setLocationRelativeTo(null);
@@ -33,10 +38,12 @@ public class AbsenceGUI extends JDialog {
 		JPanel panel=new JPanel(new BorderLayout());
 		//CREATING ABSENCE TABLE
 		AbsenceDAO absDAO=new AbsenceDAO();
-		Object[] columnheads= {"ID","Matiere","Type","Date","Duree","Justificatif","Etat","Commentaire","etuID","idPlan"};
+		EtudiantDAO etuDAO=new EtudiantDAO();
+		Object[] columnheads= {"ID","Etudiant","Matiere","Type","Date","Duree","Justificatif","Etat","Commentaire","etuID","idPlan"};
 		DefaultTableModel model=new DefaultTableModel(columnheads,0);
 		for(AbsenceAff i: absDAO.readAff()) {
-			Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+			Etudiant temp=etuDAO.searchByID(i.getEtu());
+			Object[] row= {i.getId(),temp.getNom()+" "+temp.getPrenom(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
 			i.getComment(),i.getEtu(),i.getPlan()};
 			if(i.getEtu()==etuID||etuID==0) {
 				model.addRow(row);
@@ -88,12 +95,13 @@ public class AbsenceGUI extends JDialog {
 					justGUI.deposer(selectedID);
 					model.setRowCount(0);
 					for(AbsenceAff i: absDAO.readAff()) {
+						Etudiant temp=etuDAO.searchByID(i.getEtu());
+						Object[] row= {i.getId(),temp.getNom()+" "+temp.getPrenom(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+						i.getComment(),i.getEtu(),i.getPlan()};
 						if(i.getEtu()==etuID||etuID==0) {
-							Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
-									i.getComment(),i.getEtu(),i.getPlan()};
-									model.addRow(row);
-							}
+							model.addRow(row);
 						}
+					}
 					remove(panel);
 					add(panel);
 					revalidate();
@@ -112,15 +120,17 @@ public class AbsenceGUI extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JustificatifGUI justGUI=new JustificatifGUI();
-				justGUI.traiter(selectedID);
+				if(selectedID!=0) {
+				justGUI.traiter(selectedID);}
 				model.setRowCount(0);
 				for(AbsenceAff i: absDAO.readAff()) {
+					Etudiant temp=etuDAO.searchByID(i.getEtu());
+					Object[] row= {i.getId(),temp.getNom()+" "+temp.getPrenom(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+					i.getComment(),i.getEtu(),i.getPlan()};
 					if(i.getEtu()==etuID||etuID==0) {
-						Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
-								i.getComment(),i.getEtu(),i.getPlan()};
-								model.addRow(row);
-						}
+						model.addRow(row);
 					}
+				}
 				remove(panel);
 				add(panel);
 				revalidate();
@@ -143,12 +153,13 @@ public class AbsenceGUI extends JDialog {
 					absDAO.delete(absDAO.searchByID(selectedID));
 					model.setRowCount(0);
 					for(AbsenceAff i: absDAO.readAff()) {
+						Etudiant temp=etuDAO.searchByID(i.getEtu());
+						Object[] row= {i.getId(),temp.getNom()+" "+temp.getPrenom(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+						i.getComment(),i.getEtu(),i.getPlan()};
 						if(i.getEtu()==etuID||etuID==0) {
-							Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
-									i.getComment(),i.getEtu(),i.getPlan()};
-									model.addRow(row);
-							}
+							model.addRow(row);
 						}
+					}
 					remove(panel);
 					add(panel);
 					revalidate();
@@ -179,10 +190,12 @@ public class AbsenceGUI extends JDialog {
 		JPanel panel=new JPanel(new BorderLayout());
 		//CREATING ABSENCE TABLE
 		AbsenceDAO absDAO=new AbsenceDAO();
-		Object[] columnheads= {"ID","Matiere","Type","Date","Duree","Justificatif","Etat","Commentaire","etuID","idPlan"};
+		EtudiantDAO etuDAO=new EtudiantDAO();
+		Object[] columnheads= {"ID","Etudiant","Matiere","Type","Date","Duree","Justificatif","Etat","Commentaire","etuID","idPlan"};
 		DefaultTableModel model=new DefaultTableModel(columnheads,0);
 		for(AbsenceAff i: absDAO.readAff()) {
-			Object[] row= {i.getId(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
+			Etudiant temp=etuDAO.searchByID(i.getEtu());
+			Object[] row= {i.getId(),temp.getNom()+" "+temp.getPrenom(),i.getMatiere(),i.getType(),i.getDate(),i.getHeure(),i.getJust(),i.getEtat(),
 			i.getComment(),i.getEtu(),i.getPlan()};
 			if(i.getPlan()==planningID) {
 				model.addRow(row);

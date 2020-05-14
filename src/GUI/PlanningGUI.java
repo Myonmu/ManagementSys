@@ -361,7 +361,11 @@ public class PlanningGUI extends JDialog{
 				target.setHoraire(horaireTF.getText());
 				target.setEns(enseignantID);
 				target.setGr(groupeID);
-				target.setDuree(Integer.parseInt(dureeTF.getText()));
+				try {
+				target.setDuree(Integer.parseInt(dureeTF.getText()));}
+				catch(NumberFormatException e1) {
+					JOptionPane.showMessageDialog(null, "The duration...is not a number...");
+				}
 				target.setMat(matID);
 				target.setSess(sessionID);
 				target.setType(type);

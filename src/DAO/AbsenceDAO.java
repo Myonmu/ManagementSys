@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -327,10 +328,10 @@ public class AbsenceDAO extends ConnectDAO {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		String rDate="";
-		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
+		DateFormat df=new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT date_debut,week,dow FROM absence INNER JOIN planning ON plan=id_planning"
+			ps=con.prepareStatement("SELECT TO_CHAR(date_debut,'DD/MM/YYYY'),week,dow FROM absence INNER JOIN planning ON plan=id_planning"
 					+ " INNER JOIN sess ON id_session=sess WHERE id_abs=?");
 			ps.setInt(1, id);
 			rs=ps.executeQuery();
@@ -339,7 +340,9 @@ public class AbsenceDAO extends ConnectDAO {
 				System.out.println(week);
 				int dow=rs.getInt(3);
 				System.out.println(dow);
-				Date date=rs.getDate(1);
+				System.out.println("date_debut "+rs.getString(1));
+				Date date=df.parse(rs.getString(1));
+				System.out.println("date_debut "+date);
 				System.out.println(date);
 				Calendar cal=Calendar.getInstance();
 				cal.setTime(date);
@@ -350,6 +353,9 @@ public class AbsenceDAO extends ConnectDAO {
 				System.out.println(rDate);
 			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
@@ -393,7 +399,7 @@ public class AbsenceDAO extends ConnectDAO {
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
 			ps=con.prepareStatement("SELECT id_abs,etu AS id_etu,id_planning,nom_cours,type_cr,horaire,duree,just,typeAbs.nom AS etatAbs,commentaire"
-					+ " FROM absence INNER JOIN planning ON plan=id_planning INNER JOIN cours ON id_cours=mat FULL OUTER JOIN typeAbs ON etat=id_type"
+					+ " FROM absence INNER JOIN planning ON plan=id_planning INNER JOIN cours ON id_cours=mat LEFT OUTER JOIN typeAbs ON etat=id_type"
 					+ " ORDER BY id_abs ASC");
 			rs=ps.executeQuery();
 			while(rs.next()) {

@@ -28,13 +28,13 @@ public class SessionDAO  extends ConnectDAO{
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM sess WHERE num_session=?");
+			ps=con.prepareStatement("SELECT id_session, num_session,TO_CHAR(date_debut,'DD/MM/YYYY') FROM sess WHERE num_session=?");
 			ps.setString(1, target);
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				rSession.setID(rs.getInt(1));
 				rSession.setNum(rs.getInt(2));
-				rSession.setDate(df.format(rs.getDate(3)));
+				rSession.setDate(rs.getString(3));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -80,13 +80,13 @@ public class SessionDAO  extends ConnectDAO{
 		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM sess WHERE id_session=?");
+			ps=con.prepareStatement("SELECT id_session, num_session,TO_CHAR(date_debut,'DD/MM/YYYY') FROM sess WHERE id_session=?");
 			ps.setInt(1, i);
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				rSession.setID(rs.getInt(1));
 				rSession.setNum(rs.getInt(2));
-				rSession.setDate(df.format(rs.getDate(3)));
+				rSession.setDate(rs.getString(3));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -133,7 +133,7 @@ public class SessionDAO  extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("INSERT INTO sess (id_session,num_session,date_debut) VALUES (session_id.NEXTVAL,?,TO_DATE(? ,'DD/MM/YYYY'))");
+			ps=con.prepareStatement("INSERT INTO sess (id_session,num_session,date_debut) VALUES (session_id.NEXTVAL,?,TO_DATE(? ,'dd/mm/yyyy'))");
 			ps.setInt(1, target.getNum());
 			ps.setString(2, target.getDate());
 			rVal=ps.executeUpdate();
@@ -173,7 +173,7 @@ public class SessionDAO  extends ConnectDAO{
 		int rVal=0;
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("UPDATE sess SET num_session=?,date_debut=TO_DATE(?,'DD/MM/YYYY') WHERE id_session=?");
+			ps=con.prepareStatement("UPDATE sess SET num_session=?,date_debut=TO_DATE(?,'dd/mm/yyyy') WHERE id_session=?");
 			ps.setInt(1, target.getNum());
 			ps.setString(2, target.getDate());
 			ps.setInt(3,target.getID());
@@ -250,13 +250,13 @@ public class SessionDAO  extends ConnectDAO{
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		ArrayList<Session> list=new ArrayList<>();
-		DateFormat df=new SimpleDateFormat("DD/MM/YYYY");
+		DateFormat df=new SimpleDateFormat("MM/DD/YYYY");
 		try {
 			con=DriverManager.getConnection(URL,LOGIN,PASS);
-			ps=con.prepareStatement("SELECT * FROM sess ORDER BY id_session");
+			ps=con.prepareStatement("SELECT id_session, num_session,TO_CHAR(date_debut,'DD/MM/YYYY') FROM sess ORDER BY id_session");
 			rs=ps.executeQuery();
 			while(rs.next()) {
-				list.add(new Session(rs.getInt(1), rs.getInt(2),df.format(rs.getDate(3))));
+				list.add(new Session(rs.getInt(1), rs.getInt(2),rs.getString(3)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

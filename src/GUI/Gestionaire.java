@@ -63,7 +63,16 @@ public class Gestionaire extends JFrame {
 		btnCrerUnCours.setBounds(10, 77, 140, 42);
 		contentPane.add(btnCrerUnCours);
 		
-		
+		JButton sess = new JButton("Gestion sessions");
+		sess.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SessionGUI sGUI=new SessionGUI();
+				sGUI.readSession();
+			}
+			
+		});
+		sess.setBounds(160,80, 150, 40);
+		contentPane.add(sess);
 		
 
 		JButton btnGestionDenseignant = new JButton("Gestion d'enseignant");
