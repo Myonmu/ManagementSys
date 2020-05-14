@@ -128,7 +128,7 @@ CoursDAO dao = new CoursDAO();
 										  
 						));
 				
-				JOptionPane.showMessageDialog(contentPane, res + " cours modifi�!");
+				JOptionPane.showMessageDialog(contentPane, res + " cours modifie!");
 			}
 		});
 		btnNewButton.setBackground(Color.GREEN);
