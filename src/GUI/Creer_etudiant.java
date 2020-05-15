@@ -117,6 +117,9 @@ public class Creer_etudiant extends JFrame {
 				Etudiant temp=new Etudiant(textField.getText(),textField_1.getText(),textField_2.getText(),
 						liste_id[comboBox.getSelectedIndex()]);
 				temp.randomizer();
+				temp.setNom(textField.getText());
+				temp.setPrenom(textField_1.getText());
+				temp.printAll();
 				int res = dao.add(temp);
 				
 				if(res==1) {
